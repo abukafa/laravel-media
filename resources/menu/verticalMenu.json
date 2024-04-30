@@ -1,0 +1,110 @@
+{
+  "menu": [
+    {
+      "menuHeader": ""
+    },
+    {
+      "name": "Home",
+      "slug": "pages-profile",
+      "icon": "menu-icon tf-icons ti ti-smart-home",
+      "submenu": [
+        {
+          "url": "pages/profile-user",
+          "name": "Profile",
+          "slug": "pages-profile-user"
+        },
+        {
+          "url": "pages/profile-teams",
+          "name": "Teams",
+          "slug": "pages-profile-teams"
+        },
+        {
+          "url": "pages/profile-projects",
+          "name": "Projects",
+          "slug": "pages-profile-projects"
+        },
+        {
+          "url": "pages/profile-connections",
+          "name": "Connections",
+          "slug": "pages-profile-connections"
+        }
+      ]
+    },
+    {
+      "name": "Account",
+      "icon": "menu-icon tf-icons ti ti-user",
+      "slug": "pages-account-settings",
+      "submenu": [
+        {
+          "url": "pages/account-settings-account",
+          "name": "Account",
+          "slug": "pages-account-settings-account"
+        },
+        {
+          "url": "pages/account-settings-security",
+          "name": "Security",
+          "slug": "pages-account-settings-security"
+        },
+        {
+          "url": "pages/account-settings-billing",
+          "name": "Billing & Plans",
+          "slug": "pages-account-settings-billing"
+        },
+        {
+          "url": "pages/account-settings-notifications",
+          "name": "Notifications",
+          "slug": "pages-account-settings-notifications"
+        },
+        {
+          "url": "pages/account-settings-connections",
+          "name": "Connections",
+          "slug": "pages-account-settings-connections"
+        }
+      ]
+    },
+    {
+      "url": "app/calendar",
+      "name": "Calendar",
+      "icon": "menu-icon tf-icons ti ti-calendar",
+      "slug": "app-calendar"
+    },
+    {
+      "name": "Academy",
+      "icon": "menu-icon tf-icons ti ti-book",
+      "slug": "dashboard",
+      "submenu": [
+        {
+          "url": "dashboard/crm",
+          "name": "Dashboard",
+          "slug": "dashboard-crm"
+        }
+      ]
+    },
+    {
+      "name": "Finance",
+      "icon": "menu-icon tf-icons ti ti-file-dollar",
+      "slug": "app-finance",
+      "badge": [
+        "danger",
+        "4"
+      ],
+      "submenu": [
+        {
+          "url": "app/finance/saving",
+          "name": "Saving",
+          "slug": "app-finance-saving"
+        },
+        {
+          "url": "app/finance/payment",
+          "name": "Payment",
+          "slug": "app-finance-payment"
+        },
+        {
+          "url": "app/finance/preview",
+          "name": "Preview",
+          "slug": "app-finance-preview"
+        }
+      ]
+    }
+  ]
+}
