@@ -14,18 +14,13 @@
           "slug": "pages-profile-user"
         },
         {
-          "url": "pages/profile-teams",
-          "name": "Teams",
-          "slug": "pages-profile-teams"
-        },
-        {
           "url": "pages/profile-projects",
           "name": "Projects",
           "slug": "pages-profile-projects"
         },
         {
           "url": "pages/profile-connections",
-          "name": "Connections",
+          "name": "Members",
           "slug": "pages-profile-connections"
         }
       ]
