@@ -78,7 +78,12 @@
         <h4 class="mb-1 card-title">{{ implode(' ', array_slice(explode(' ', $item->name), 0, 2)) }}</h4>
         <span class="pb-1">{{ $item->role ?: 'Content Creator' }}</span>
         <div class="d-flex align-items-center justify-content-center my-3 gap-2">
-          <a href="javascript:;"><span class="badge bg-label-primary">{{ $item->skills }}</span></a>
+          @php
+              $arraySkills = $item->skills ? explode(", ", $item->skills) : [];
+          @endphp
+          @for ($i = 0; $i < count($arraySkills); $i++)
+            <a href="javascript:;"><span class="badge bg-label-primary">{{ $arraySkills[$i] }}</span></a>
+          @endfor
         </div>
         <div class="d-flex align-items-center justify-content-around my-3 py-1">
         @php

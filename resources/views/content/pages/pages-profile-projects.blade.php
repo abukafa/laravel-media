@@ -105,7 +105,7 @@
       <div class="card-body border-top">
         <div class="d-flex align-items-center mb-3">
           <h6 class="mb-1"><span class="text-body fw-normal">{{ $item->end_date }}</span></h6>
-          <span class="badge bg-label-success ms-auto">{{ $item->status }}</span>
+          <span class="badge bg-label-{{ $item->status=='Completed' ? 'primary' : ($item->status=='In Progress' ? 'success' : ($item->status=='Not Started' ? 'warning' : 'danger')) }} ms-auto">{{ $item->status }}</span>
         </div>
         <div class="progress mb-2" style="height: 8px;">
           <div class="progress-bar" role="progressbar" style="width: {{ $percentage }}%;" aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
