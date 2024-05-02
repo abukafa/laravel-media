@@ -37,7 +37,7 @@
       </div>
       <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-          <img src="{{ Auth::check() && Auth::user()->image ? asset('storage/public/member/' . Auth::user()->image) : asset('storage/public/no.png') }}" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+          <img src="{{ file_exists(public_path('storage/member/' . Auth::user()->image)) ? asset('storage/member/' . Auth::user()->image) : asset('assets/img/avatars/no.png') }}" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
         </div>
         <div class="flex-grow-1 mt-3 mt-sm-5">
           <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
@@ -149,7 +149,7 @@
               @if ($item->accepted)
               <div class="d-flex flex-wrap">
                 <div class="avatar me-2">
-                  <img src="{{ asset('storage/public/profile/' . $item->teacher_id . '.png') ?: asset('storage/public/no.png') }}" alt="Avatar" class="rounded-circle" />
+                  <img src="{{ asset('storage/profile/' . $item->teacher_id . '.png') ?: asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                 </div>
                 <div class="ms-1">
                   <h6 class="mb-0">Accepted by: {{ $item->teacher_name }}</h6>

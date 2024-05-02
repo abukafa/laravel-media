@@ -141,7 +141,7 @@ $navbarDetached = ($navbarDetached ?? '');
                     <div class="d-flex">
                       <div class="flex-shrink-0 me-3">
                         <div class="avatar">
-                          <img src="{{ asset('storage/public/no.png') }}" alt class="h-auto rounded-circle">
+                          <img src="{{ asset('assets/img/avatars/no.png') }}" alt class="h-auto rounded-circle">
                         </div>
                       </div>
                       <div class="flex-grow-1">
@@ -314,7 +314,7 @@ $navbarDetached = ($navbarDetached ?? '');
           <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
               <div class="avatar avatar-online">
-                <img src="{{ Auth::check() && Auth::user()->image ? asset('storage/public/member/' . Auth::user()->image) : asset('storage/public/no.png') }}" alt class="h-auto rounded-circle">
+                <img src="{{ file_exists(public_path('storage/member/' . Auth::user()->image)) ? asset('storage/member/' . Auth::user()->image) : asset('assets/img/avatars/no.png') }}" alt="" class="h-auto rounded-circle">
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -323,7 +323,7 @@ $navbarDetached = ($navbarDetached ?? '');
                   <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                       <div class="avatar avatar-online">
-                        <img src="{{ Auth::check() && Auth::user()->image ? asset('storage/public/member/' . Auth::user()->image) : asset('storage/public/no.png') }}" alt="" class="h-auto rounded-circle">
+                        <img src="{{ file_exists(public_path('storage/member/' . Auth::user()->image)) ? asset('storage/member/' . Auth::user()->image) : asset('assets/img/avatars/no.png') }}" alt="" class="h-auto rounded-circle">
                       </div>
                     </div>
                     <div class="flex-grow-1">
