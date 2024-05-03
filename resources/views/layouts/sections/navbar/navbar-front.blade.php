@@ -30,10 +30,10 @@ $activeClass = in_array($currentRouteName, $activeRoutes) ? 'active' : '';
             <a class="nav-link fw-medium" aria-current="page" href="{{url('')}}#landingHero">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fw-medium" href="{{url('')}}#landingFeatures">Features</a>
+            <a class="nav-link fw-medium" href="{{url('')}}#landingFeatures">Projects</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fw-medium" href="{{url('')}}#landingTeam">Team</a>
+            <a class="nav-link fw-medium" href="{{url('')}}#landingTeam">Mentors</a>
           </li>
           <li class="nav-item">
             <a class="nav-link fw-medium" href="{{url('')}}#landingFAQ">FAQ</a>

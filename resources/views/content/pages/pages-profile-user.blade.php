@@ -149,7 +149,7 @@
               @if ($item->accepted)
               <div class="d-flex flex-wrap">
                 <div class="avatar me-2">
-                  <img src="{{ asset('storage/profile/' . $item->teacher_id . '.png') ?: asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
+                  <img src="{{ file_exists(public_path('storage/guru/' . $item->teacher_id)) ? asset('storage/guru/' . $item->teacher_id) : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                 </div>
                 <div class="ms-1">
                   <h6 class="mb-0">Accepted by: {{ $item->teacher_name }}</h6>

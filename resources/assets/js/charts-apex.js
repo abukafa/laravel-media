@@ -8,17 +8,17 @@
   let cardColor, headingColor, labelColor, borderColor, legendColor;
 
   if (isDarkStyle) {
-    cardColor = config.colors_dark.cardColor;
-    headingColor = config.colors_dark.headingColor;
-    labelColor = config.colors_dark.textMuted;
-    legendColor = config.colors_dark.bodyColor;
-    borderColor = config.colors_dark.borderColor;
+    cardColor = '#2f3349';
+    headingColor = '#cfd3ec';
+    labelColor = '#7983bb';
+    legendColor = '#b6bee3';
+    borderColor = '#434968';
   } else {
-    cardColor = config.colors.cardColor;
-    headingColor = config.colors.headingColor;
-    labelColor = config.colors.textMuted;
-    legendColor = config.colors.bodyColor;
-    borderColor = config.colors.borderColor;
+    cardColor = '#fff';
+    headingColor = '#5d596c';
+    labelColor = '#a5a3ae';
+    legendColor = '#6f6b7d';
+    borderColor = '#dbdade';
   }
 
   // Color constant
@@ -288,10 +288,10 @@
           useSeriesColors: false
         }
       },
-      colors: [config.colors.warning, config.colors.primary, config.colors.success],
+      colors: ['#ff9f4329', '#7367f029', '#28c76f29'],
       series: [
         {
-          name: 'Angular',
+          name: 'Hijaz',
           data: [
             [5.4, 170],
             [5.4, 100],
@@ -311,7 +311,7 @@
           ]
         },
         {
-          name: 'Vue',
+          name: 'Hamzah',
           data: [
             [14.0, 220],
             [15.0, 280],
@@ -329,7 +329,7 @@
           ]
         },
         {
-          name: 'React',
+          name: 'Alyandra',
           data: [
             [14.0, 290],
             [13.0, 190],
@@ -401,7 +401,7 @@
         strokeWidth: 7,
         strokeOpacity: 1,
         strokeColors: [cardColor],
-        colors: [config.colors.warning]
+        colors: ['#ff9f4329']
       },
       dataLabels: {
         enabled: false
@@ -409,7 +409,7 @@
       stroke: {
         curve: 'straight'
       },
-      colors: [config.colors.warning],
+      colors: ['#ff9f4329'],
       grid: {
         borderColor: borderColor,
         xaxis: {
@@ -502,7 +502,7 @@
           bottom: -12
         }
       },
-      colors: config.colors.info,
+      colors: '#00cfe8',
       dataLabels: {
         enabled: false
       },
@@ -654,8 +654,8 @@
       plotOptions: {
         candlestick: {
           colors: {
-            upward: config.colors.success,
-            downward: config.colors.danger
+            upward: '#28c76f',
+            downward: '#ea5455'
           }
         },
         bar: {
@@ -688,39 +688,21 @@
             ranges: [
               {
                 from: 0,
-                to: 10,
-                name: '0-10',
+                to: 20,
+                name: 'Pending',
                 color: '#90B3F3'
               },
               {
-                from: 11,
-                to: 20,
-                name: '10-20',
-                color: '#7EA6F1'
-              },
-              {
                 from: 21,
-                to: 30,
-                name: '20-30',
+                to: 40,
+                name: 'On Progress',
                 color: '#6B9AEF'
               },
               {
-                from: 31,
-                to: 40,
-                name: '30-40',
-                color: '#598DEE'
-              },
-              {
                 from: 41,
-                to: 50,
-                name: '40-50',
-                color: '#4680EC'
-              },
-              {
-                from: 51,
                 to: 60,
-                name: '50-60',
-                color: '#3474EA'
+                name: 'Completed',
+                color: '#4680EC'
               }
             ]
           }
@@ -852,7 +834,7 @@
           },
           track: {
             margin: 10,
-            background: config.colors_label.secondary
+            background: '#a8aaae29'
           },
           dataLabels: {
             name: {
@@ -869,7 +851,7 @@
               fontWeight: 400,
               fontSize: '1.3rem',
               color: headingColor,
-              label: 'Comments',
+              label: 'Completed',
               formatter: function (w) {
                 return '80%';
               }
@@ -896,7 +878,7 @@
         lineCap: 'round'
       },
       series: [80, 50, 35],
-      labels: ['Comments', 'Replies', 'Shares']
+      labels: ['Completed', 'In Progress', 'Pending']
     };
   if (typeof radialBarChartEl !== undefined && radialBarChartEl !== null) {
     const radialChart = new ApexCharts(radialBarChartEl, radialBarChartConfig);
@@ -942,17 +924,17 @@
       },
       series: [
         {
-          name: 'iPhone 12',
+          name: 'Akhwat',
           data: [41, 64, 81, 60, 42, 42, 33, 23]
         },
         {
-          name: 'Samsung s20',
+          name: 'Ikhwan',
           data: [65, 46, 42, 25, 58, 63, 76, 43]
         }
       ],
       colors: [chartColors.donut.series1, chartColors.donut.series3],
       xaxis: {
-        categories: ['Battery', 'Brand', 'Camera', 'Memory', 'Storage', 'Display', 'OS', 'Price'],
+        categories: ['Alquran', 'Media Social', 'Multimedia', 'Entrepreneur', 'Public Speaking', 'Literasi', 'Tsaqofah', 'Outing Class'],
         labels: {
           show: true,
           style: {
@@ -993,7 +975,7 @@
         height: 390,
         type: 'donut'
       },
-      labels: ['Operational', 'Networking', 'Hiring', 'R&D'],
+      labels: ['Alquran', 'Multimedia', 'Tsaqofah', 'Entrepreneur'],
       series: [42, 7, 25, 25],
       colors: [
         chartColors.donut.series1,
@@ -1045,7 +1027,7 @@
                 show: true,
                 fontSize: '1.5rem',
                 color: headingColor,
-                label: 'Operational',
+                label: 'Alquran',
                 formatter: function (w) {
                   return '42%';
                 }
