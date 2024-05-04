@@ -3,16 +3,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\apps\Calendar;
 use App\Http\Controllers\dashboard\Crm;
 use App\Http\Controllers\apps\InvoiceList;
-use App\Http\Controllers\apps\InvoicePreview;
-use App\Http\Controllers\front_pages\Landing;
-use App\Http\Controllers\authentications\LoginBasic;
-use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\pages\UserProfile;
 use App\Http\Controllers\pages\UserProjects;
+use App\Http\Controllers\apps\InvoicePreview;
+use App\Http\Controllers\front_pages\Landing;
+use App\Http\Controllers\data\TableController;
 use App\Http\Controllers\pages\UserConnections;
+use App\Http\Controllers\authentications\LoginBasic;
+use App\Http\Controllers\pages\AccountSettingsTasks;
+use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\pages\AccountSettingsAccount;
 use App\Http\Controllers\pages\AccountSettingsSecurity;
-use App\Http\Controllers\pages\AccountSettingsTasks;
 
 
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/pages/account-settings-security/username', [AccountSettingsSecurity::class, 'update_username'])->name('pages-account-settings-security-username');
   Route::get('/pages/account-settings-tasks', [AccountSettingsTasks::class, 'index'])->name('pages-account-settings-tasks');
   Route::post('/pages/account-settings-tasks', [AccountSettingsTasks::class, 'store'])->name('pages-account-settings-tasks-store');
+  Route::post('/pages/account-settings-tasks/{id}', [AccountSettingsTasks::class, 'update'])->name('pages-account-settings-tasks-update');
 
   Route::get('/app/calendar', [Calendar::class, 'index'])->name('app-calendar');
   Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
@@ -39,6 +41,8 @@ Route::middleware('auth')->group(function () {
   Route::get('/app/finance/saving', [InvoiceList::class, 'saving'])->name('app-finance-saving');
   Route::get('/app/finance/payment', [InvoiceList::class, 'index'])->name('app-finance-payment');
   Route::get('/app/finance/preview', [InvoicePreview::class, 'index'])->name('app-finance-preview');
+
+  Route::get('/data/project/{id}', [TableController::class, 'project']);
 });
 
 

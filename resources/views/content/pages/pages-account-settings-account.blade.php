@@ -31,7 +31,6 @@
 @endsection
 
 @section('content')
-
 <!-- FLASH ALERT -->
 @if (session()->has('success') || session()->has('danger'))
 <div class="alert alert-{{ session('success') ? 'success' : 'danger' }} d-flex align-items-center py-3 mb-4" role="alert">

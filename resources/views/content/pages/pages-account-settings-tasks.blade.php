@@ -44,9 +44,18 @@
 @endsection
 
 @section('content')
+@if (session()->has('success') || session()->has('danger'))
+<div class="alert alert-{{ session('success') ? 'success' : 'danger' }} d-flex align-items-center py-3 mb-4" role="alert">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12" y2="17"></line></svg>
+  <div class="ms-2">
+    {{ session('success') ?: session('danger') }}.
+  </div>
+</div>
+@else
 <h4 class="py-3 mb-4">
   <span class="text-muted fw-light">Account Settings /</span> Tasks
 </h4>
+@endif
 
 <div class="row">
   <div class="col-md-12">
@@ -59,16 +68,17 @@
       <!-- Billing Address -->
       <h5 class="card-header">Project Tasks</h5>
       <div class="card-body">
-        <form id="formAccountSettings" onsubmit="return false">
+        <form action="{{ $task ? route('pages-account-settings-tasks-update', ['id' => $task->id]) : route('pages-account-settings-tasks-store') }}" method="POST">
+          @csrf
           <div class="row">
             <div class="mb-3 col-sm-6 col-lg-3">
               <label for="date" class="form-label">Date</label>
-              <input type="text" id="date" name="date" class="form-control" />
+              <input type="text" id="date" name="date" class="form-control" value="{{ $task ? $task->date : '' }}" required />
             </div>
             <div class="mb-3 col-sm-6 col-lg-3">
               <label for="semester" class="form-label">Semester</label>
-              <select id="semester" class="form-select select2" name="semester">
-                <option>Select</option>
+              <select id="semester" class="form-select" name="semester" required>
+                <option selected {{ $task ? '' : 'disabled' }} value="{{ $task ? $task->semester : '' }}">{{ $task ? $task->semester : 'Select' }}</option>
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -79,24 +89,22 @@
             </div>
             <div class="mb-3 col-sm-6 col-lg-6">
               <label for="project_id" class="form-label">Project Theme</label>
-              <select id="project_id" class="form-select select2" name="project_id">
-                <option>Select</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
+              <select id="project_id" class="form-select select2" name="project_id" onchange="showProject(this.value)" required>
+                <option selected {{ $task ? '' : 'disabled' }} value="{{ $task ? $task->project_id : '' }}">{{ $task ? $task->project_name : 'Select' }}</option>
+                @foreach ($projects as $item)
+                    <option value="{{ $item->id }}">{{ $item->subject .' - '. $item->theme }}</option>
+                @endforeach
               </select>
-              <input type="hidden" id="project_name" name="project_name" class="form-control" />
+              <input type="hidden" id="project_name" name="project_name" class="form-control" value="{{ $task ? $task->project_name : '' }}" />
             </div>
             <div class="mb-3 col-sm-6 col-lg-3">
               <label for="deadline" class="form-label">Deadline</label>
-              <input class="form-control" type="text" id="deadline" name="deadline" />
+              <input class="form-control" type="text" id="deadline" name="deadline" value="{{ $task ? $task->deadline : '' }}"/>
             </div>
             <div class="mb-3 col-sm-6 col-lg-3">
               <label for="status" class="form-label">Status</label>
-              <select id="status" class="form-select select2" name="status">
+              <select id="status" class="form-select" name="status">
+                <option selected {{ $task ? '' : 'disabled' }} value="{{ $task ? $task->status : '' }}">{{ $task ? $task->status : 'Select' }}</option>
                 <option>Not Started</option>
                 <option>In Progress</option>
                 <option>Completed</option>
@@ -106,15 +114,15 @@
             </div>
             <div class="mb-3 col-sm-6 col-lg-6">
               <label for="name" class="form-label">Task Name</label>
-              <input type="text" id="name" name="name" class="form-control" />
+              <input type="text" id="name" name="name" class="form-control" value="{{ $task ? $task->name : '' }}" required/>
             </div>
             <div class="mb-3 col-sm-6 col-lg-8">
               <label for="description" class="form-label">Description</label>
-              <textarea class="form-control" type="text" id="description" name="description" ></textarea>
+              <textarea class="form-control" type="text" id="description" name="description" >{{ $task ? $task->description : '' }}</textarea>
             </div>
             <div class="mb-3 col-sm-6 col-lg-4">
               <label for="link" class="form-label">Link</label>
-              <textarea class="form-control" type="text" id="link" name="link" ></textarea>
+              <textarea class="form-control" type="text" id="link" name="link" >{{ $task ? $task->link : '' }}</textarea>
             </div>
           </div>
           <div class="mt-2">
@@ -137,20 +145,21 @@
               <th>Project</th>
               <th>Task</th>
               <th>Status</th>
-              <th><i class='ti ti-trending-up'></i></th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($tasks as $item)
-            <tr>
-              <th>{{ $loop->iteration }}</th>
-              <th>{{ $item->date }}</th>
-              <th>{{ $item->project_name }}</th>
-              <th>{{ $item->name }}</th>
-              <th>{{ $item->status }}</th>
-              <th></th>
-              <th></th>
+            <tr class="{{ $task && $task->id == $item->id ? 'table-active' : '' }}">
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $item->date }}</td>
+              <td>{{ $item->project_name }}</td>
+              <td>{{ $item->name }}</td>
+              <td>{{ $item->status }}</td>
+              <td>
+                <a class="btn btn-sm btn-success" href="{{ $item->link }}" target="_blank"><i class="ti-xs ti ti-link me-1"></i></a>
+                <a class="btn btn-sm btn-primary" href="{{ route('pages-account-settings-tasks', ['id' => $item->id]) }}"><i class="ti-xs ti ti-pencil me-1"></i></a>
+              </td>
             </tr>
             @endforeach
           </tbody>
@@ -161,8 +170,26 @@
   </div>
 </div>
 
+<script>
+  function showProject(id) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            document.getElementById('project_name').value = data.project.subject + ' - ' + data.project.theme;
+            document.getElementById('deadline').value = data.project.end_date;
+            document.getElementById('status').value = data.project.status;
+    console.log(data.project.status);
+        }
+    };
+    xhr.open('GET', '/data/project/' + id, true);
+    xhr.send();
+  }
+</script>
+
 <!-- Modal -->
 @include('_partials/_modals/modal-pricing')
 <!-- /Modal -->
+
 
 @endsection
