@@ -41,19 +41,9 @@
           "slug": "pages-account-settings-security"
         },
         {
-          "url": "pages/account-settings-billing",
-          "name": "Billing & Plans",
-          "slug": "pages-account-settings-billing"
-        },
-        {
-          "url": "pages/account-settings-notifications",
-          "name": "Notifications",
-          "slug": "pages-account-settings-notifications"
-        },
-        {
-          "url": "pages/account-settings-connections",
-          "name": "Connections",
-          "slug": "pages-account-settings-connections"
+          "url": "pages/account-settings-tasks",
+          "name": "Tasks",
+          "slug": "pages-account-settings-tasks"
         }
       ]
     },

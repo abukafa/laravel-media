@@ -1,21 +1,18 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\apps\Calendar;
+use App\Http\Controllers\dashboard\Crm;
+use App\Http\Controllers\apps\InvoiceList;
+use App\Http\Controllers\apps\InvoicePreview;
 use App\Http\Controllers\front_pages\Landing;
 use App\Http\Controllers\authentications\LoginBasic;
+use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\pages\UserProfile;
-use App\Http\Controllers\pages\UserTeams;
 use App\Http\Controllers\pages\UserProjects;
 use App\Http\Controllers\pages\UserConnections;
 use App\Http\Controllers\pages\AccountSettingsAccount;
 use App\Http\Controllers\pages\AccountSettingsSecurity;
-use App\Http\Controllers\pages\AccountSettingsBilling;
-use App\Http\Controllers\pages\AccountSettingsNotifications;
-use App\Http\Controllers\pages\AccountSettingsConnections;
-use App\Http\Controllers\apps\Calendar;
-use App\Http\Controllers\apps\InvoiceList;
-use App\Http\Controllers\apps\InvoicePreview;
-use App\Http\Controllers\dashboard\Crm;
-use App\Http\Controllers\language\LanguageController;
+use App\Http\Controllers\pages\AccountSettingsTasks;
 
 
 Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
@@ -26,14 +23,15 @@ Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 Route::middleware('auth')->group(function () {
   Route::post('/logout', [LoginBasic::class, 'logout'])->name('auth-logout');
   Route::get('/pages/profile-user', [UserProfile::class, 'index'])->name('pages-profile-user');
-  Route::get('/pages/profile-teams', [UserTeams::class, 'index'])->name('pages-profile-teams');
   Route::get('/pages/profile-projects', [UserProjects::class, 'index'])->name('pages-profile-projects');
   Route::get('/pages/profile-connections', [UserConnections::class, 'index'])->name('pages-profile-connections');
   Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
+  Route::post('/pages/account-settings-account', [AccountSettingsAccount::class, 'update'])->name('pages-account-settings-account-update');
   Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
-  Route::get('/pages/account-settings-billing', [AccountSettingsBilling::class, 'index'])->name('pages-account-settings-billing');
-  Route::get('/pages/account-settings-notifications', [AccountSettingsNotifications::class, 'index'])->name('pages-account-settings-notifications');
-  Route::get('/pages/account-settings-connections', [AccountSettingsConnections::class, 'index'])->name('pages-account-settings-connections');
+  Route::post('/pages/account-settings-security/password', [AccountSettingsSecurity::class, 'update_password'])->name('pages-account-settings-security-password');
+  Route::post('/pages/account-settings-security/username', [AccountSettingsSecurity::class, 'update_username'])->name('pages-account-settings-security-username');
+  Route::get('/pages/account-settings-tasks', [AccountSettingsTasks::class, 'index'])->name('pages-account-settings-tasks');
+  Route::post('/pages/account-settings-tasks', [AccountSettingsTasks::class, 'store'])->name('pages-account-settings-tasks-store');
 
   Route::get('/app/calendar', [Calendar::class, 'index'])->name('app-calendar');
   Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');

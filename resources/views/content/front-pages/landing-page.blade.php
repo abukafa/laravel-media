@@ -46,9 +46,9 @@ $configData = Helper::appClasses();
       <img src="{{asset('assets/img/front-pages/backgrounds/hero-bg.png')}}" alt="hero background" class="position-absolute top-0 start-50 translate-middle-x object-fit-contain w-100 h-100" data-speed="1"/>
       <div class="container">
         <div class="hero-text-box text-center">
-          <h1 class="text-primary hero-title display-6 fw-bold">Welcome to our project dashboard Jaz Academy</h1>
+          <h1 class="text-primary hero-title display-6 fw-bold">Welcome to our Project Dashboard <br class="d-none d-md-block d-lg-none" /> Jaz Academy</h1>
           <h2 class="hero-sub-title h6 mb-4 pb-1">
-            Lembaga Pendidikan Islam & Teknologi<br class="d-none d-lg-block" />
+            Lembaga Pendidikan Islam & Teknologi<br />
             Akademi Remaja Muslim.
           </h2>
           <div class="landing-hero-btn d-inline-block position-relative">
@@ -87,46 +87,46 @@ $configData = Helper::appClasses();
         Ilmu tanpa amal, bagaikan pohon tanpa buah.
       </p>
       <div class="features-icon-wrapper row gx-0 gy-4 g-sm-5 mb-4">
-        <div class="col-lg-2 col-sm-4 col-6 text-center features-icon-box">
+        <div class="col-md-2 col-4 text-center features-icon-box">
           <div class="text-center mb-3">
             <img src="{{asset('assets/img/front-pages/icons/laptop.png')}}" alt="laptop charging" />
           </div>
-          <h5 class="mb-3">Content Creator</h5>
+          <h6 class="mb-3 d-none d-xl-block">Content Creator</h6>
           <p class="features-icon-description"></p>
         </div>
-        <div class="col-lg-2 col-sm-4 col-6 text-center features-icon-box">
+        <div class="col-md-2 col-4 text-center features-icon-box">
           <div class="text-center mb-3">
             <img src="{{asset('assets/img/front-pages/icons/rocket.png')}}" alt="transition up" />
           </div>
-          <h5 class="mb-3">Web Developer</h5>
+          <h6 class="mb-3 d-none d-xl-block">Web Developer</h6>
           <p class="features-icon-description"></p>
         </div>
-        <div class="col-lg-2 col-sm-4 col-6 text-center features-icon-box">
+        <div class="col-md-2 col-4 text-center features-icon-box">
           <div class="text-center mb-3">
             <img src="{{asset('assets/img/front-pages/icons/paper.png')}}" alt="edit" />
           </div>
-          <h5 class="mb-3">Workshop</h5>
+          <h6 class="mb-3 d-none d-xl-block">Workshop</h6>
           <p class="features-icon-description"></p>
         </div>
-        <div class="col-lg-2 col-sm-4 col-6 text-center features-icon-box">
+        <div class="col-md-2 col-4 text-center features-icon-box d-none d-md-block">
           <div class="text-center mb-3">
             <img src="{{asset('assets/img/front-pages/icons/check.png')}}" alt="3d select solid" />
           </div>
-          <h5 class="mb-3">Entrepreneurship</h5>
+          <h6 class="mb-3 d-none d-xl-block">Entrepreneurship</h6>
           <p class="features-icon-description"></p>
         </div>
-        <div class="col-lg-2 col-sm-4 col-6 text-center features-icon-box">
+        <div class="col-md-2 col-4 text-center features-icon-box d-none d-md-block">
           <div class="text-center mb-3">
             <img src="{{asset('assets/img/front-pages/icons/user.png')}}" alt="lifebelt" />
           </div>
-          <h5 class="mb-3">Public Speaking</h5>
+          <h6 class="mb-3 d-none d-xl-block">Public Speaking</h6>
           <p class="features-icon-description"></p>
         </div>
-        <div class="col-lg-2 col-sm-4 col-6 text-center features-icon-box">
+        <div class="col-md-2 col-4 text-center features-icon-box d-none d-md-block">
           <div class="text-center mb-3">
             <img src="{{asset('assets/img/front-pages/icons/keyboard.png')}}" alt="google docs" />
           </div>
-          <h5 class="mb-3">Literation</h5>
+          <h6 class="mb-3 d-none d-xl-block">Literation</h6>
           <p class="features-icon-description"></p>
         </div>
       </div>
@@ -989,8 +989,8 @@ $configData = Helper::appClasses();
       <div class="text-center mb-3 pb-1">
         <span class="badge bg-label-primary">FAQ</span>
       </div>
-      <h3 class="text-center mb-1">Frequently asked
-        <span class="position-relative fw-bold z-1">questions
+      <h3 class="text-center mb-1">Frequently Asked
+        <span class="position-relative fw-bold z-1">Questions
           <img src="{{asset('assets/img/front-pages/icons/section-title-icon.png')}}" alt="laptop charging" class="section-title-img position-absolute object-fit-contain bottom-0 z-n1">
         </span>
       </h3>
