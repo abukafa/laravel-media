@@ -407,7 +407,7 @@ $configData = Helper::appClasses();
   <!-- Useful features: End -->
 
   <!-- Real customers reviews: Start -->
-  <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
+  <section id="landingReviews" class="section-py bg-body landing-reviews pb-0 d-none">
     <!-- What people say slider: Start -->
     <div class="container">
       <div class="row align-items-center gx-0 gy-4 g-lg-5">
@@ -662,47 +662,36 @@ $configData = Helper::appClasses();
         Teams.</h3>
       <p class="text-center mb-md-5 pb-3">Supported by Real People</p>
       <div class="row gy-5 mt-2">
-        <div class="col-lg-3 col-6">
+        <div class="col-md-4">
           <div class="card mt-3 mt-lg-0 shadow-none">
             <div class="bg-label-primary position-relative team-image-box">
               <img src="{{asset('assets/img/front-pages/landing-page/team-member-1.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
             </div>
             <div class="card-body border border-top-0 border-label-primary text-center">
-              <h5 class="card-title mb-0">Sophie Gilbert</h5>
-              <p class="text-muted mb-0">Project Manager</p>
+              <h5 class="card-title mb-0">Hijaz Abdullah</h5>
+              <p class="text-muted mb-0">CEO Jaz Academy</p>
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-6">
+        <div class="col-md-4">
           <div class="card mt-3 mt-lg-0 shadow-none">
             <div class="bg-label-info position-relative team-image-box">
               <img src="{{asset('assets/img/front-pages/landing-page/team-member-2.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
             </div>
             <div class="card-body border border-top-0 border-label-info text-center">
-              <h5 class="card-title mb-0">Paul Miles</h5>
-              <p class="text-muted mb-0">UI Designer</p>
+              <h5 class="card-title mb-0">Abu Kafa</h5>
+              <p class="text-muted mb-0">Project Manager</p>
             </div>
           </div>
         </div>
-        <div class="col-lg-3 col-6">
+        <div class="col-md-4">
           <div class="card mt-3 mt-lg-0 shadow-none">
             <div class="bg-label-danger position-relative team-image-box">
               <img src="{{asset('assets/img/front-pages/landing-page/team-member-3.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
             </div>
             <div class="card-body border border-top-0 border-label-danger text-center">
-              <h5 class="card-title mb-0">Nannie Ford</h5>
-              <p class="text-muted mb-0">Development Lead</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-6">
-          <div class="card mt-3 mt-lg-0 shadow-none">
-            <div class="bg-label-success position-relative team-image-box">
-              <img src="{{asset('assets/img/front-pages/landing-page/team-member-4.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
-            </div>
-            <div class="card-body border border-top-0 border-label-success text-center">
-              <h5 class="card-title mb-0">Chris Watkins</h5>
-              <p class="text-muted mb-0">Marketing Manager</p>
+              <h5 class="card-title mb-0">Ms. Tia</h5>
+              <p class="text-muted mb-0">Lead Programs</p>
             </div>
           </div>
         </div>
@@ -740,47 +729,41 @@ $configData = Helper::appClasses();
               </div>
             </div>
             <div class="card-body">
-              <ul class="list-unstyled">
+              <ul class="list-unstyled ms-4">
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Timeline
+                    Alquran
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Basic search
+                    Iman
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Live chat widget
+                    Science
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Email marketing
+                    Math
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Custom Forms
+                    English
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Traffic analytics
-                  </h5>
-                </li>
-                <li>
-                  <h5>
-                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Basic Support
+                    Robotic
                   </h5>
                 </li>
               </ul>
@@ -805,47 +788,41 @@ $configData = Helper::appClasses();
               </div>
             </div>
             <div class="card-body">
-              <ul class="list-unstyled">
+              <ul class="list-unstyled ms-4">
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Everything in basic
+                    Alquran
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Timeline with database
+                    Tsaqofah
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Advanced search
+                    Multimedia
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Marketing automation
+                    Public Speaking
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Advanced chatbot
+                    Entrepreneurship
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Campaign management
-                  </h5>
-                </li>
-                <li>
-                  <h5>
-                    <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Collaboration tools
+                    Content Creator
                   </h5>
                 </li>
               </ul>
@@ -870,47 +847,41 @@ $configData = Helper::appClasses();
               </div>
             </div>
             <div class="card-body">
-              <ul class="list-unstyled">
+              <ul class="list-unstyled ms-4">
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Everything in premium
+                    Coding Class
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Timeline with database
+                    Web Developer
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Fuzzy search
+                    Game Developer
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    A/B testing sanbox
+                    Video Editing
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Custom permissions
+                    Graphic Design
                   </h5>
                 </li>
                 <li>
                   <h5>
                     <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Social media automation
-                  </h5>
-                </li>
-                <li>
-                  <h5>
-                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
-                    Sales automation tools
+                    Motion Graphic
                   </h5>
                 </li>
               </ul>
