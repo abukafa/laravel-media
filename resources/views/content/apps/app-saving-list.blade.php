@@ -23,7 +23,7 @@
 
 @section('content')
 <h4 class="py-3 mb-4">
-  <span class="text-muted fw-light">Invoice /</span> List
+  <span class="text-muted fw-light">Finance /</span> Saving
 </h4>
 
 <!-- Invoice List Widget -->
@@ -35,8 +35,8 @@
         <div class="col-sm-6 col-lg-3">
           <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-3 pb-sm-0">
             <div>
-              <h3 class="mb-1">24</h3>
-              <p class="mb-0">Clients</p>
+              <h3 class="mb-1">{{ $total['expenses'] }}</h3>
+              <p class="mb-0">Expenses</p>
             </div>
             <span class="avatar me-sm-4">
               <span class="avatar-initial bg-label-secondary rounded"><i class="ti ti-user ti-md"></i></span>
@@ -47,8 +47,8 @@
         <div class="col-sm-6 col-lg-3">
           <div class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-3 pb-sm-0">
             <div>
-              <h3 class="mb-1">165</h3>
-              <p class="mb-0">Invoices</p>
+              <h3 class="mb-1">{{ number_format($total['credit'], '0', '.', ',') }}</h3>
+              <p class="mb-0">Credits</p>
             </div>
             <span class="avatar me-lg-4">
               <span class="avatar-initial bg-label-secondary rounded"><i class="ti ti-file-invoice ti-md"></i></span>
@@ -59,8 +59,8 @@
         <div class="col-sm-6 col-lg-3">
           <div class="d-flex justify-content-between align-items-start border-end pb-3 pb-sm-0 card-widget-3">
             <div>
-              <h3 class="mb-1">$2.46k</h3>
-              <p class="mb-0">Paid</p>
+              <h3 class="mb-1">{{ number_format($total['debit'], '0', '.', ',') }}</h3>
+              <p class="mb-0">Debits</p>
             </div>
             <span class="avatar me-sm-4">
               <span class="avatar-initial bg-label-secondary rounded"><i class="ti ti-checks ti-md"></i></span>
@@ -70,8 +70,8 @@
         <div class="col-sm-6 col-lg-3">
           <div class="d-flex justify-content-between align-items-start">
             <div>
-              <h3 class="mb-1">$876</h3>
-              <p class="mb-0">Unpaid</p>
+              <h3 class="mb-1">{{ number_format($total['balance'], '0', '.', ',') }}</h3>
+              <p class="mb-0">Balance</p>
             </div>
             <span class="avatar">
               <span class="avatar-initial bg-label-secondary rounded"><i class="ti ti-circle-off ti-md"></i></span>
@@ -89,17 +89,24 @@
     <table class="invoice-list-table table border-top">
       <thead>
         <tr>
-          <th></th>
-          <th>#ID</th>
-          <th><i class='ti ti-trending-up text-secondary'></i></th>
-          <th>Client</th>
-          <th>Total</th>
-          <th class="text-truncate">Issued Date</th>
-          <th>Balance</th>
-          <th>Invoice Status</th>
-          <th class="cell-fit">Actions</th>
+          <th>No</th>
+          <th>Date</th>
+          <th>Credit</th>
+          <th>Debit</th>
+          <th>Description</th>
         </tr>
       </thead>
+      <tbody>
+        @foreach ($savings as $item)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ date('M j, Y', strtotime($item->date)) }}</td>
+              <td class="text-end">{{ number_format($item->credit, '0', '.', ',') ?: 0 }}</td>
+              <td class="text-end">{{ number_format($item->debit, '0', '.', ',') ?: 0 }}</td>
+              <td>{{ $item->note }}</td>
+            </tr>
+        @endforeach
+      </tbody>
     </table>
   </div>
 </div>

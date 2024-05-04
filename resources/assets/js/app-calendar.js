@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
       addEventSidebar = document.getElementById('addEventSidebar'),
       appOverlay = document.querySelector('.app-overlay'),
       calendarsColor = {
-        Business: 'primary',
-        Holiday: 'success',
-        Personal: 'danger',
-        Family: 'warning',
+        Learning: 'primary',
+        Activity: 'success',
+        Important: 'danger',
+        Project: 'warning',
         ETC: 'info'
       },
       offcanvasTitle = document.querySelector('.offcanvas-title'),

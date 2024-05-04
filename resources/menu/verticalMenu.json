@@ -69,10 +69,6 @@
       "name": "Finance",
       "icon": "menu-icon tf-icons ti ti-file-dollar",
       "slug": "app-finance",
-      "badge": [
-        "danger",
-        "4"
-      ],
       "submenu": [
         {
           "url": "app/finance/saving",
@@ -83,11 +79,6 @@
           "url": "app/finance/payment",
           "name": "Payment",
           "slug": "app-finance-payment"
-        },
-        {
-          "url": "app/finance/preview",
-          "name": "Preview",
-          "slug": "app-finance-preview"
         }
       ]
     }

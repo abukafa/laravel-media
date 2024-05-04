@@ -40,7 +40,7 @@
   <div class="row g-0">
     <!-- Calendar Sidebar -->
     <div class="col app-calendar-sidebar" id="app-calendar-sidebar">
-      <div class="border-bottom p-4 my-sm-0 mb-3">
+      <div class="border-bottom p-4 my-sm-0 mb-3 d-none">
         <div class="d-grid">
           <button class="btn btn-primary btn-toggle-sidebar" data-bs-toggle="offcanvas" data-bs-target="#addEventSidebar" aria-controls="addEventSidebar">
             <i class="ti ti-plus me-1"></i>
@@ -66,20 +66,20 @@
 
         <div class="app-calendar-events-filter ms-3">
           <div class="form-check form-check-danger mb-2">
-            <input class="form-check-input input-filter" type="checkbox" id="select-personal" data-value="personal" checked>
-            <label class="form-check-label" for="select-personal">Personal</label>
-          </div>
-          <div class="form-check mb-2">
-            <input class="form-check-input input-filter" type="checkbox" id="select-business" data-value="business" checked>
-            <label class="form-check-label" for="select-business">Business</label>
+            <input class="form-check-input input-filter" type="checkbox" id="select-important" data-value="important" checked>
+            <label class="form-check-label" for="select-important">Important</label>
           </div>
           <div class="form-check form-check-warning mb-2">
-            <input class="form-check-input input-filter" type="checkbox" id="select-family" data-value="family" checked>
-            <label class="form-check-label" for="select-family">Family</label>
+            <input class="form-check-input input-filter" type="checkbox" id="select-project" data-value="project" checked>
+            <label class="form-check-label" for="select-project">Project</label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input input-filter" type="checkbox" id="select-learning" data-value="learning" checked>
+            <label class="form-check-label" for="select-learning">Learning</label>
           </div>
           <div class="form-check form-check-success mb-2">
-            <input class="form-check-input input-filter" type="checkbox" id="select-holiday" data-value="holiday" checked>
-            <label class="form-check-label" for="select-holiday">Holiday</label>
+            <input class="form-check-input input-filter" type="checkbox" id="select-activity" data-value="activity" checked>
+            <label class="form-check-label" for="select-activity">Activity</label>
           </div>
           <div class="form-check form-check-info">
             <input class="form-check-input input-filter" type="checkbox" id="select-etc" data-value="etc" checked>
@@ -114,10 +114,10 @@
             <div class="mb-3">
               <label class="form-label" for="eventLabel">Label</label>
               <select class="select2 select-event-label form-select" id="eventLabel" name="eventLabel">
-                <option data-label="primary" value="Business" selected>Business</option>
-                <option data-label="danger" value="Personal">Personal</option>
-                <option data-label="warning" value="Family">Family</option>
-                <option data-label="success" value="Holiday">Holiday</option>
+                <option data-label="danger" value="Important">Important</option>
+                <option data-label="warning" value="Project">Project</option>
+                <option data-label="primary" value="Learning" selected>Learning</option>
+                <option data-label="success" value="Activity">Activity</option>
                 <option data-label="info" value="ETC">ETC</option>
               </select>
             </div>
@@ -176,4 +176,7 @@
     <!-- /Calendar & Modal -->
   </div>
 </div>
+<script>
+  let eventLists = {!! json_encode($events) !!};
+</script>
 @endsection
