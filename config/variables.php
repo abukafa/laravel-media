@@ -25,5 +25,6 @@ return [
   "twitterUrl" => "https://twitter.com/",
   "githubUrl" => "https://github.com/jaz-academy",
   "dribbbleUrl" => "https://dribbble.com/",
-  "instagramUrl" => "https://www.instagram.com/jaz.education/"
+  "instagramUrl" => "https://www.instagram.com/jaz.education/",
+  "whatsapp" => "https://wa.me/+6281222299964"
 ];

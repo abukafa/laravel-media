@@ -37,6 +37,14 @@ $configData = Helper::appClasses();
   ])
 @endsection
 
+@php
+session_start();
+if (!isset($_SESSION['firstLoad'])) {
+    $_SESSION['firstLoad'] = true;
+    header('Location: ' . $_SERVER['REQUEST_URI']);
+    exit();
+}
+@endphp
 
 @section('content')
 <div data-bs-spy="scroll" class="scrollspy-example">
@@ -135,8 +143,8 @@ $configData = Helper::appClasses();
       <div class="row">
 
         <!-- Line Area Chart -->
-        <div class="col-md-6 mb-4">
-          <div class="card">
+        <div class="col-md-8 align-items-stretch mb-4">
+          <div class="card h-100">
             <div class="card-header d-flex justify-content-between">
               <div>
                 <h5 class="card-title mb-0">Last updates</h5>
@@ -164,9 +172,36 @@ $configData = Helper::appClasses();
         </div>
         <!-- /Line Area Chart -->
 
+        <!-- Radial bar Chart -->
+        <div class="col-md-4 col-12 mb-4">
+          <div class="card h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <h5 class="card-title mb-0">Completion</h5>
+              <div class="dropdown">
+                <button type="button" class="btn dropdown-toggle p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-calendar"></i></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Today</a></li>
+                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Yesterday</a></li>
+                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 7 Days</a></li>
+                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 30 Days</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Current Month</a></li>
+                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last Month</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="radialBarChart"></div>
+            </div>
+          </div>
+        </div>
+        <!-- /Radial bar Chart -->
+
         <!-- Bar Chart -->
-        <div class="col-md-6 mb-4">
-          <div class="card">
+        <div class="col-md-8 mb-4">
+          <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-md-center align-items-start">
               <div>
                 <h5 class="card-title mb-0">Completion</h5>
@@ -194,9 +229,32 @@ $configData = Helper::appClasses();
         </div>
         <!-- /Bar Chart -->
 
+        <!-- Radar Chart -->
+        <div class="col-md-4 col-12 mb-4">
+          <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">Subjects</h5>
+              <div class="dropdown">
+                <button class="btn px-0" type="button" id="heatChartDd1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="ti ti-dots-vertical"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="heatChartDd1">
+                  <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
+                  <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
+                  <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="radarChart"></div>
+            </div>
+          </div>
+        </div>
+        <!-- /Radar Chart -->
+
         <!-- Scatter Chart -->
         <div class="col-md-6 mb-4">
-          <div class="card">
+          <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
               <div>
                 <h5 class="card-title mb-0">Personal Tasks</h5>
@@ -222,7 +280,7 @@ $configData = Helper::appClasses();
 
         <!-- Line Chart -->
         <div class="col-md-6 mb-4">
-          <div class="card">
+          <div class="card h-100">
             <div class="card-header d-flex justify-content-between">
               <div>
                 <h5 class="card-title mb-0">Balance</h5>
@@ -238,7 +296,7 @@ $configData = Helper::appClasses();
 
         <!-- Bar Chart -->
         <div class="col-md-6 col-12 mb-4">
-          <div class="card">
+          <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
               <div>
                 <p class="card-subtitle text-muted mb-1">Balance</p>
@@ -268,7 +326,7 @@ $configData = Helper::appClasses();
 
         <!-- Candlestick Chart -->
         <div class="col-md-6 col-12 mb-4">
-          <div class="card">
+          <div class="card h-100">
             <div class="card-header d-flex align-items-center justify-content-between">
               <div>
                 <h5 class="card-title mb-1">Weekly Progress</h5>
@@ -297,8 +355,8 @@ $configData = Helper::appClasses();
         <!-- /Candlestick Chart -->
 
         <!-- Heat map Chart -->
-        <div class="col-md-6 col-12 mb-4">
-          <div class="card">
+        <div class="col-md-8 col-12 mb-4">
+          <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
               <h5 class="card-title mb-0">Daily Tasks</h5>
               <div class="dropdown">
@@ -319,59 +377,9 @@ $configData = Helper::appClasses();
         </div>
         <!-- /Heat map Chart -->
 
-        <!-- Radial bar Chart -->
-        <div class="col-md-6 col-12 mb-4">
-          <div class="card">
-            <div class="card-header d-flex align-items-center justify-content-between">
-              <h5 class="card-title mb-0">Completion</h5>
-              <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-calendar"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Today</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Yesterday</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 7 Days</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 30 Days</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Current Month</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last Month</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="card-body">
-              <div id="radialBarChart"></div>
-            </div>
-          </div>
-        </div>
-        <!-- /Radial bar Chart -->
-
-        <!-- Radar Chart -->
-        <div class="col-md-6 col-12 mb-4">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <h5 class="card-title mb-0">Subjects</h5>
-              <div class="dropdown">
-                <button class="btn px-0" type="button" id="heatChartDd1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="ti ti-dots-vertical"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="heatChartDd1">
-                  <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                  <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                  <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <div id="radarChart"></div>
-            </div>
-          </div>
-        </div>
-        <!-- /Radar Chart -->
-
         <!-- Donut Chart -->
-        <div class="col-md-6 col-12 mb-4">
-          <div class="card">
+        <div class="col-md-4 col-12 mb-4">
+          <div class="card h-100">
             <div class="card-header d-flex align-items-center justify-content-between">
               <div>
                 <h5 class="card-title mb-0">Subjects</h5>
@@ -715,7 +723,8 @@ $configData = Helper::appClasses();
       <p class="text-center mb-4 pb-3">
         Visi kami adalah menghadirkan generasi muslim yang tangguh, berintegritas, dan siap menjadi pemimpin <br class="d-none d-xl-block" /> yang membawa <br class="d-block d-sm-none" /> perubahan positif dalam masyarakat global <br class="d-block d-sm-none" /> yang semakin terhubung.
       </p>
-      <div class="row gy-4 pt-lg-3">
+
+      <div class="row gy-4 pt-lg-3 jaz-plans">
         <!-- Basic Plan: Start -->
         <div class="col-xl-4 col-lg-6">
           <div class="card">
@@ -766,9 +775,15 @@ $configData = Helper::appClasses();
                     Robotic
                   </h5>
                 </li>
+                <li>
+                  <h5>
+                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
+                    Weekday or Weekend
+                  </h5>
+                </li>
               </ul>
               <div class="d-grid mt-4 pt-3">
-                <a href="{{url('/front-pages/payment')}}" class="btn btn-label-primary">More Info</a>
+                <a href="{{config('variables.whatsapp')}}" target="_blank" class="btn btn-label-primary">More Info</a>
               </div>
             </div>
           </div>
@@ -777,7 +792,7 @@ $configData = Helper::appClasses();
 
         <!-- Favourite Plan: Start -->
         <div class="col-xl-4 col-lg-6">
-          <div class="card border border-primary shadow-lg">
+          <div class="card">
             <div class="card-header">
               <div class="text-center">
                 <img src="{{asset('assets/img/front-pages/icons/plane.png')}}" alt="plane icon" class="mb-4 pb-2" />
@@ -791,43 +806,49 @@ $configData = Helper::appClasses();
               <ul class="list-unstyled ms-4">
                 <li>
                   <h5>
-                    <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
+                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
                     Alquran
                   </h5>
                 </li>
                 <li>
                   <h5>
-                    <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
+                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
                     Tsaqofah
                   </h5>
                 </li>
                 <li>
                   <h5>
-                    <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
+                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
                     Multimedia
                   </h5>
                 </li>
                 <li>
                   <h5>
-                    <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
+                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
                     Public Speaking
                   </h5>
                 </li>
                 <li>
                   <h5>
-                    <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
+                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
                     Entrepreneurship
                   </h5>
                 </li>
                 <li>
                   <h5>
-                    <span class="badge badge-center rounded-pill bg-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
+                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
                     Content Creator
+                  </h5>
+                </li>
+                <li>
+                  <h5>
+                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
+                    Asrama 3 Tahun
                   </h5>
                 </li>
               </ul>
               <div class="d-grid mt-4 pt-3">
-                <a href="{{url('/front-pages/payment')}}" class="btn btn-primary">More Info</a>
+                <a href="{{config('variables.whatsapp')}}" target="_blank" class="btn btn-label-primary">More Info</a>
               </div>
             </div>
           </div>
@@ -884,9 +905,15 @@ $configData = Helper::appClasses();
                     Motion Graphic
                   </h5>
                 </li>
+                <li>
+                  <h5>
+                    <span class="badge badge-center rounded-pill bg-label-primary p-0 me-2"><i class="ti ti-check ti-xs"></i></span>
+                    Private Mentoring
+                  </h5>
+                </li>
               </ul>
               <div class="d-grid mt-4 pt-3">
-                <a href="{{url('/front-pages/payment')}}" class="btn btn-label-primary">More Info</a>
+                <a href="{{config('variables.whatsapp')}}" target="_blank" class="btn btn-label-primary">More Info</a>
               </div>
             </div>
           </div>
@@ -905,10 +932,10 @@ $configData = Helper::appClasses();
           <div class="card border border-label-primary shadow-none">
             <div class="card-body text-center">
               <img src="{{asset('assets/img/front-pages/icons/laptop.png')}}" alt="laptop" class="mb-2" />
-              <h5 class="h2 mb-1">7.1k+</h5>
+              <h5 class="h2 mb-1">35+</h5>
               <p class="fw-medium mb-0">
-                Support Tickets<br />
-                Resolved
+                Coding Class<br />
+                Participant
               </p>
             </div>
           </div>
@@ -917,10 +944,10 @@ $configData = Helper::appClasses();
           <div class="card border border-label-success shadow-none">
             <div class="card-body text-center">
               <img src="{{asset('assets/img/front-pages/icons/user-success.png')}}" alt="laptop" class="mb-2" />
-              <h5 class="h2 mb-1">50k+</h5>
+              <h5 class="h2 mb-1">23+</h5>
               <p class="fw-medium mb-0">
-                Join creatives<br />
-                community
+                Private Class<br />
+                Participant
               </p>
             </div>
           </div>
@@ -929,10 +956,10 @@ $configData = Helper::appClasses();
           <div class="card border border-label-info shadow-none">
             <div class="card-body text-center">
               <img src="{{asset('assets/img/front-pages/icons/diamond-info.png')}}" alt="laptop" class="mb-2" />
-              <h5 class="h2 mb-1">4.8/5</h5>
+              <h5 class="h2 mb-1">10+</h5>
               <p class="fw-medium mb-0">
-                Highly Rated<br />
-                Products
+                Akademi Remaja<br />
+                Members
               </p>
             </div>
           </div>
@@ -941,10 +968,10 @@ $configData = Helper::appClasses();
           <div class="card border border-label-warning shadow-none">
             <div class="card-body text-center">
               <img src="{{asset('assets/img/front-pages/icons/check-warning.png')}}" alt="laptop" class="mb-2" />
-              <h5 class="h2 mb-1">100%</h5>
+              <h5 class="h2 mb-1">12+</h5>
               <p class="fw-medium mb-0">
-                Money Back<br />
-                Guarantee
+                Homeschooling<br />
+                Joined
               </p>
             </div>
           </div>
@@ -1058,7 +1085,7 @@ $configData = Helper::appClasses();
         <div class="col-lg-6 text-center text-lg-start">
           <h6 class="h2 text-primary fw-bold mb-1">Ready to Get Started?</h6>
           <p class="fw-medium mb-4">Saatnya merancang masa depan, dan memulainya..</p>
-          <a href="{{url('/front-pages/payment')}}" class="btn btn-lg btn-primary">More Info</a>
+          <a href="{{config('variables.instagramUrl')}}" target="_blank" class="btn btn-lg btn-primary">Our Gallery</a>
         </div>
         <div class="col-lg-6 pt-lg-5 text-center text-lg-end">
           <img src="{{asset('assets/img/front-pages/landing-page/cta-dashboard.png')}}" alt="cta dashboard" class="img-fluid" />
@@ -1094,7 +1121,7 @@ $configData = Helper::appClasses();
                     <div>
                       <p class="mb-0">Email</p>
                       <h5 class="mb-0">
-                        <a href="mailto:example@gmail.com" class="text-heading">jazcorp.id@gmail.com</a>
+                        <a href="mailto:jazcorp.id@gmail.com" class="text-heading">jazcorp.id@gmail.com</a>
                       </h5>
                     </div>
                   </div>
@@ -1106,7 +1133,7 @@ $configData = Helper::appClasses();
                     </div>
                     <div>
                       <p class="mb-0">Phone</p>
-                      <h5 class="mb-0"><a href="tel:+1234-568-963" class="text-heading">+6281 2222 999 64</a></h5>
+                      <h5 class="mb-0"><a href="tel:+6281222299964" class="text-heading">+6281 2222 999 64</a></h5>
                     </div>
                   </div>
                 </div>
@@ -1137,7 +1164,7 @@ $configData = Helper::appClasses();
                     <textarea id="contact-form-message" class="form-control" rows="8" placeholder="Write a message"></textarea>
                   </div>
                   <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Send inquiry</button>
+                    <a href="{{config('variables.whatsapp')}}" target="_blank" class="btn btn-primary">Send inquiry</a>
                   </div>
                 </div>
               </form>
@@ -1149,4 +1176,24 @@ $configData = Helper::appClasses();
   </section>
   <!-- Contact Us: End -->
 </div>
+
+<script>
+  var cards = document.querySelectorAll('.jaz-plans .card');
+  cards.forEach(function(card) {
+    card.addEventListener('mouseover', function() {
+      card.classList.toggle('border');
+      card.classList.toggle('border-primary');
+      card.classList.toggle('shadow-lg');
+      var button = card.querySelector('a')
+      button.classList.toggle('btn-label-primary');
+      button.classList.toggle('btn-primary');
+      var menus = card.querySelectorAll('h5 span');
+      menus.forEach(function(menu) {
+        menu.classList.toggle('bg-label-primary');
+        menu.classList.toggle('bg-primary');
+      });
+    });
+  });
+</script>
+
 @endsection
