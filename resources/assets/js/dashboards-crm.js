@@ -19,6 +19,89 @@
     shadeColor = '';
   }
 
+  // Line Area Chart
+  // --------------------------------------------------------------------
+  const areaChartEl = document.querySelector('#lineAreaChart'),
+    areaChartConfig = {
+      chart: {
+        height: 400,
+        type: 'area',
+        parentHeightOffset: 0,
+        toolbar: {
+          show: false
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        show: false,
+        curve: 'straight'
+      },
+      legend: {
+        show: true,
+        position: 'top',
+        horizontalAlign: 'start',
+        labels: {
+          colors: legendColor,
+          useSeriesColors: false
+        }
+      },
+      grid: {
+        borderColor: borderColor,
+        xaxis: {
+          lines: {
+            show: true
+          }
+        }
+      },
+      colors: ['#a5f8cd', '#29dac7'],
+      series: [
+        {
+          name: 'Academic',
+          data: tahfidzhData
+        },
+        {
+          name: 'Character',
+          data: adabData
+        }
+      ],
+      xaxis: {
+        categories: bulanData,
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          style: {
+            colors: labelColor,
+            fontSize: '13px'
+          }
+        }
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: labelColor,
+            fontSize: '13px'
+          }
+        }
+      },
+      fill: {
+        opacity: 1,
+        type: 'solid'
+      },
+      tooltip: {
+        shared: false
+      }
+    };
+  if (typeof areaChartEl !== undefined && areaChartEl !== null) {
+    const areaChart = new ApexCharts(areaChartEl, areaChartConfig);
+    areaChart.render();
+  }
+
   // Sales last year Area Chart
   // --------------------------------------------------------------------
   const salesLastYearEl = document.querySelector('#salesLastYear'),
@@ -60,7 +143,7 @@
       },
       series: [
         {
-          data: [200, 55, 400, 250]
+          data: quranData
         }
       ],
       xaxis: {
@@ -108,12 +191,12 @@
       },
       series: [
         {
-          name: 'PRODUCT A',
-          data: [4, 3, 6, 4, 3]
+          name: 'SIKAP',
+          data: sikapData
         },
         {
-          name: 'PRODUCT B',
-          data: [-3, -4, -3, -2, -3]
+          name: 'PAHAM',
+          data: pahamData.map(value => -1 * value)
         }
       ],
       plotOptions: {
@@ -152,7 +235,7 @@
         }
       },
       xaxis: {
-        categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        categories: ['1', '2', '3', '4', '5', '6'],
         labels: {
           show: false
         },
@@ -484,7 +567,7 @@
       dataLabels: {
         enabled: true,
         formatter: function (val) {
-          return val + 'k';
+          return val;
         },
         offsetY: -20,
         style: {
@@ -506,7 +589,7 @@
         enabled: false
       },
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        categories: bulanData,
         axisBorder: {
           show: true,
           color: borderColor
@@ -526,7 +609,7 @@
         labels: {
           offsetX: -15,
           formatter: function (val) {
-            return parseInt(val / 1) + 'k';
+            return parseInt(val / 1);
           },
           style: {
             fontSize: '13px',
@@ -581,57 +664,50 @@
     };
     return earningReportBarChartOpt;
   }
-  var chartJson = 'earning-reports-charts.json';
-  // Earning Chart JSON data
-  var earningReportsChart = $.ajax({
-    url: assetsPath + 'json/' + chartJson, //? Use your own search api instead
-    dataType: 'json',
-    async: false
-  }).responseJSON;
 
   // Earning Reports Tabs Orders
   // --------------------------------------------------------------------
-  const earningReportsTabsOrdersEl = document.querySelector('#earningReportsTabsOrders'),
-    earningReportsTabsOrdersConfig = EarningReportsBarChart(
-      earningReportsChart['data'][0]['chart_data'],
-      earningReportsChart['data'][0]['active_option']
+  const earningReportsTabsAdabsEl = document.querySelector('#earningReportsTabsAdabs'),
+    earningReportsTabsAdabsConfig = EarningReportsBarChart(
+      adabData,
+      5
     );
-  if (typeof earningReportsTabsOrdersEl !== undefined && earningReportsTabsOrdersEl !== null) {
-    const earningReportsTabsOrders = new ApexCharts(earningReportsTabsOrdersEl, earningReportsTabsOrdersConfig);
-    earningReportsTabsOrders.render();
+  if (typeof earningReportsTabsAdabsEl !== undefined && earningReportsTabsAdabsEl !== null) {
+    const earningReportsTabsAdabs = new ApexCharts(earningReportsTabsAdabsEl, earningReportsTabsAdabsConfig);
+    earningReportsTabsAdabs.render();
   }
   // Earning Reports Tabs Sales
   // --------------------------------------------------------------------
-  const earningReportsTabsSalesEl = document.querySelector('#earningReportsTabsSales'),
-    earningReportsTabsSalesConfig = EarningReportsBarChart(
-      earningReportsChart['data'][1]['chart_data'],
-      earningReportsChart['data'][1]['active_option']
+  const earningReportsTabsTahfidzhEl = document.querySelector('#earningReportsTabsTahfidzh'),
+    earningReportsTabsTahfidzhConfig = EarningReportsBarChart(
+      tahfidzhData,
+      5
     );
-  if (typeof earningReportsTabsSalesEl !== undefined && earningReportsTabsSalesEl !== null) {
-    const earningReportsTabsSales = new ApexCharts(earningReportsTabsSalesEl, earningReportsTabsSalesConfig);
-    earningReportsTabsSales.render();
+  if (typeof earningReportsTabsTahfidzhEl !== undefined && earningReportsTabsTahfidzhEl !== null) {
+    const earningReportsTabsTahfidzh = new ApexCharts(earningReportsTabsTahfidzhEl, earningReportsTabsTahfidzhConfig);
+    earningReportsTabsTahfidzh.render();
   }
   // Earning Reports Tabs Profit
   // --------------------------------------------------------------------
-  const earningReportsTabsProfitEl = document.querySelector('#earningReportsTabsProfit'),
-    earningReportsTabsProfitConfig = EarningReportsBarChart(
-      earningReportsChart['data'][2]['chart_data'],
-      earningReportsChart['data'][2]['active_option']
+  const earningReportsTabsTajwidEl = document.querySelector('#earningReportsTabsTajwid'),
+    earningReportsTabsTajwidConfig = EarningReportsBarChart(
+      tajwidData,
+      5
     );
-  if (typeof earningReportsTabsProfitEl !== undefined && earningReportsTabsProfitEl !== null) {
-    const earningReportsTabsProfit = new ApexCharts(earningReportsTabsProfitEl, earningReportsTabsProfitConfig);
-    earningReportsTabsProfit.render();
+  if (typeof earningReportsTabsTajwidEl !== undefined && earningReportsTabsTajwidEl !== null) {
+    const earningReportsTabsTajwid = new ApexCharts(earningReportsTabsTajwidEl, earningReportsTabsTajwidConfig);
+    earningReportsTabsTajwid.render();
   }
   // Earning Reports Tabs Income
   // --------------------------------------------------------------------
-  const earningReportsTabsIncomeEl = document.querySelector('#earningReportsTabsIncome'),
-    earningReportsTabsIncomeConfig = EarningReportsBarChart(
-      earningReportsChart['data'][3]['chart_data'],
-      earningReportsChart['data'][3]['active_option']
+  const earningReportsTabsTahsinEl = document.querySelector('#earningReportsTabsTahsin'),
+    earningReportsTabsTahsinConfig = EarningReportsBarChart(
+      tahsinData,
+      5
     );
-  if (typeof earningReportsTabsIncomeEl !== undefined && earningReportsTabsIncomeEl !== null) {
-    const earningReportsTabsIncome = new ApexCharts(earningReportsTabsIncomeEl, earningReportsTabsIncomeConfig);
-    earningReportsTabsIncome.render();
+  if (typeof earningReportsTabsTahsinEl !== undefined && earningReportsTabsTahsinEl !== null) {
+    const earningReportsTabsTahsin = new ApexCharts(earningReportsTabsTahsinEl, earningReportsTabsTahsinConfig);
+    earningReportsTabsTahsin.render();
   }
 
   // Sales Last 6 Months - Radar Chart
@@ -640,12 +716,12 @@
     salesLastMonthConfig = {
       series: [
         {
-          name: 'Sales',
-          data: [32, 27, 27, 30, 25, 25]
+          name: 'Pemahaman',
+          data: [67, 77, 77, 82, 90, 90]
         },
         {
-          name: 'Visits',
-          data: [25, 35, 20, 20, 20, 20]
+          name: 'Sikap',
+          data: [51, 61, 61, 61, 66, 75]
         }
       ],
       chart: {
@@ -687,7 +763,7 @@
           highlightDataSeries: false
         }
       },
-      colors: [config.colors.primary, config.colors.info],
+      colors: [config.colors.info, config.colors.primary],
       fill: {
         opacity: [1, 0.85]
       },
@@ -702,7 +778,7 @@
         }
       },
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        categories: bulanData,
         labels: {
           show: true,
           style: {
@@ -715,7 +791,7 @@
       yaxis: {
         show: false,
         min: 0,
-        max: 40,
+        max: 100,
         tickAmount: 4
       },
       responsive: [
