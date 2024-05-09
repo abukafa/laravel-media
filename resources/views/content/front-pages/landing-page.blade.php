@@ -36,6 +36,12 @@ $configData = Helper::appClasses();
   ])
 @endsection
 
+<style>
+  .card-body::-webkit-scrollbar {
+    display: none; /* Hide the scrollbar */
+  }
+</style>
+
 @section('content')
 <div data-bs-spy="scroll" class="scrollspy-example">
   <!-- Hero: Start -->
@@ -232,7 +238,7 @@ $configData = Helper::appClasses();
         <!-- /Donut Chart -->
 
         <!-- Line Chart -->
-        <div class="col-md-6 mb-4">
+        <div class="col-md-6 mb-4 d-none">
           <div class="card h-100">
             <div class="card-header d-flex justify-content-between">
               <div>
@@ -248,7 +254,7 @@ $configData = Helper::appClasses();
         <!-- /Line Chart -->
 
         <!-- Scatter Chart -->
-        <div class="col-md-6 mb-4">
+        <div class="col-md-6 mb-4 d-none">
           <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
               <div>
@@ -281,7 +287,7 @@ $configData = Helper::appClasses();
   <!-- Useful features: End -->
 
   <!-- Real customers reviews: Start -->
-  <section id="landingReviews" class="section-py bg-body landing-reviews pb-0 d-none">
+  <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
     <!-- What people say slider: Start -->
     <div class="container">
       <div class="row align-items-center gx-0 gy-4 g-lg-5">
@@ -311,180 +317,43 @@ $configData = Helper::appClasses();
           <div class="swiper-reviews-carousel overflow-hidden mb-5 pb-md-2 pb-md-3">
             <div class="swiper" id="swiper-reviews">
               <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <div class="card h-100">
-                    <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                      <div class="mb-3">
-                        <img src="{{asset('assets/img/front-pages/branding/logo-1.png')}}" alt="client logo" class="client-logo img-fluid" />
-                      </div>
-                      <p>
-                        “Vuexy is hands down the most useful front end Bootstrap theme I've ever used. I can't wait
-                        to use it again for my next project.”
-                      </p>
-                      <div class="text-warning mb-3">
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <div class="avatar me-2 avatar-sm">
-                          <img src="{{asset('assets/img/avatars/1.png')}}" alt="Avatar" class="rounded-circle" />
+
+                @foreach ($tasks as $item)
+                @if ($item->rate > 3)
+                  <div class="swiper-slide">
+                    <div class="card h-100">
+                      <div class="card-body text-body d-flex flex-column justify-content-between h-100">
+                        <div class="mb-3">
+                          <h6 class="mb-0">{{ ucwords(substr($item->name, 0, 35)) }}</h6>
+                          <p class="small text-muted mb-0">{{ $item->project_name }}</p>
                         </div>
-                        <div>
-                          <h6 class="mb-0">Cecilia Payne</h6>
-                          <p class="small text-muted mb-0">CEO of Airbnb</p>
+                        <p>
+                          “{{ substr($item->description, 0, 75) }}...” <a href="{{ $item->link }}" target="_blank">View More</a>
+                        </p>
+                        <div class="text-warning mb-3">
+                          @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $item->rate)
+                                <i class="ti ti-star-filled ti-sm"></i>
+                            @else
+                                <i class="ti ti-star ti-sm"></i>
+                            @endif
+                          @endfor
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card h-100">
-                    <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                      <div class="mb-3">
-                        <img src="{{asset('assets/img/front-pages/branding/logo-2.png')}}" alt="client logo" class="client-logo img-fluid" />
-                      </div>
-                      <p>
-                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building
-                        dashboard sites on almost any project.”
-                      </p>
-                      <div class="text-warning mb-3">
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <div class="avatar me-2 avatar-sm">
-                          <img src="{{asset('assets/img/avatars/2.png')}}" alt="Avatar" class="rounded-circle" />
-                        </div>
-                        <div>
-                          <h6 class="mb-0">Eugenia Moore</h6>
-                          <p class="small text-muted mb-0">Founder of Hubspot</p>
+                        <div class="d-flex align-items-center">
+                          <div class="avatar me-2 avatar-sm">
+                            <img src="{{ file_exists(public_path('storage/member/' . $item->student_id . '.png')) ? asset('storage/member/' . $item->student_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
+                          </div>
+                          <div>
+                            <h6 class="mb-0">{{ $item->student_name }}</h6>
+                            <p class="small text-muted mb-0">{{ date('l, j M Y', strtotime($item->date)) }}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card h-100">
-                    <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                      <div class="mb-3">
-                        <img src="{{asset('assets/img/front-pages/branding/logo-3.png')}}" alt="client logo" class="client-logo img-fluid" />
-                      </div>
-                      <p>
-                        This template is really clean & well documented. The docs are really easy to understand and
-                        it's always easy to find a screenshot from their website.
-                      </p>
-                      <div class="text-warning mb-3">
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <div class="avatar me-2 avatar-sm">
-                          <img src="{{asset('assets/img/avatars/3.png')}}" alt="Avatar" class="rounded-circle" />
-                        </div>
-                        <div>
-                          <h6 class="mb-0">Curtis Fletcher</h6>
-                          <p class="small text-muted mb-0">Design Lead at Dribbble</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card h-100">
-                    <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                      <div class="mb-3">
-                        <img src="{{asset('assets/img/front-pages/branding/logo-4.png')}}" alt="client logo" class="client-logo img-fluid" />
-                      </div>
-                      <p>
-                        All the requirements for developers have been taken into consideration, so I’m able to build
-                        any interface I want.
-                      </p>
-                      <div class="text-warning mb-3">
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star ti-sm"></i>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <div class="avatar me-2 avatar-sm">
-                          <img src="{{asset('assets/img/avatars/4.png')}}" alt="Avatar" class="rounded-circle" />
-                        </div>
-                        <div>
-                          <h6 class="mb-0">Sara Smith</h6>
-                          <p class="small text-muted mb-0">Founder of Continental</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card h-100">
-                    <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                      <div class="mb-3">
-                        <img src="{{asset('assets/img/front-pages/branding/logo-5.png')}}" alt="client logo" class="client-logo img-fluid" />
-                      </div>
-                      <p>
-                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building
-                        dashboard sites on almost any project.”
-                      </p>
-                      <div class="text-warning mb-3">
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <div class="avatar me-2 avatar-sm">
-                          <img src="{{asset('assets/img/avatars/5.png')}}" alt="Avatar" class="rounded-circle" />
-                        </div>
-                        <div>
-                          <h6 class="mb-0">Eugenia Moore</h6>
-                          <p class="small text-muted mb-0">Founder of Hubspot</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-slide">
-                  <div class="card h-100">
-                    <div class="card-body text-body d-flex flex-column justify-content-between h-100">
-                      <div class="mb-3">
-                        <img src="{{asset('assets/img/front-pages/branding/logo-6.png')}}" alt="client logo" class="client-logo img-fluid" />
-                      </div>
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam nemo mollitia, ad eum
-                        officia numquam nostrum repellendus consequuntur!
-                      </p>
-                      <div class="text-warning mb-3">
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star ti-sm"></i>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <div class="avatar me-2 avatar-sm">
-                          <img src="{{asset('assets/img/avatars/1.png')}}" alt="Avatar" class="rounded-circle" />
-                        </div>
-                        <div>
-                          <h6 class="mb-0">Sara Smith</h6>
-                          <p class="small text-muted mb-0">Founder of Continental</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                @endif
+                @endforeach
+
               </div>
               <div class="swiper-button-next"></div>
               <div class="swiper-button-prev"></div>
@@ -497,27 +366,77 @@ $configData = Helper::appClasses();
     <hr class="m-0" />
     <!-- Logo slider: Start -->
     <div class="container">
-      <div class="swiper-logo-carousel py-4 my-lg-2">
-        <div class="swiper" id="swiper-clients-logos">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="{{asset('assets/img/front-pages/branding/logo_1-'.$configData['style'].'.png')}}" alt="client logo" class="client-logo" data-app-light-img="front-pages/branding/logo_1-light.png" data-app-dark-img="front-pages/branding/logo_1-dark.png" />
+      <div class="text-center py-4">
+        <img src="{{asset('assets/img/front-pages/branding/jaz-dark.png')}}" width="150" onclick="showTimelines()" />
+      </div>
+      <!-- Activity Timeline -->
+      <div class="row justify-content-center d-none" id="timelines">
+        <div class="col-lg-6">
+          <div class="card card-action mb-4" style="max-height: 686px">
+            <div class="card-header align-items-center">
+              <h5 class="card-action-title mb-0">Timeline Tasks</h5>
+              <div class="card-action-element">
+                <div class="dropdown">
+                  <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="javascript:void(0);">Share timeline</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Suggest edits</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Report bug</a></li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            <div class="swiper-slide">
-              <img src="{{asset('assets/img/front-pages/branding/logo_2-'.$configData['style'].'.png')}}" alt="client logo" class="client-logo" data-app-light-img="front-pages/branding/logo_2-light.png" data-app-dark-img="front-pages/branding/logo_2-dark.png" />
-            </div>
-            <div class="swiper-slide">
-              <img src="{{asset('assets/img/front-pages/branding/logo_3-'.$configData['style'].'.png')}}" alt="client logo" class="client-logo" data-app-light-img="front-pages/branding/logo_3-light.png" data-app-dark-img="front-pages/branding/logo_3-dark.png" />
-            </div>
-            <div class="swiper-slide">
-              <img src="{{asset('assets/img/front-pages/branding/logo_4-'.$configData['style'].'.png')}}" alt="client logo" class="client-logo" data-app-light-img="front-pages/branding/logo_4-light.png" data-app-dark-img="front-pages/branding/logo_4-dark.png" />
-            </div>
-            <div class="swiper-slide">
-              <img src="{{asset('assets/img/front-pages/branding/logo_5-'.$configData['style'].'.png')}}" alt="client logo" class="client-logo" data-app-light-img="front-pages/branding/logo_5-light.png" data-app-dark-img="front-pages/branding/logo_5-dark.png" />
+            <div class="card-body pb-0 overflow-auto">
+              <ul class="timeline ms-1 mb-0">
+
+                @foreach ($tasks as $item)
+                <li class="timeline-item timeline-item-transparent">
+                  <span class="timeline-point timeline-point-{{ $item->status=='Completed' ? 'primary' : ($item->status=='In Progress' ? 'success' : ($item->status=='Not Started' ? 'warning' : 'danger')) }}"></span>
+                  <div class="timeline-event">
+                    <div class="timeline-header mb-4">
+                      <a href="{{ $item->link }}" target="_blank">
+                        <h6 class="mb-0">{{ $item->project_name }}</h6>
+                      </a>
+                        <p class="mb-2">{{ $item->name }}</p>
+                      <div class="text-warning">
+                        <i class="ti ti-star-filled ti-sm"></i>
+                        <i class="ti ti-star-filled ti-sm"></i>
+                        <i class="ti ti-star-filled ti-sm"></i>
+                        <i class="ti ti-star-filled ti-sm"></i>
+                        <i class="ti ti-star ti-sm"></i>
+                      </div>
+                    </div>
+                    @if ($item->accepted)
+                    <div class="d-flex flex-wrap">
+                      <div class="avatar me-2">
+                        <img src="{{ file_exists(public_path('storage/guru/' . $item->teacher_id . '.png')) ? asset('storage/guru/' . $item->teacher_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
+                      </div>
+                      <div class="ms-1">
+                        <h6 class="mb-0">Accepted by: {{ $item->teacher_name }}</h6>
+                        <span>{{ $item->review }}</span>
+                      </div>
+                    </div>
+                    @else
+                    <div class="d-flex flex-wrap gap-2 pt-1">
+                      <a href="javascript:void(0)" class="me-3">
+                        <img src="{{asset('assets/img/icons/misc/doc.png') }}" alt="Document image" width="15" class="me-2">
+                        <span class="fw-medium text-heading">{{ $item->review ?: $item->status }}</span>
+                      </a>
+                    </div>
+                    @endif
+                  </div>
+                </li>
+                @endforeach
+
+              </ul>
             </div>
           </div>
         </div>
       </div>
+      <!--/ Activity Timeline -->
     </div>
     <!-- Logo slider: End -->
   </section>
@@ -1107,6 +1026,10 @@ console.log(scatterData);
 
 function getStatusValue(status) {
     return status === 'Completed' ? 3 : (status === 'In Progress' ? 2 : (status === 'Not Started' ? 1 : 0));
+}
+
+function showTimelines() {
+  document.getElementById('timelines').classList.toggle('d-none');
 }
 </script>
 

@@ -16,7 +16,7 @@ class Landing extends Controller
       DB::raw('DISTINCT status'),
       DB::raw('COUNT(status) as count'),
       DB::raw('ROUND((COUNT(status) / (SELECT COUNT(*) FROM tasks) * 100)) as percentage')
-    ])->groupBy('status')->orderBy('status')->get();
+    ])->groupBy('status')->take(7)->orderBy('status')->get();
 
     $dailyUpdates = Task::select(
       DB::raw("DATE_FORMAT(date, '%d/%m') as date"),
@@ -25,6 +25,8 @@ class Landing extends Controller
       DB::raw("SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) as completed")
     )
     ->groupBy('date')
+    ->orderBy('date', 'desc') // Order by date in descending order
+    ->take(7)
     ->get();
 
     $projectCounts = Task::select(
@@ -32,15 +34,17 @@ class Landing extends Controller
       DB::raw("COUNT(*) as count")
     )
     ->groupBy('project')
+    ->take(7)
     ->get();
 
     $personTrack = Task::select('date', 'student_name', 'status')
     ->orderBy('student_name')
-    ->orderBy('date')
+    ->orderBy('date', 'desc')
+    ->take(7)
     ->get();
 
-    // dd($statusCounts);
     return view('content.front-pages.landing-page', [
+      'tasks' => Task::all(),
       'pageConfigs' => $pageConfigs,
       'statusCount' => $statusCounts,
       'dailyUpdate' => $dailyUpdates,
