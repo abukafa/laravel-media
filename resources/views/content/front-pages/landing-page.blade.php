@@ -328,7 +328,7 @@ $configData = Helper::appClasses();
                           <p class="small text-muted mb-0">{{ $item->project_name }}</p>
                         </div>
                         <p>
-                          “{{ substr($item->description, 0, 75) }}...” <a href="{{ $item->link }}" target="_blank">View More</a>
+                          “{{ substr($item->description, 0, 75) }}...”<a href="{{ $item->link }}" target="_blank"> View More</a>
                         </p>
                         <div class="text-warning mb-3">
                           @for ($i = 1; $i <= 5; $i++)
@@ -369,8 +369,75 @@ $configData = Helper::appClasses();
       <div class="text-center py-4">
         <img src="{{asset('assets/img/front-pages/branding/jaz-dark.png')}}" width="150" onclick="showTimelines()" />
       </div>
-      <!-- Activity Timeline -->
       <div class="row justify-content-center d-none" id="timelines">
+        <!-- Activity Recap -->
+        <div class="col-lg-6">
+          <div class="card card-action mb-4" style="max-height: 686px">
+            <div class="card-header align-items-center">
+              <h5 class="card-action-title mb-0">Recap Tasks</h5>
+              <div class="card-action-element">
+                <div class="dropdown">
+                  <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="javascript:void(0);">Share timeline</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Suggest edits</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Report bug</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card-body pb-0 overflow-auto">
+              <div class="card-datatable table-responsive">
+                <table class="invoice-list-table table border-top">
+                  <thead>
+                    <tr>
+                      <th>Members</th>
+                      <th class="d-none d-md-table-cell text-end">Tasks</th>
+                      <th class="d-none d-md-table-cell text-end">Done</th>
+                      <th class="text-warning text-end"><i class="ti ti-star-filled ti-sm"></i></th>
+                    </tr>
+                  </thead>
+                  @foreach ($students as $item)
+                    @php
+                      $total_tasks = 0;
+                      $total_done = 0;
+                      $total_rate = 0;
+                      foreach ($tasks as $key => $value) {
+                        if ($value->student_id == $item->id) {
+                          $total_tasks++;
+                          if ($value->status == 'Completed') {
+                            $total_done++;
+                          }
+                          $total_rate += $value->rate;
+                        }
+                      }
+                    @endphp
+                    <tbody>
+                      <td>
+                        <div class="d-flex flex-wrap">
+                          <div class="avatar me-2">
+                            <img src="{{ file_exists(public_path('storage/member/' . $item->image)) ? asset('storage/member/' . $item->image) : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
+                          </div>
+                          <div class="ms-1">
+                            <h6 class="mb-0">{{ $item->name }}</h6>
+                            <span>{{ $item->birth_place }}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="d-none d-md-table-cell text-end">{{ $total_tasks }}</td>
+                      <td class="d-none d-md-table-cell text-end">{{ $total_done }}</td>
+                      <td class="text-end text-warning">{{ $total_rate }}</td>
+                    </tbody>
+                  @endforeach
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Activity Timeline -->
         <div class="col-lg-6">
           <div class="card card-action mb-4" style="max-height: 686px">
             <div class="card-header align-items-center">
@@ -391,23 +458,26 @@ $configData = Helper::appClasses();
             </div>
             <div class="card-body pb-0 overflow-auto">
               <ul class="timeline ms-1 mb-0">
-
                 @foreach ($tasks as $item)
                 <li class="timeline-item timeline-item-transparent">
                   <span class="timeline-point timeline-point-{{ $item->status=='Completed' ? 'primary' : ($item->status=='In Progress' ? 'success' : ($item->status=='Not Started' ? 'warning' : 'danger')) }}"></span>
                   <div class="timeline-event">
                     <div class="timeline-header mb-4">
-                      <a href="{{ $item->link }}" target="_blank">
+                      <div>
                         <h6 class="mb-0">{{ $item->project_name }}</h6>
-                      </a>
                         <p class="mb-2">{{ $item->name }}</p>
-                      <div class="text-warning">
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star-filled ti-sm"></i>
-                        <i class="ti ti-star ti-sm"></i>
                       </div>
+                      <a href="{{ $item->link }}" target="_blank">
+                        <div class="text-warning">
+                          @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $item->rate)
+                                <i class="ti ti-star-filled ti-sm"></i>
+                            @else
+                                <i class="ti ti-star ti-sm"></i>
+                            @endif
+                          @endfor
+                        </div>
+                      </a>
                     </div>
                     @if ($item->accepted)
                     <div class="d-flex flex-wrap">
@@ -430,13 +500,12 @@ $configData = Helper::appClasses();
                   </div>
                 </li>
                 @endforeach
-
               </ul>
             </div>
           </div>
         </div>
+        <!--/ Activity & Recap -->
       </div>
-      <!--/ Activity Timeline -->
     </div>
     <!-- Logo slider: End -->
   </section>
