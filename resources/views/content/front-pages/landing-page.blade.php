@@ -190,8 +190,8 @@ $configData = Helper::appClasses();
         <!-- /Radial bar Chart -->
 
         <!-- Line Area Chart -->
-        <div class="col-xl-8 mb-2 h-100">
-          <div class="card">
+        <div class="col-md-8 col-12 mb-4">
+          <div class="card h-100">
             <div class="card-header d-flex justify-content-between">
             </div>
             <div class="card-body">
@@ -207,7 +207,7 @@ $configData = Helper::appClasses();
             <div class="card-header d-flex align-items-center justify-content-between">
               <div>
                 <h5 class="card-title mb-0">Subjects</h5>
-                <small class="text-muted">Subject theme percentation</small>
+                <small class="text-muted">Project themes</small>
               </div>
               <div class="dropdown d-none d-sm-flex">
                 <button type="button" class="btn dropdown-toggle px-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-calendar"></i></button>
@@ -237,7 +237,7 @@ $configData = Helper::appClasses();
             <div class="card-header d-flex justify-content-between">
               <div>
                 <h5 class="card-title mb-0">Balance</h5>
-                <small class="text-muted">Daily Completion</small>
+                <small class="text-muted">Daily Projects</small>
               </div>
             </div>
             <div class="card-body">
@@ -252,8 +252,8 @@ $configData = Helper::appClasses();
           <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
               <div>
-                <h5 class="card-title mb-0">Personal Tasks</h5>
-                <small class="text-muted">Daily Completion</small>
+                <h5 class="card-title mb-0">Member Tasks</h5>
+                <small class="text-muted">Daily Overview</small>
               </div>
               <div class="btn-group d-none d-sm-flex" role="group" aria-label="radio toggle button group">
                 <input type="radio" class="btn-check" name="btnradio" id="dailyRadio" checked>
