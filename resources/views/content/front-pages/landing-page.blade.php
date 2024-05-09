@@ -32,19 +32,9 @@ $configData = Helper::appClasses();
 <!-- Page Scripts -->
 @section('page-script')
 @vite([
-  'resources/assets/js/front-page-landing.js',
-  'resources/assets/js/charts-apex.js'
+  'resources/assets/js/front-page-landing.js'
   ])
 @endsection
-
-@php
-session_start();
-if (!isset($_SESSION['firstLoad'])) {
-    $_SESSION['firstLoad'] = true;
-    header('Location: ' . $_SERVER['REQUEST_URI']);
-    exit();
-}
-@endphp
 
 @section('content')
 <div data-bs-spy="scroll" class="scrollspy-example">
@@ -142,16 +132,16 @@ if (!isset($_SESSION['firstLoad'])) {
       <!-- PROJECT GRAPHIC : START -->
       <div class="row">
 
-        <!-- Line Area Chart -->
-        <div class="col-md-8 align-items-stretch mb-4">
+        <!-- Bar Chart -->
+        <div class="col-md-8 mb-4">
           <div class="card h-100">
-            <div class="card-header d-flex justify-content-between">
+            <div class="card-header d-flex justify-content-between align-items-md-center align-items-start">
               <div>
-                <h5 class="card-title mb-0">Last updates</h5>
-                <small class="text-muted">Daily Tasks</small>
+                <h5 class="card-title mb-0">Daily Progress</h5>
+                <small class="text-muted">Overview</small>
               </div>
               <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle px-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-calendar"></i></button>
+                <button type="button" class="btn dropdown-toggle p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-calendar"></i></button>
                 <ul class="dropdown-menu dropdown-menu-end">
                   <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Today</a></li>
                   <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Yesterday</a></li>
@@ -166,11 +156,11 @@ if (!isset($_SESSION['firstLoad'])) {
               </div>
             </div>
             <div class="card-body">
-              <div id="lineAreaChart"></div>
+              <div id="barChart"></div>
             </div>
           </div>
         </div>
-        <!-- /Line Area Chart -->
+        <!-- /Bar Chart -->
 
         <!-- Radial bar Chart -->
         <div class="col-md-4 col-12 mb-4">
@@ -199,183 +189,17 @@ if (!isset($_SESSION['firstLoad'])) {
         </div>
         <!-- /Radial bar Chart -->
 
-        <!-- Bar Chart -->
-        <div class="col-md-8 mb-4">
-          <div class="card h-100">
-            <div class="card-header d-flex justify-content-between align-items-md-center align-items-start">
-              <div>
-                <h5 class="card-title mb-0">Completion</h5>
-                <small class="text-muted">Overview</small>
-              </div>
-              <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-calendar"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Today</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Yesterday</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 7 Days</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 30 Days</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Current Month</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last Month</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="card-body">
-              <div id="barChart"></div>
-            </div>
-          </div>
-        </div>
-        <!-- /Bar Chart -->
-
-        <!-- Radar Chart -->
-        <div class="col-md-4 col-12 mb-4">
-          <div class="card h-100">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <h5 class="card-title mb-0">Subjects</h5>
-              <div class="dropdown">
-                <button class="btn px-0" type="button" id="heatChartDd1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="ti ti-dots-vertical"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="heatChartDd1">
-                  <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                  <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                  <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <div id="radarChart"></div>
-            </div>
-          </div>
-        </div>
-        <!-- /Radar Chart -->
-
-        <!-- Scatter Chart -->
-        <div class="col-md-6 mb-4">
-          <div class="card h-100">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <div>
-                <h5 class="card-title mb-0">Personal Tasks</h5>
-                <small class="text-muted">Daily Completion</small>
-              </div>
-              <div class="btn-group d-none d-sm-flex" role="group" aria-label="radio toggle button group">
-                <input type="radio" class="btn-check" name="btnradio" id="dailyRadio" checked>
-                <label class="btn btn-outline-secondary" for="dailyRadio">Daily</label>
-
-                <input type="radio" class="btn-check" name="btnradio" id="monthlyRadio">
-                <label class="btn btn-outline-secondary" for="monthlyRadio">Monthly</label>
-
-                <input type="radio" class="btn-check" name="btnradio" id="yearlyRadio">
-                <label class="btn btn-outline-secondary" for="yearlyRadio">Yearly</label>
-              </div>
-            </div>
-            <div class="card-body">
-              <div id="scatterChart"></div>
-            </div>
-          </div>
-        </div>
-        <!-- /Scatter Chart -->
-
-        <!-- Line Chart -->
-        <div class="col-md-6 mb-4">
-          <div class="card h-100">
+        <!-- Line Area Chart -->
+        <div class="col-xl-8 mb-2 h-100">
+          <div class="card">
             <div class="card-header d-flex justify-content-between">
-              <div>
-                <h5 class="card-title mb-0">Balance</h5>
-                <small class="text-muted">Daily Completion</small>
-              </div>
             </div>
             <div class="card-body">
-              <div id="lineChart"></div>
+              <div id="lineAreaChart"></div>
             </div>
           </div>
         </div>
-        <!-- /Line Chart -->
-
-        <!-- Bar Chart -->
-        <div class="col-md-6 col-12 mb-4">
-          <div class="card h-100">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <div>
-                <p class="card-subtitle text-muted mb-1">Balance</p>
-                <h5 class="card-title mb-0">Weekly Completion</h5>
-              </div>
-              <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle px-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-calendar"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Today</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Yesterday</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 7 Days</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 30 Days</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Current Month</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last Month</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="card-body">
-              <div id="horizontalBarChart"></div>
-            </div>
-          </div>
-        </div>
-        <!-- /Bar Chart -->
-
-        <!-- Candlestick Chart -->
-        <div class="col-md-6 col-12 mb-4">
-          <div class="card h-100">
-            <div class="card-header d-flex align-items-center justify-content-between">
-              <div>
-                <h5 class="card-title mb-1">Weekly Progress</h5>
-                <p class="text-muted mb-0">Incompleted</p>
-              </div>
-              <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle px-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-calendar"></i></button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Today</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Yesterday</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 7 Days</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 30 Days</a></li>
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Current Month</a></li>
-                  <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last Month</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="card-body">
-              <div id="candleStickChart"></div>
-            </div>
-          </div>
-        </div>
-        <!-- /Candlestick Chart -->
-
-        <!-- Heat map Chart -->
-        <div class="col-md-8 col-12 mb-4">
-          <div class="card h-100">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <h5 class="card-title mb-0">Daily Tasks</h5>
-              <div class="dropdown">
-                <button class="btn p-0" type="button" id="heatChartDd" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="ti ti-dots-vertical"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="heatChartDd">
-                  <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                  <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                  <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <div id="heatMapChart"></div>
-            </div>
-          </div>
-        </div>
-        <!-- /Heat map Chart -->
+        <!-- /Line Area Chart -->
 
         <!-- Donut Chart -->
         <div class="col-md-4 col-12 mb-4">
@@ -406,6 +230,48 @@ if (!isset($_SESSION['firstLoad'])) {
           </div>
         </div>
         <!-- /Donut Chart -->
+
+        <!-- Line Chart -->
+        <div class="col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-header d-flex justify-content-between">
+              <div>
+                <h5 class="card-title mb-0">Balance</h5>
+                <small class="text-muted">Daily Completion</small>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="lineChart"></div>
+            </div>
+          </div>
+        </div>
+        <!-- /Line Chart -->
+
+        <!-- Scatter Chart -->
+        <div class="col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="card-title mb-0">Personal Tasks</h5>
+                <small class="text-muted">Daily Completion</small>
+              </div>
+              <div class="btn-group d-none d-sm-flex" role="group" aria-label="radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="dailyRadio" checked>
+                <label class="btn btn-outline-secondary" for="dailyRadio">Daily</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="monthlyRadio">
+                <label class="btn btn-outline-secondary" for="monthlyRadio">Monthly</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="yearlyRadio">
+                <label class="btn btn-outline-secondary" for="yearlyRadio">Yearly</label>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="scatterChart"></div>
+            </div>
+          </div>
+        </div>
+        <!-- /Scatter Chart -->
 
       </div>
       <!-- PROJECT GRAPHIC : END -->
@@ -673,7 +539,7 @@ if (!isset($_SESSION['firstLoad'])) {
         <div class="col-md-4">
           <div class="card mt-3 mt-lg-0 shadow-none">
             <div class="bg-label-primary position-relative team-image-box">
-              <img src="{{asset('assets/img/front-pages/landing-page/team-member-1.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
+              <img src="{{asset('assets/img/front-pages/landing-page/team-hijaz.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
             </div>
             <div class="card-body border border-top-0 border-label-primary text-center">
               <h5 class="card-title mb-0">Hijaz Abdullah</h5>
@@ -684,7 +550,7 @@ if (!isset($_SESSION['firstLoad'])) {
         <div class="col-md-4">
           <div class="card mt-3 mt-lg-0 shadow-none">
             <div class="bg-label-info position-relative team-image-box">
-              <img src="{{asset('assets/img/front-pages/landing-page/team-member-2.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
+              <img src="{{asset('assets/img/front-pages/landing-page/team-ayah.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
             </div>
             <div class="card-body border border-top-0 border-label-info text-center">
               <h5 class="card-title mb-0">Abu Kafa</h5>
@@ -695,7 +561,7 @@ if (!isset($_SESSION['firstLoad'])) {
         <div class="col-md-4">
           <div class="card mt-3 mt-lg-0 shadow-none">
             <div class="bg-label-danger position-relative team-image-box">
-              <img src="{{asset('assets/img/front-pages/landing-page/team-member-3.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
+              <img src="{{asset('assets/img/front-pages/landing-page/team-bunda.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
             </div>
             <div class="card-body border border-top-0 border-label-danger text-center">
               <h5 class="card-title mb-0">Ms. Tia</h5>
@@ -1112,7 +978,7 @@ if (!isset($_SESSION['firstLoad'])) {
         <div class="col-lg-5">
           <div class="contact-img-box position-relative border p-2 h-100">
             <img src="{{asset('assets/img/front-pages/icons/contact-border.png')}}" alt="contact border" class="contact-border-img position-absolute d-none d-md-block scaleX-n1-rtl" />
-            <img src="{{asset('assets/img/front-pages/landing-page/contact-customer-service.png')}}" alt="contact customer service" class="contact-img w-100 scaleX-n1-rtl" />
+            <img src="{{asset('assets/img/front-pages/landing-page/contact-family.png')}}" alt="contact customer service" class="contact-img w-100 scaleX-n1-rtl" />
             <div class="pt-3 px-4 pb-1">
               <div class="row gy-3 gx-md-4">
                 <div class="col-md-6 col-lg-12 col-xl-6">
@@ -1194,6 +1060,54 @@ if (!isset($_SESSION['firstLoad'])) {
       });
     });
   });
+
+  var statusCount = @json($statusCount ?? []);
+  var statusData = statusCount.map(function(item) {  return item.status;  });
+  var percentageData = statusCount.map(function(item) {  return item.percentage; });
+  var completedStatus = statusCount.find(function(item) {  return item.status === 'Completed';  });
+
+  var dailyUpdate = @json($dailyUpdate ?? []);
+  var dateUpdate = dailyUpdate.map(function(item) {  return item.date;  });
+  var notStartedUpdate = dailyUpdate.map(function(item) {  return item.notStarted;  });
+  var inProgressUpdate = dailyUpdate.map(function(item) {  return item.inProgress;  });
+  var completedUpdate = dailyUpdate.map(function(item) {  return item.completed;  });
+  var inCompletedUpdate = dailyUpdate.map(function(item, i) {  return Number(notStartedUpdate[i]) + Number(inProgressUpdate[i]);  });
+  var allDataUpdate = dailyUpdate.map(function(item, i) {  return Number(notStartedUpdate[i]) + Number(inProgressUpdate[i]) + Number(completedUpdate[i]);  });
+
+  var projectCount = @json($projectCount ?? []);
+  var projectData = projectCount.map(function(item) {  return item.project;  });
+  var projectCountData = projectCount.map(function(item) {  return item.count; });
+
+  var personTrack = @json($personTrack ?? []);
+  personTrack.forEach(function(item) {
+    item.date = new Date(item.date);
+  });
+  personTrack.sort(function(a, b) {
+      return a.date - b.date;
+  });
+
+  // Construct series array for scatter chart
+  var series = {};
+  personTrack.forEach(function(item) {
+      if (!series[item.student_name]) {
+          series[item.student_name] = [];
+      }
+      series[item.student_name].push([item.date.getTime(), getStatusValue(item.status)]);
+  });
+
+  // Convert series object to array format
+  var scatterData = [];
+  for (var name in series) {
+      if (series.hasOwnProperty(name)) {
+          scatterData.push({ name: name, data: series[name] });
+      }
+  }
+
+console.log(scatterData);
+
+function getStatusValue(status) {
+    return status === 'Completed' ? 3 : (status === 'In Progress' ? 2 : (status === 'Not Started' ? 1 : 0));
+}
 </script>
 
 @endsection
