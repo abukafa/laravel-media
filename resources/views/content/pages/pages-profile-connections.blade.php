@@ -90,7 +90,7 @@
           $totalTasks = 0;
           $completedTasks = 0;
           foreach ($tasks as $key => $value) {
-            if($value->project_id == $item->id) {
+            if($value->student_id == $item->id) {
               $totalTasks++;
               if($value->status == 'Completed') {
                 $completedTasks++;

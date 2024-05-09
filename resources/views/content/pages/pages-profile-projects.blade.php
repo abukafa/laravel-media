@@ -113,13 +113,21 @@
         <div class="d-flex align-items-center pt-1">
           <div class="d-flex align-items-center">
             <ul class="list-unstyled d-flex align-items-center avatar-group mb-0 z-2 mt-1">
+              @php
+                $processedUserIDs = []; // Initialize an empty array to store processed user IDs
+              @endphp
+
               @foreach ($tasks as $task)
-                  @if ($task->project_id == $item->id)
+                @if ($task->project_id == $item->id && !in_array($task->student_id, $processedUserIDs))
+                  @php
+                    $processedUserIDs[] = $task->student_id; // Add the user ID to the processed list
+                  @endphp
                   <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="{{ $task->student_name }}" class="avatar avatar-sm pull-up">
-                    <img class="rounded-circle" src="{{ file_exists(public_path('storage/member/' . $task->student_id)) ? asset('storage/member/' . $task->student_id) : asset('assets/img/avatars/no.png') }}" alt="Avatar">
+                    <img class="rounded-circle" src="{{ file_exists(public_path('storage/member/' . $task->student_id . '.png')) ? asset('storage/member/' . $task->student_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar">
                   </li>
-                  @endif
+                @endif
               @endforeach
+
             </ul>
           </div>
         </div>

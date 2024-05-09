@@ -6,13 +6,15 @@ use App\Models\Task;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UserProfile extends Controller
 {
   public function index()
   {
+    $tasks = Task::where('student_id', Auth::user()->id)->get();
     return view('content.pages.pages-profile-user', [
-      'tasks' => Task::all()
+      'tasks' => $tasks
     ]);
   }
 }

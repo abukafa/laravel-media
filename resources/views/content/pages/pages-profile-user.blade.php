@@ -28,6 +28,12 @@
 
 @section('content')
 
+<style>
+  .card-body::-webkit-scrollbar {
+    display: none; /* Hide the scrollbar */
+  }
+</style>
+
 <!-- Header -->
 <div class="row">
   <div class="col-12">
@@ -95,9 +101,9 @@
         </ul>
         <small class="card-text text-uppercase">Contacts</small>
         <ul class="list-unstyled mb-4 mt-3">
-          <li class="d-flex align-items-center mb-3"><i class="ti ti-phone-call"></i><span class="fw-medium mx-2 text-heading">Contact:</span> <span>{{ Auth::user()->own_phone ?: Auth::user()->phone }}</span></li>
-          <li class="d-flex align-items-center mb-3"><i class="ti ti-brand-instagram"></i><span class="fw-medium mx-2 text-heading">Instagram:</span> <span>{{ Auth::user()->instagram }}</span></li>
-          <li class="d-flex align-items-center mb-3"><i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading">Email:</span> <span>{{ Auth::user()->email }}</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="ti ti-phone-call"></i><span class="fw-medium mx-2 text-heading"></span> <span>{{ Auth::user()->own_phone ?: Auth::user()->phone }}</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="ti ti-brand-instagram"></i><span class="fw-medium mx-2 text-heading"></span> <span>{{ Auth::user()->instagram }}</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="ti ti-mail"></i><span class="fw-medium mx-2 text-heading"></span> <span>{{ Auth::user()->email }}</span></li>
         </ul>
       </div>
     </div>
@@ -117,7 +123,7 @@
   </div>
   <div class="col-xl-8 col-lg-7 col-md-7">
     <!-- Activity Timeline -->
-    <div class="card card-action mb-4">
+    <div class="card card-action mb-4" style="max-height: 686px">
       <div class="card-header align-items-center">
         <h5 class="card-action-title mb-0">Timeline Tasks</h5>
         <div class="card-action-element">
@@ -134,22 +140,28 @@
           </div>
         </div>
       </div>
-      <div class="card-body pb-0">
+      <div class="card-body pb-0 overflow-auto">
         <ul class="timeline ms-1 mb-0">
 
           @foreach ($tasks as $item)
           <li class="timeline-item timeline-item-transparent">
             <span class="timeline-point timeline-point-{{ $item->status=='Completed' ? 'primary' : ($item->status=='In Progress' ? 'success' : ($item->status=='Not Started' ? 'warning' : 'danger')) }}"></span>
             <div class="timeline-event">
-              <div class="timeline-header">
+              <div class="timeline-header mt-2">
                 <h6 class="mb-0">{{ $item->project_name }}</h6>
-                <small class="text-muted">{{ $item->student_name }}</small>
+                <div class="text-warning">
+                  <i class="ti ti-star-filled ti-sm"></i>
+                  <i class="ti ti-star-filled ti-sm"></i>
+                  <i class="ti ti-star-filled ti-sm"></i>
+                  <i class="ti ti-star-filled ti-sm"></i>
+                  <i class="ti ti-star ti-sm"></i>
+                </div>
               </div>
               <p class="mb-2">{{ $item->name }}</p>
               @if ($item->accepted)
               <div class="d-flex flex-wrap">
                 <div class="avatar me-2">
-                  <img src="{{ file_exists(public_path('storage/guru/' . $item->teacher_id)) ? asset('storage/guru/' . $item->teacher_id) : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
+                  <img src="{{ file_exists(public_path('storage/guru/' . $item->teacher_id . '.png')) ? asset('storage/guru/' . $item->teacher_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                 </div>
                 <div class="ms-1">
                   <h6 class="mb-0">Accepted by: {{ $item->teacher_name }}</h6>
