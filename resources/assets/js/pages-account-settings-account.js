@@ -4,6 +4,20 @@
 
 'use strict';
 
+// Event start (flatpicker)
+const birthDate = document.querySelector('#birth_date');
+if (birthDate) {
+  var start = birthDate.flatpickr({
+    enableTime: false,
+    altFormat: 'Y-m-d',
+    onReady: function (selectedDates, dateStr, instance) {
+      if (instance.isMobile) {
+        instance.mobileInput.setAttribute('step', null);
+      }
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function (e) {
   (function () {
     // CleaveJS validation

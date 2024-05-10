@@ -46,7 +46,7 @@ class Landing extends Controller
 
     return view('content.front-pages.landing-page', [
       'tasks' => Task::all(),
-      'students' => Student::all(),
+      'students' => Student::orderBy('registered')->get(),
       'pageConfigs' => $pageConfigs,
       'statusCount' => $statusCounts,
       'dailyUpdate' => $dailyUpdates,

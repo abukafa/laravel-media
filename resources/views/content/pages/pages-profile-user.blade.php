@@ -147,17 +147,23 @@
           <li class="timeline-item timeline-item-transparent">
             <span class="timeline-point timeline-point-{{ $item->status=='Completed' ? 'primary' : ($item->status=='In Progress' ? 'success' : ($item->status=='Not Started' ? 'warning' : 'danger')) }}"></span>
             <div class="timeline-event">
+            <a href="{{ $item->link }}">
               <div class="timeline-header mt-2">
-                <h6 class="mb-0">{{ $item->project_name }}</h6>
-                <div class="text-warning">
-                  <i class="ti ti-star-filled ti-sm"></i>
-                  <i class="ti ti-star-filled ti-sm"></i>
-                  <i class="ti ti-star-filled ti-sm"></i>
-                  <i class="ti ti-star-filled ti-sm"></i>
-                  <i class="ti ti-star ti-sm"></i>
+                <div>
+                  <h6 class="mb-0">{{ $item->project_name }}</h6>
+                  <p class="mb-2 text-secondary">{{ $item->name }}</p>
+                </div>
+                <div class="text-warning mb-4">
+                  @for ($i = 1; $i <= 5; $i++)
+                    @if ($i <= $item->rate)
+                        <i class="ti ti-star-filled ti-sm"></i>
+                    @else
+                        <i class="ti ti-star ti-sm"></i>
+                    @endif
+                  @endfor
                 </div>
               </div>
-              <p class="mb-2">{{ $item->name }}</p>
+            </a>
               @if ($item->accepted)
               <div class="d-flex flex-wrap">
                 <div class="avatar me-2">

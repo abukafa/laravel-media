@@ -324,7 +324,7 @@ $configData = Helper::appClasses();
                     <div class="card h-100">
                       <div class="card-body text-body d-flex flex-column justify-content-between h-100">
                         <div class="mb-3">
-                          <h6 class="mb-0">{{ ucwords(substr($item->name, 0, 35)) }}</h6>
+                          <h6 class="mb-0">{{ ucwords(substr($item->name, 0, 25)) }}</h6>
                           <p class="small text-muted mb-0">{{ $item->project_name }}</p>
                         </div>
                         <p>
@@ -344,7 +344,10 @@ $configData = Helper::appClasses();
                             <img src="{{ file_exists(public_path('storage/member/' . $item->student_id . '.png')) ? asset('storage/member/' . $item->student_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                           </div>
                           <div>
-                            <h6 class="mb-0">{{ $item->student_name }}</h6>
+                            @php
+                                $parts = explode(' ', $item->student_name);
+                            @endphp
+                            <h6 class="mb-0">{{ (strlen($item->student_name) > 20) ? $parts[0] . ' ' . $parts[1] : $item->student_name }}</h6>
                             <p class="small text-muted mb-0">{{ date('l, j M Y', strtotime($item->date)) }}</p>
                           </div>
                         </div>
@@ -419,10 +422,13 @@ $configData = Helper::appClasses();
                       <td>
                         <div class="d-flex flex-wrap">
                           <div class="avatar me-2">
-                            <img src="{{ file_exists(public_path('storage/member/' . $item->image)) ? asset('storage/member/' . $item->image) : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
+                            <img src="{{ file_exists(public_path('storage/member/' . $item->id . '.png')) ? asset('storage/member/' . $item->id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                           </div>
                           <div class="ms-1">
-                            <h6 class="mb-0">{{ $item->name }}</h6>
+                            @php
+                                $parts = explode(' ', $item->name);
+                            @endphp
+                            <h6 class="mb-0">{{ (strlen($item->name) > 20) ? $parts[0] . ' ' . $parts[1] : $item->name }}</h6>
                             <span>{{ $item->birth_place }}</span>
                           </div>
                         </div>
@@ -462,13 +468,13 @@ $configData = Helper::appClasses();
                 <li class="timeline-item timeline-item-transparent">
                   <span class="timeline-point timeline-point-{{ $item->status=='Completed' ? 'primary' : ($item->status=='In Progress' ? 'success' : ($item->status=='Not Started' ? 'warning' : 'danger')) }}"></span>
                   <div class="timeline-event">
-                    <div class="timeline-header mb-4">
+                    <div class="timeline-header mb-4 mt-1">
                       <div>
-                        <h6 class="mb-0">{{ $item->project_name }}</h6>
-                        <p class="mb-2">{{ $item->name }}</p>
+                        <h6 class="mb-0">{{ ucwords(substr($item->name, 0, 35)) }}...</h6>
+                        <p class="mb-2">{{ $item->student_name }}</p>
                       </div>
                       <a href="{{ $item->link }}" target="_blank">
-                        <div class="text-warning">
+                        <div class="text-warning" style="font-size: 8px;">
                           @for ($i = 1; $i <= 5; $i++)
                             @if ($i <= $item->rate)
                                 <i class="ti ti-star-filled ti-sm"></i>
