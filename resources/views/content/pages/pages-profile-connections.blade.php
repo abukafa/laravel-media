@@ -77,34 +77,49 @@
         </div>
         <h4 class="mb-1 card-title">{{ implode(' ', array_slice(explode(' ', $item->name), 0, 2)) }}</h4>
         <span class="pb-1">{{ $item->role ?: 'Content Creator' }}</span>
-        <div class="d-flex align-items-center justify-content-center my-3 gap-2">
+        {{-- <div class="d-flex align-items-center justify-content-center my-3 gap-2">
           @php
               $arraySkills = $item->skills ? explode(", ", $item->skills) : [];
           @endphp
           @for ($i = 0; $i < count($arraySkills); $i++)
             <a href="javascript:;"><span class="badge bg-label-primary">{{ $arraySkills[$i] }}</span></a>
           @endfor
-        </div>
-        <div class="d-flex align-items-center justify-content-around my-3 py-1">
+        </div> --}}
         @php
-          $totalTasks = 0;
-          $completedTasks = 0;
+          $total_tasks = 0;
+          $total_done = 0;
+          $total_rate = 0;
           foreach ($tasks as $key => $value) {
-            if($value->student_id == $item->id) {
-              $totalTasks++;
-              if($value->status == 'Completed') {
-                $completedTasks++;
+            if ($value->student_id == $item->id) {
+              $total_tasks++;
+              if ($value->status == 'Completed') {
+                $total_done++;
               }
+              $total_rate += $value->rate;
             }
           }
-        @endphp
+          @endphp
+        <div class="text-warning my-3">
+          @for ($i = 1; $i <= 5 ; $i++)
+            @if ($i <= $total_rate/($total_done ?: 1))
+                <i class="ti ti-star-filled ti-sm"></i>
+            @else
+                <i class="ti ti-star ti-sm"></i>
+            @endif
+          @endfor
+        </div>
+        <div class="d-flex align-items-center justify-content-around my-3 py-1">
           <div>
-            <h4 class="mb-0">{{ $totalTasks }}</h4>
+            <h4 class="mb-0">{{ $total_tasks }}</h4>
             <span>Tasks</span>
           </div>
           <div>
-            <h4 class="mb-0">{{ $completedTasks }}</h4>
+            <h4 class="mb-0">{{ $total_done }}</h4>
             <span>Completed</span>
+          </div>
+          <div>
+            <h4 class="mb-0">{{ $total_rate }}</h4>
+            <span>Rates</span>
           </div>
         </div>
         <div class="d-flex align-items-center justify-content-center">

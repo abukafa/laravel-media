@@ -48,6 +48,29 @@
     -webkit-text-fill-color: transparent;
     animation: shine 2s ease-in-out infinite alternate;
   }
+
+  .hero-button {
+    background: linear-gradient(to right, #28c76f 0%, #5a4aff 47.92%, #ff3739 100%);
+    background-size: 200% auto;
+    line-height: 1.2;
+    animation: shine 2s ease-in-out infinite alternate;
+    border: none; /* Hapus border jika tidak diperlukan */
+    -webkit-appearance: none; /* Menghilangkan style bawaan pada beberapa browser */
+  }
+
+  .hero-button:hover {
+    color: light.$headings-color; /* Sesuaikan dengan warna teks yang diinginkan */
+  }
+
+  @keyframes shine {
+    from {
+      background-position: left;
+    }
+    to {
+      background-position: right;
+    }
+  }
+
   .hero-sub-title {
     line-height: 28px;
   }

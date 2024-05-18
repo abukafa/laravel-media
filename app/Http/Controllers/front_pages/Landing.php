@@ -10,8 +10,16 @@ use App\Http\Controllers\Controller;
 
 class Landing extends Controller
 {
-  public function index()
+  public function index(Request $request)
   {
+    $recent_task = [];
+    $recent_student = [];
+    if ($request['tasks']){
+      $task_id = $request['tasks'];
+      $recent_task = Task::find($task_id);
+      $recent_student = Student::find($recent_task->student_id);
+    }
+
     $pageConfigs = ['myLayout' => 'front'];
     $statusCounts = Task::select([
       DB::raw('DISTINCT status'),
@@ -45,13 +53,15 @@ class Landing extends Controller
     ->get();
 
     return view('content.front-pages.landing-page', [
-      'tasks' => Task::all(),
+      'tasks' => Task::orderBy('date', 'desc')->get(),
       'students' => Student::orderBy('registered')->get(),
       'pageConfigs' => $pageConfigs,
       'statusCount' => $statusCounts,
       'dailyUpdate' => $dailyUpdates,
       'projectCount' => $projectCounts,
-      'personTrack' => $personTrack
+      'personTrack' => $personTrack,
+      'recentTask' => $recent_task,
+      'recentStudent' => $recent_student
     ]);
   }
 }

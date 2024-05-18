@@ -166,21 +166,26 @@
             </a>
               @if ($item->accepted)
               <div class="d-flex flex-wrap">
-                <div class="avatar me-2">
+                <div class="avatar me-2 mb-2">
                   <img src="{{ file_exists(public_path('storage/guru/' . $item->teacher_id . '.png')) ? asset('storage/guru/' . $item->teacher_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                 </div>
                 <div class="ms-1">
                   <h6 class="mb-0">Accepted by: {{ $item->teacher_name }}</h6>
-                  <span>{{ $item->review }}</span>
+                  <span>{{ date('l, j M Y', strtotime($item->date)) }}</span>
                 </div>
               </div>
+              <p>
+                Review: {{ $item->review }}
+              </p>
               @else
-              <div class="d-flex flex-wrap gap-2 pt-1">
+              <div class="d-flex flex-wrap gap-2 pt-1 mb-1">
                 <a href="javascript:void(0)" class="me-3">
                   <img src="{{asset('assets/img/icons/misc/doc.png') }}" alt="Document image" width="15" class="me-2">
-                  <span class="fw-medium text-heading">{{ $item->review ?: $item->status }}</span>
+                  <span class="fw-medium text-heading">{{ $item->status }}</span>
                 </a>
               </div>
+              <p>{{ $item->review ?: '' }}</p>
+              <p>{{ date('l, j M Y', strtotime($item->date)) }}</p>
               @endif
             </div>
           </li>

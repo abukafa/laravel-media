@@ -40,6 +40,23 @@ $configData = Helper::appClasses();
   .card-body::-webkit-scrollbar {
     display: none; /* Hide the scrollbar */
   }
+  .loader-container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.loader-container.fade-out{
+    top:-120%;
+    /* display: none; */
+}
 </style>
 
 @section('content')
@@ -56,13 +73,15 @@ $configData = Helper::appClasses();
             Akademi Remaja Muslim.
           </h2>
           <div class="landing-hero-btn d-inline-block position-relative">
-            <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">asking is free
+            <div id="asking">
+              <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">asking is free
               <img src="{{asset('assets/img/front-pages/icons/Join-community-arrow.png')}}" alt="Join community arrow" class="scaleX-n1-rtl" /></span>
-            <a href="#landingPricing" class="btn btn-primary btn-lg rounded-pill">Join Member</a>
+            </div>
+            <a href="#landingPricing" class="btn btn-primary btn-lg rounded-pill" id="tombol">Join Member</a>
           </div>
         </div>
         <div id="heroDashboardAnimation" class="hero-animation-img">
-          <a href="{{ Auth::check() ? url('/pages/profile-user') : url('/login') }}" target="_blank">
+          <a>
             <div id="heroAnimationImg" class="position-relative hero-dashboard-img">
               <img src="{{asset('assets/img/front-pages/landing-page/hero-dashboard-'.$configData['style'].'.png')}}" alt="hero dashboard" class="animation-img" data-app-light-img="front-pages/landing-page/hero-dashboard-light.png" data-app-dark-img="front-pages/landing-page/hero-dashboard-dark.png" />
               <img src="{{asset('assets/img/front-pages/landing-page/hero-elements-'.$configData['style'].'.png')}}" alt="hero elements" class="position-absolute hero-elements-img animation-img top-0 start-0" data-app-light-img="front-pages/landing-page/hero-elements-light.png" data-app-dark-img="front-pages/landing-page/hero-elements-dark.png" />
@@ -302,7 +321,7 @@ $configData = Helper::appClasses();
           </h3>
           <p class="mb-3 mb-md-5">
             Sebaik-baik amal yang terus menerus<br class="d-none d-xl-block" />
-            walaupun hanya sedikit.
+            walaupun hanya sedikit. <a href="#tasks">view all</a>
           </p>
           <div class="landing-reviews-btns">
             <button id="reviews-previous-btn" class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl" type="button">
@@ -328,7 +347,7 @@ $configData = Helper::appClasses();
                           <p class="small text-muted mb-0">{{ $item->project_name }}</p>
                         </div>
                         <p>
-                          “{{ substr($item->description, 0, 75) }}...”<a href="{{ $item->link }}" target="_blank"> View More</a>
+                          “{{ substr($item->description, 0, 75) }}...”<a href="{{ $item->link }}" target="_blank"> View Post</a>
                         </p>
                         <div class="text-warning mb-3">
                           @for ($i = 1; $i <= 5; $i++)
@@ -368,14 +387,141 @@ $configData = Helper::appClasses();
     <!-- What people say slider: End -->
     <hr class="m-0" />
     <!-- Logo slider: Start -->
-    <div class="container">
+    <div class="container" id="tasks">
       <div class="text-center py-4">
         <img src="{{asset('assets/img/front-pages/branding/jaz-dark.png')}}" width="150" onclick="showTimelines()" />
       </div>
-      <div class="row justify-content-center d-none" id="timelines">
-        <!-- Activity Recap -->
+      <div class="row justify-content-center mt-4 d-none" id="timelines">
+        <!-- Recent Task -->
+        @if(request()->has('tasks'))
         <div class="col-lg-6">
-          <div class="card card-action mb-4" style="max-height: 686px">
+          <div class="card card-action mb-4" style="height: 384px">
+            <div class="card-header align-items-center">
+              <h5 class="card-action-title mb-0">Project Task</h5>
+              <div class="card-action-element">
+                <div class="dropdown">
+                  <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="javascript:void(0);">Share timeline</a></li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Suggest edits</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="javascript:void(0);">Report bug</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="card-body pb-0 overflow-auto">
+              <ul class="timeline ms-1 mb-0">
+                <li class="timeline-item timeline-item-transparent">
+                  <span class="timeline-point timeline-point-{{ $recentTask->status=='Completed' ? 'primary' : ($recentTask->status=='In Progress' ? 'success' : ($recentTask->status=='Not Started' ? 'warning' : 'danger')) }}"></span>
+                  <div class="timeline-event">
+                    <div class="timeline-header mb-4 mt-1">
+                      <div>
+                        <h6 class="mb-0">{{ $recentTask->name }}...</h6>
+                        <p class="mb-2">{{ $recentTask->student_name }}</p>
+                      </div>
+                      <a href="{{ $recentTask->link }}" target="_blank">
+                        <div class="text-warning" style="font-size: 8px;">
+                          @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $recentTask->rate)
+                                <i class="ti ti-star-filled ti-sm"></i>
+                            @else
+                                <i class="ti ti-star ti-sm"></i>
+                            @endif
+                          @endfor
+                        </div>
+                      </a>
+                    </div>
+                    <p>
+                      “{{ $recentTask->description }}...”<a href="{{ $recentTask->link }}" target="_blank"> View Post</a>
+                    </p>
+                    @if ($recentTask->accepted)
+                    <div class="d-flex flex-wrap">
+                      <div class="avatar me-2 mb-3">
+                        <img src="{{ file_exists(public_path('storage/guru/' . $recentTask->teacher_id . '.png')) ? asset('storage/guru/' . $recentTask->teacher_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
+                      </div>
+                      <div class="ms-1">
+                        <h6 class="mb-0">Accepted by: {{ $recentTask->teacher_name }}</h6>
+                        <span>{{ date('l, j M Y', strtotime($recentTask->date)) }}</span>
+                      </div>
+                    </div>
+                    <p>
+                      Review: {{ $recentTask->review }}
+                    </p>
+                    @else
+                    <div class="d-flex flex-wrap gap-2 pt-1">
+                      <a href="javascript:void(0)" class="me-3">
+                        <img src="{{asset('assets/img/icons/misc/doc.png') }}" alt="Document image" width="15" class="me-2">
+                        <span class="fw-medium text-heading">{{ $recentTask->review ?: $recentTask->status }}</span>
+                      </a>
+                    </div>
+                    @endif
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- Student -->
+          <div class="card card-action mb-4" style="height: 360px">
+            <div class="card-body text-center">
+              <div class="dropdown btn-pinned">
+                <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="javascript:void(0);">Share connection</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0);">Block connection</a></li>
+                </ul>
+              </div>
+              <div class="mx-auto my-3">
+                <img src="{{ $recentStudent->image && file_exists(public_path('storage/member/' . $recentStudent->image)) ? asset('storage/member/' . $recentStudent->image) : asset('assets/img/avatars/no.png') }}" alt="Avatar Image" class="rounded-circle w-px-100" />
+              </div>
+              <h4 class="mb-1 card-title">{{ implode(' ', array_slice(explode(' ', $recentStudent->name), 0, 2)) }}</h4>
+              <span class="pb-1">{{ $recentStudent->role ?: 'Content Creator' }}</span>
+              @php
+                $total_tasks = 0;
+                $total_done = 0;
+                $total_rate = 0;
+                foreach ($tasks as $key => $value) {
+                  if ($value->student_id == $recentStudent->id) {
+                    $total_tasks++;
+                    if ($value->status == 'Completed') {
+                      $total_done++;
+                    }
+                    $total_rate += $value->rate;
+                  }
+                }
+                @endphp
+              <div class="my-3">
+                @for ($i = 1; $i <= 5 ; $i++)
+                  @if ($i <= $total_rate/($total_done ?: 1))
+                      <i class="ti ti-star-filled ti-sm"></i>
+                  @else
+                      <i class="ti ti-star ti-sm"></i>
+                  @endif
+                @endfor
+              </div>
+              <div class="d-flex align-items-center justify-content-around my-3 py-1">
+                <div>
+                  <h4 class="mb-0">{{ $total_tasks }}</h4>
+                  <span>Tasks</span>
+                </div>
+                <div>
+                  <h4 class="mb-0">{{ $total_done }}</h4>
+                  <span>Completed</span>
+                </div>
+                <div>
+                  <h4 class="mb-0">{{ $total_rate }}</h4>
+                  <span>Rates</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Activity Recap -->
+        @else
+        <div class="col-lg-6">
+          <div class="card card-action mb-4" style="max-height: 768px">
             <div class="card-header align-items-center">
               <h5 class="card-action-title mb-0">Recap Tasks</h5>
               <div class="card-action-element">
@@ -443,9 +589,10 @@ $configData = Helper::appClasses();
             </div>
           </div>
         </div>
+        @endif
         <!-- Activity Timeline -->
         <div class="col-lg-6">
-          <div class="card card-action mb-4" style="max-height: 686px">
+          <div class="card card-action mb-4" style="max-height: 768px">
             <div class="card-header align-items-center">
               <h5 class="card-action-title mb-0">Timeline Tasks</h5>
               <div class="card-action-element">
@@ -487,21 +634,25 @@ $configData = Helper::appClasses();
                     </div>
                     @if ($item->accepted)
                     <div class="d-flex flex-wrap">
-                      <div class="avatar me-2">
+                      <div class="avatar me-2 mb-3">
                         <img src="{{ file_exists(public_path('storage/guru/' . $item->teacher_id . '.png')) ? asset('storage/guru/' . $item->teacher_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                       </div>
                       <div class="ms-1">
                         <h6 class="mb-0">Accepted by: {{ $item->teacher_name }}</h6>
-                        <span>{{ $item->review }}</span>
+                        <span>{{ date('l, j M Y', strtotime($item->date)) }}</span>
                       </div>
                     </div>
+                    <p>
+                      Review: {{ $item->review }}
+                    </p>
                     @else
-                    <div class="d-flex flex-wrap gap-2 pt-1">
+                    <div class="d-flex flex-wrap gap-2 pt-1 mb-1">
                       <a href="javascript:void(0)" class="me-3">
                         <img src="{{asset('assets/img/icons/misc/doc.png') }}" alt="Document image" width="15" class="me-2">
                         <span class="fw-medium text-heading">{{ $item->review ?: $item->status }}</span>
                       </a>
                     </div>
+                    <span>{{ date('l, j M Y', strtotime($item->date)) }}</span>
                     @endif
                   </div>
                 </li>
@@ -1037,7 +1188,18 @@ $configData = Helper::appClasses();
   <!-- Contact Us: End -->
 </div>
 
+<!-- loader -->
+<div class="loader-container">
+  <img src="{{asset('assets/img/pages/loader.gif')}}" alt="">
+</div>
+
 <script>
+  // Loader
+  function loader(){ document.querySelector('.loader-container').classList.add('fade-out'); }
+  function fadeOut(){ setInterval(loader, 2000); }
+  window.onload = fadeOut();
+
+  // Plan Card hover
   var cards = document.querySelectorAll('.jaz-plans .card');
   cards.forEach(function(card) {
     card.addEventListener('mouseover', function() {
@@ -1105,6 +1267,20 @@ function getStatusValue(status) {
 
 function showTimelines() {
   document.getElementById('timelines').classList.toggle('d-none');
+}
+
+if (window.location.href.indexOf('tasks') !== -1) {
+  // document.getElementById('tasks').scrollIntoView();
+  document.getElementById('timelines').classList.toggle('d-none');
+  document.getElementById('tombol').text = "View my Project";
+  document.getElementById('tombol').href = "#tasks";
+  document.getElementById('tombol').classList.add('hero-button');
+  document.getElementById('asking').classList.add('d-none');
+}else{
+  document.getElementById('tombol').text = "Join Member";
+  document.getElementById('tombol').href = "#landingPricing";
+  document.getElementById('tombol').classList.remove('hero-button');
+  document.getElementById('asking').classList.remove('d-none');
 }
 </script>
 

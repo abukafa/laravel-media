@@ -12,7 +12,7 @@ class UserProfile extends Controller
 {
   public function index()
   {
-    $tasks = Task::where('student_id', Auth::user()->id)->get();
+    $tasks = Task::where('student_id', Auth::user()->id)->orderBy('date', 'desc')->get();
     return view('content.pages.pages-profile-user', [
       'tasks' => $tasks
     ]);
