@@ -337,7 +337,7 @@ $configData = Helper::appClasses();
             <div class="swiper" id="swiper-reviews">
               <div class="swiper-wrapper">
 
-                @foreach ($tasks as $item)
+                @foreach ($tasks->take(50) as $item)
                 @if ($item->rate > 3)
                   <div class="swiper-slide">
                     <div class="card h-100">
@@ -680,9 +680,9 @@ $configData = Helper::appClasses();
         </span>
         Teams.</h3>
       <p class="text-center mb-md-5 pb-3">Supported by Real People</p>
-      <div class="row gy-5 mt-2">
+      <div class="row gy-5 mt-2 d-flex justify-content-center">
         <div class="col-md-4">
-          <div class="card mt-3 mt-lg-0 shadow-none">
+          <div class="card my-3 shadow-none">
             <div class="bg-label-primary position-relative team-image-box">
               <img src="{{asset('assets/img/front-pages/landing-page/team-hijaz.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
             </div>
@@ -693,7 +693,7 @@ $configData = Helper::appClasses();
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card mt-3 mt-lg-0 shadow-none">
+          <div class="card my-3 shadow-none">
             <div class="bg-label-info position-relative team-image-box">
               <img src="{{asset('assets/img/front-pages/landing-page/team-ayah.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
             </div>
@@ -704,13 +704,35 @@ $configData = Helper::appClasses();
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card mt-3 mt-lg-0 shadow-none">
+          <div class="card my-3 shadow-none">
+            <div class="bg-label-success position-relative team-image-box">
+              <img src="{{asset('assets/img/front-pages/landing-page/team-adam.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
+            </div>
+            <div class="card-body border border-top-0 border-label-success text-center">
+              <h5 class="card-title mb-0">Adam Rabbanie</h5>
+              <p class="text-muted mb-0">Curriculum</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card my-3 shadow-none">
             <div class="bg-label-danger position-relative team-image-box">
               <img src="{{asset('assets/img/front-pages/landing-page/team-bunda.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
             </div>
             <div class="card-body border border-top-0 border-label-danger text-center">
               <h5 class="card-title mb-0">Ms. Tia</h5>
               <p class="text-muted mb-0">Lead Programs</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card my-3 shadow-none">
+            <div class="bg-label-warning position-relative team-image-box">
+              <img src="{{asset('assets/img/front-pages/landing-page/team-gaida.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
+            </div>
+            <div class="card-body border border-top-0 border-label-warning text-center">
+              <h5 class="card-title mb-0">Ghaida Nur Afifah</h5>
+              <p class="text-muted mb-0">Event Manager</p>
             </div>
           </div>
         </div>
