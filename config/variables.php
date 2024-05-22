@@ -3,6 +3,7 @@
 return [
   "creatorName" => "Semangkamedia",
   "creatorUrl" => "http://abukafa.github.io",
+  "ourWebsite" => "http://web.jazmedia.site",
   "templateName" => "Jaz Media",
   "templateSuffix" => "Project Management System",
   "templateVersion" => "1.0.0",
@@ -12,7 +13,7 @@ return [
   "licenseUrl" => "",
   "livePreview" => "",
   "productPage" => "",
-  "support" => "https://Semangkamedia.epizy.com/",
+  "support" => "http://Semangkamedia.epizy.com/",
   "moreThemes" => "",
   "documentation" => "https://demos.pixinvent.com/vuexy-vuejs-admin-template/documentation/",
   "generator" => "",

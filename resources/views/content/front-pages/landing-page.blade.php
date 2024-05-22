@@ -74,10 +74,10 @@ $configData = Helper::appClasses();
           </h2>
           <div class="landing-hero-btn d-inline-block position-relative">
             <div id="asking">
-              <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">asking is free
+              <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">join member
               <img src="{{asset('assets/img/front-pages/icons/Join-community-arrow.png')}}" alt="Join community arrow" class="scaleX-n1-rtl" /></span>
             </div>
-            <a href="#landingPricing" class="btn btn-primary btn-lg rounded-pill" id="tombol">Join Member</a>
+            <a href="{{config('variables.ourWebsite')}}" target="_blank" class="btn btn-primary btn-lg rounded-pill" id="tombol">Our Profile</a>
           </div>
         </div>
         <div id="heroDashboardAnimation" class="hero-animation-img">
@@ -320,8 +320,8 @@ $configData = Helper::appClasses();
             </span>
           </h3>
           <p class="mb-3 mb-md-5">
-            Sebaik-baik amal yang terus menerus<br class="d-none d-xl-block" />
-            walaupun hanya sedikit. <a href="#tasks">view all</a>
+            Sebaik-baik amal yang terus menerus, walau hanya sedikit.
+            <br><a onclick="showTimelines()" href="#tasks">view all</a>
           </p>
           <div class="landing-reviews-btns">
             <button id="reviews-previous-btn" class="btn btn-label-primary reviews-btn me-3 scaleX-n1-rtl" type="button">
@@ -1299,8 +1299,8 @@ if (window.location.href.indexOf('tasks') !== -1) {
   document.getElementById('tombol').classList.add('hero-button');
   document.getElementById('asking').classList.add('d-none');
 }else{
-  document.getElementById('tombol').text = "Join Member";
-  document.getElementById('tombol').href = "#landingPricing";
+  document.getElementById('tombol').text = "Our Profile";
+  document.getElementById('tombol').href = "http://web.jazmedia.site";
   document.getElementById('tombol').classList.remove('hero-button');
   document.getElementById('asking').classList.remove('d-none');
 }
