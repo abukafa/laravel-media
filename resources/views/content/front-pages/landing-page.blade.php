@@ -77,7 +77,7 @@ $configData = Helper::appClasses();
               <span class="hero-btn-item position-absolute d-none d-md-flex text-heading">join member
               <img src="{{asset('assets/img/front-pages/icons/Join-community-arrow.png')}}" alt="Join community arrow" class="scaleX-n1-rtl" /></span>
             </div>
-            <a href="{{config('variables.ourWebsite')}}" target="_blank" class="btn btn-primary btn-lg rounded-pill" id="tombol">Our Profile</a>
+            <a href="{{config('variables.ourWebsite')}}" class="btn btn-primary btn-lg rounded-pill" id="tombol">Our Profile</a>
           </div>
         </div>
         <div id="heroDashboardAnimation" class="hero-animation-img">
@@ -1296,11 +1296,13 @@ if (window.location.href.indexOf('tasks') !== -1) {
   document.getElementById('timelines').classList.toggle('d-none');
   document.getElementById('tombol').text = "View my Project";
   document.getElementById('tombol').href = "#tasks";
+  document.getElementById('tombol').target = "";
   document.getElementById('tombol').classList.add('hero-button');
   document.getElementById('asking').classList.add('d-none');
 }else{
   document.getElementById('tombol').text = "Our Profile";
   document.getElementById('tombol').href = "http://web.jazmedia.site";
+  document.getElementById('tombol').target = "_black";
   document.getElementById('tombol').classList.remove('hero-button');
   document.getElementById('asking').classList.remove('d-none');
 }
