@@ -443,7 +443,7 @@ $configData = Helper::appClasses();
                         <img src="{{ file_exists(public_path('storage/guru/' . $recentTask->teacher_id . '.png')) ? asset('storage/guru/' . $recentTask->teacher_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                       </div>
                       <div class="ms-1">
-                        <h6 class="mb-0">Accepted by: {{ $recentTask->teacher_name }}</h6>
+                        <h6 class="mb-0">Accepted by: {{ implode(' ', array_slice(explode(' ', $recentTask->teacher_name), 0, 2)) }}</h6>
                         <span>{{ date('l, j M Y', strtotime($recentTask->date)) }}</span>
                       </div>
                     </div>
@@ -783,7 +783,7 @@ $configData = Helper::appClasses();
         Visi kami adalah menghadirkan generasi muslim yang tangguh, berintegritas, dan siap menjadi pemimpin <br class="d-none d-xl-block" /> yang membawa <br class="d-block d-sm-none" /> perubahan positif dalam masyarakat global <br class="d-block d-sm-none" /> yang semakin terhubung.
       </p>
 
-      <div class="row gy-4 pt-lg-3 jaz-plans">
+      <div class="row gy-4 pt-lg-3 jaz-plans justify-content-center">
         <!-- Basic Plan: Start -->
         <div class="col-xl-4 col-lg-6">
           <div class="card">
@@ -1069,8 +1069,10 @@ $configData = Helper::appClasses();
 
               <div id="accordionOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Lembaga pelatihan dan pembinaan generasi muslim era digital yang berkomitmen untuk mempersiapkan pemuda muslim yang siap menghadapi tantangan dunia modern.
-                  Kami memberikan pendidikan dan pelatihan terbaik dalam berbagai program yang dirancang untuk menggabungkan nilai-nilai islami dengan teknologi mutakhir..
+                  Lembaga pelatihan dan pembinaan generasi muslim era digital yang berkomitmen untuk
+                  mempersiapkan pemuda muslim yang siap menghadapi tantangan dunia modern.
+                  Kami memberikan pendidikan dan pelatihan terbaik dalam berbagai program yang dirancang
+                  untuk menggabungkan nilai-nilai islami dengan teknologi informasi..
                 </div>
               </div>
             </div>
@@ -1082,8 +1084,10 @@ $configData = Helper::appClasses();
               </h2>
               <div id="accordionTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Sebuah program pendidikan non-formal setara SLTP yang menyajikan konsep unik yang menggabungkan konsep Homeschooling dan Boarding School.
-                  Kami berkomitmen untuk membentuk pemuda yang berintegritas, berkompeten, dan siap menghadapi tantangan dunia modern dengan keyakinan yang kuat.
+                  Sebuah program pendidikan non-formal setara SLTP yang menyajikan konsep unik yang
+                  menggabungkan konsep Homeschooling dan Boarding School.
+                  Kami berkomitmen untuk membentuk pemuda yang berintegritas, berkompeten, dan siap
+                  menghadapi tantangan dunia modern dengan keyakinan yang kuat.
                 </div>
               </div>
             </div>
@@ -1095,9 +1099,14 @@ $configData = Helper::appClasses();
               </h2>
               <div id="accordionThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Program pembinaan yang berfokus pada pendidikan karakter dan pembentukan individu yang berintegritas. Ini adalah program jangka panjang yang dapat mencakup asrama dan pendidikan dalam lingkungan yang mendukung dan peduli.
-                  Program ini bertujuan untuk membimbing peserta dalam pengembangan karakter, keterampilan interpersonal, dan pemahaman tentang nilai-nilai Islami. Selain itu, program ini mencakup pendidikan akademik dan agama yang mendalam.
-                  Peserta akan memperoleh pemahaman mendalam tentang Islam, keterampilan akademik, serta nilai-nilai moral yang kuat.
+                  Program pembinaan yang berfokus pada pendidikan karakter dan pembentukan individu
+                  yang berintegritas. Ini adalah program jangka panjang yang dapat mencakup asrama
+                  dan pendidikan dalam lingkungan yang mendukung dan peduli.
+                  Program ini bertujuan untuk membimbing peserta dalam pengembangan karakter,
+                  keterampilan interpersonal, dan pemahaman tentang nilai-nilai Islami. Selain itu,
+                  program ini mencakup pendidikan akademik dan agama yang mendalam.
+                  Peserta akan memperoleh pemahaman mendalam tentang Islam, keterampilan akademik,
+                  serta nilai-nilai moral yang kuat.
                 </div>
               </div>
             </div>
@@ -1109,8 +1118,10 @@ $configData = Helper::appClasses();
               </h2>
               <div id="accordionFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Pendekatan kami berorientasi objek, memungkinkan peserta untuk belajar melalui pengalaman langsung dan proyek yang mendalam.
-                  Kami memahami bahwa pembelajaran yang penuh makna terjadi ketika peserta terlibat secara aktif dalam eksplorasi dan kreativitas.
+                  Pendekatan kami berorientasi projek, memungkinkan peserta untuk belajar melalui
+                  pengalaman langsung dan proyek yang mendalam.
+                  Kami memahami bahwa pembelajaran yang penuh makna terjadi ketika peserta terlibat
+                  secara aktif dalam eksplorasi dan kreativitas.
                 </div>
               </div>
             </div>
@@ -1122,10 +1133,14 @@ $configData = Helper::appClasses();
               </h2>
               <div id="accordionFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  Peserta yang bergabung dengan JAZ Academy di program Akademi Remaja Muslim akan menjalani masa pembinaan selama 3 tahun.
-                  Selama masa ini, mereka akan tinggal di asrama, di mana perkembangan harian mereka akan dipantau dengan cermat.
-                  Kenaikan jenjang akan ditentukan berdasarkan perkembangan mereka serta proyek-proyek yang berhasil mereka buat.
-                  Kami berkomitmen untuk menciptakan generasi pemuda yang tangguh, berintegritas, dan siap untuk menjadi agen perubahan positif dalam masyarakat.
+                  Peserta yang bergabung dengan JAZ Academy di program
+                  Akademi Remaja Muslim akan menjalani masa pembinaan selama 3 tahun.
+                  Selama masa ini, mereka akan tinggal di asrama, di mana
+                  perkembangan harian mereka akan dipantau dengan cermat.
+                  Kenaikan jenjang akan ditentukan berdasarkan perkembangan mereka
+                  serta proyek-proyek yang berhasil mereka buat.
+                  Kami berkomitmen untuk menghadirkan generasi pemuda yang tangguh, berintegritas,
+                  dan siap untuk menjadi agen perubahan positif dalam masyarakat.
                 </div>
               </div>
             </div>
