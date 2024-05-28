@@ -28,7 +28,36 @@
 
 
 @section('content')
+<style>
+  @media print {
+    html,
+body {
+  background: white !important;
+}
 
+.invoice-print {
+  min-width: 768px !important;
+  font-size: 15px !important;
+
+  svg {
+    fill: #333 !important; /* Assuming $body-color is a shade of gray */
+  }
+}
+
+.invoice-print * {
+  border-color: rgba(0, 0, 0, 0.5) !important;
+  color: #333 !important; /* Assuming $body-color is a shade of gray */
+}
+
+/* Dark style jika diaktifkan */
+.dark-style .invoice-print th {
+  color: white !important;
+}
+  .navbar {
+    display: none !important; /* Menyembunyikan navbar saat mencetak */
+  }
+}
+</style>
 <div class="row invoice-preview">
   <!-- Invoice -->
   <div class="col-xl-9 col-md-8 col-12 mb-md-0 mb-4">
@@ -187,7 +216,7 @@
         <button class="btn btn-label-secondary d-grid w-100 mb-2">
           Download
         </button>
-        <a class="btn btn-label-secondary d-grid w-100 mb-2" target="_blank" href="{{url('app/invoice/print')}}">
+        <a class="btn btn-label-secondary d-grid w-100 mb-2" target="_blank" href="{{url('app/finance/print')}}">
           Print
         </a>
         <a href="{{url('app/invoice/edit')}}" class="btn btn-label-secondary d-grid w-100 mb-2">

@@ -144,33 +144,36 @@
         <ul class="timeline ms-1 mb-0">
 
           @foreach ($tasks as $item)
+          @php
+              $days = abs((strtotime(date('Y-m-d')) - strtotime($item->date)) / (60 * 60 * 24));
+          @endphp
           <li class="timeline-item timeline-item-transparent">
-            <span class="timeline-point timeline-point-{{ $item->status=='Completed' ? 'primary' : ($item->status=='In Progress' ? 'success' : ($item->status=='Not Started' ? 'warning' : 'danger')) }}"></span>
+            <span class="timeline-point timeline-point-{{ $item->accepted ? 'primary' : (!$item->accepted && $days < 3 ? 'success' : (!$item->accepted && $days < 5 ? 'warning' : 'danger')) }}"></span>
             <div class="timeline-event">
-            <a href="{{ $item->link }}">
-              <div class="timeline-header mt-2">
+              <div class="timeline-header mb-4 mt-1">
                 <div>
-                  <h6 class="mb-0">{{ $item->project_name }}</h6>
-                  <p class="mb-2 text-secondary">{{ $item->name }}</p>
+                  <h6 class="mb-0">{{ ucwords(substr($item->name, 0, 35)) }}...</h6>
+                  <p class="mb-2">{{ $item->student_name }}</p>
                 </div>
-                <div class="text-warning mb-4">
-                  @for ($i = 1; $i <= 5; $i++)
-                    @if ($i <= $item->rate)
-                        <i class="ti ti-star-filled ti-sm"></i>
-                    @else
-                        <i class="ti ti-star ti-sm"></i>
-                    @endif
-                  @endfor
-                </div>
+                <a href="{{ $item->link }}" target="_blank">
+                  <div class="text-warning" style="font-size: 8px;">
+                    @for ($i = 1; $i <= 5; $i++)
+                      @if ($i <= $item->rate)
+                          <i class="ti ti-star-filled ti-sm"></i>
+                      @else
+                          <i class="ti ti-star ti-sm"></i>
+                      @endif
+                    @endfor
+                  </div>
+                </a>
               </div>
-            </a>
               @if ($item->accepted)
               <div class="d-flex flex-wrap">
-                <div class="avatar me-2 mb-2">
+                <div class="avatar me-2 mb-3">
                   <img src="{{ file_exists(public_path('storage/guru/' . $item->teacher_id . '.png')) ? asset('storage/guru/' . $item->teacher_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                 </div>
                 <div class="ms-1">
-                  <h6 class="mb-0">Accepted by: {{ $item->teacher_name }}</h6>
+                  <h6 class="mb-0">Accepted by {{ $item->teacher_name }}</h6>
                   <span>{{ date('l, j M Y', strtotime($item->date)) }}</span>
                 </div>
               </div>
@@ -185,7 +188,7 @@
                 </a>
               </div>
               <p>{{ $item->review ?: '' }}</p>
-              <p>{{ date('l, j M Y', strtotime($item->date)) }}</p>
+              <p class="text-{{ ($days < 3 ? '' : ($days < 5 ? 'warning' : 'danger')) }}">{{ date('l, j M Y', strtotime($item->date)) }}</p>
               @endif
             </div>
           </li>

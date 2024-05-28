@@ -9,10 +9,6 @@ body {
   background: $white !important;
 }
 
-body > :not(.invoice-print) {
-  display: none !important;
-}
-
 .invoice-print {
   min-width: 768px !important;
   font-size: 15px !important;
@@ -32,5 +28,12 @@ body > :not(.invoice-print) {
     .invoice-print th {
       color: $white !important;
     }
+  }
+}
+
+/* Aturan media query untuk cetakan */
+@media print {
+  .navbar {
+    display: none !important; /* Menyembunyikan navbar saat mencetak */
   }
 }

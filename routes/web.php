@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
   Route::get('/app/finance/saving', [InvoiceList::class, 'saving'])->name('app-finance-saving');
   Route::get('/app/finance/payment', [InvoiceList::class, 'index'])->name('app-finance-payment');
   Route::get('/app/finance/preview', [InvoicePreview::class, 'index'])->name('app-finance-preview');
+  Route::get('/app/finance/print', [InvoicePreview::class, 'print'])->name('app-finance-print');
 
   Route::get('/data/project/{id}', [TableController::class, 'project']);
 });

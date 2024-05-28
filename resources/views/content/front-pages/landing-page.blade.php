@@ -320,7 +320,7 @@ $configData = Helper::appClasses();
             </span>
           </h3>
           <p class="mb-3 mb-md-5">
-            Sebaik-baik amal yang terus menerus, walau hanya sedikit.
+            Sebaik-baik amal yang terus menerus, <br class="d-xl-none"> walaupun hanya sedikit.
             <br><a onclick="showTimelines()" href="#tasks">view all</a>
           </p>
           <div class="landing-reviews-btns">
@@ -612,8 +612,11 @@ $configData = Helper::appClasses();
             <div class="card-body pb-0 overflow-auto">
               <ul class="timeline ms-1 mb-0">
                 @foreach ($tasks as $item)
+                @php
+                    $days = abs((strtotime(date('Y-m-d')) - strtotime($item->date)) / (60 * 60 * 24));
+                @endphp
                 <li class="timeline-item timeline-item-transparent">
-                  <span class="timeline-point timeline-point-{{ $item->status=='Completed' ? 'primary' : ($item->status=='In Progress' ? 'success' : ($item->status=='Not Started' ? 'warning' : 'danger')) }}"></span>
+                  <span class="timeline-point timeline-point-{{ $item->accepted ? 'primary' : (!$item->accepted && $days < 3 ? 'success' : (!$item->accepted && $days < 5 ? 'warning' : 'danger')) }}"></span>
                   <div class="timeline-event">
                     <div class="timeline-header mb-4 mt-1">
                       <div>
@@ -638,7 +641,7 @@ $configData = Helper::appClasses();
                         <img src="{{ file_exists(public_path('storage/guru/' . $item->teacher_id . '.png')) ? asset('storage/guru/' . $item->teacher_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                       </div>
                       <div class="ms-1">
-                        <h6 class="mb-0">Accepted by: {{ $item->teacher_name }}</h6>
+                        <h6 class="mb-0">Accepted by {{ implode(' ', array_slice(explode(' ', $item->teacher_name), 0, 2)) }}</h6>
                         <span>{{ date('l, j M Y', strtotime($item->date)) }}</span>
                       </div>
                     </div>
@@ -649,10 +652,11 @@ $configData = Helper::appClasses();
                     <div class="d-flex flex-wrap gap-2 pt-1 mb-1">
                       <a href="javascript:void(0)" class="me-3">
                         <img src="{{asset('assets/img/icons/misc/doc.png') }}" alt="Document image" width="15" class="me-2">
-                        <span class="fw-medium text-heading">{{ $item->review ?: $item->status }}</span>
+                        <span class="fw-medium text-heading">{{ $item->status }}</span>
                       </a>
                     </div>
-                    <span>{{ date('l, j M Y', strtotime($item->date)) }}</span>
+                    <p>{{ $item->review ?: '' }}</p>
+                    <p class="text-{{ ($days < 3 ? '' : ($days < 5 ? 'warning' : 'danger')) }}">{{ date('l, j M Y', strtotime($item->date)) }}</p>
                     @endif
                   </div>
                 </li>
@@ -681,7 +685,7 @@ $configData = Helper::appClasses();
         Teams.</h3>
       <p class="text-center mb-md-5 pb-3">Supported by Real People</p>
       <div class="row gy-5 mt-2 d-flex justify-content-center">
-        <div class="col-md-4">
+        <div class="col-sm-12 col-xl-4">
           <div class="card my-3 shadow-none">
             <div class="bg-label-primary position-relative team-image-box">
               <img src="{{asset('assets/img/front-pages/landing-page/team-hijaz.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
@@ -692,7 +696,7 @@ $configData = Helper::appClasses();
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-6 col-xl-4">
           <div class="card my-3 shadow-none">
             <div class="bg-label-info position-relative team-image-box">
               <img src="{{asset('assets/img/front-pages/landing-page/team-ayah.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
@@ -703,7 +707,7 @@ $configData = Helper::appClasses();
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-6 col-xl-4">
           <div class="card my-3 shadow-none">
             <div class="bg-label-success position-relative team-image-box">
               <img src="{{asset('assets/img/front-pages/landing-page/team-adam.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
@@ -714,25 +718,47 @@ $configData = Helper::appClasses();
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-6 col-xl-3">
           <div class="card my-3 shadow-none">
-            <div class="bg-label-danger position-relative team-image-box">
+            <div class="bg-label-info position-relative team-image-box">
               <img src="{{asset('assets/img/front-pages/landing-page/team-bunda.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
             </div>
-            <div class="card-body border border-top-0 border-label-danger text-center">
+            <div class="card-body border border-top-0 border-label-info text-center">
               <h5 class="card-title mb-0">Ms. Tia</h5>
               <p class="text-muted mb-0">Lead Programs</p>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-6 col-xl-3">
           <div class="card my-3 shadow-none">
-            <div class="bg-label-warning position-relative team-image-box">
+            <div class="bg-label-success position-relative team-image-box">
               <img src="{{asset('assets/img/front-pages/landing-page/team-gaida.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
             </div>
-            <div class="card-body border border-top-0 border-label-warning text-center">
+            <div class="card-body border border-top-0 border-label-success text-center">
               <h5 class="card-title mb-0">Ghaida Nur Afifah</h5>
               <p class="text-muted mb-0">Event Manager</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="card my-3 shadow-none">
+            <div class="bg-label-warning position-relative team-image-box">
+              <img src="{{asset('assets/img/front-pages/landing-page/team-kamila.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
+            </div>
+            <div class="card-body border border-top-0 border-label-warning text-center">
+              <h5 class="card-title mb-0">Kamila Nur Azizah</h5>
+              <p class="text-muted mb-0">HS Mentor</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="card my-3 shadow-none">
+            <div class="bg-label-warning position-relative team-image-box">
+              <img src="{{asset('assets/img/front-pages/landing-page/team-derisa.png')}}" class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl" alt="human image" />
+            </div>
+            <div class="card-body border border-top-0 border-label-warning text-center">
+              <h5 class="card-title mb-0">Derisa Nuraini</h5>
+              <p class="text-muted mb-0">HS Mentor</p>
             </div>
           </div>
         </div>
@@ -1179,7 +1205,7 @@ $configData = Helper::appClasses();
             <div class="card-body">
               <h4 class="mb-1">Send a message</h4>
               <p class="mb-4">
-                Jika Anda ingin mendiskusikan apa pun yang berkaitan dengan pendidikan islam, teknologi, <br class="d-none d-lg-block" />
+                Jika Anda ingin mendiskusikan apa pun yang berkaitan dengan pendidikan islam, teknologi,
                 entrepreneurship, atau pengembangan anak usia remaja, Anda berada di tempat yang tepat.
               </p>
               <form>
@@ -1292,7 +1318,7 @@ function showTimelines() {
 }
 
 if (window.location.href.indexOf('tasks') !== -1) {
-  // document.getElementById('tasks').scrollIntoView();
+  document.getElementById('tasks').scrollIntoView();
   document.getElementById('timelines').classList.toggle('d-none');
   document.getElementById('tombol').text = "View my Project";
   document.getElementById('tombol').href = "#tasks";

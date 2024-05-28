@@ -11,4 +11,9 @@ class InvoicePreview extends Controller
   {
     return view('content.apps.app-invoice-preview');
   }
+
+  public function print()
+  {
+    return view('content.apps.app-invoice-print');
+  }
 }
