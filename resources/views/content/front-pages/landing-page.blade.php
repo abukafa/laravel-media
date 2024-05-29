@@ -158,7 +158,7 @@ $configData = Helper::appClasses();
       <div class="row">
 
         <!-- Bar Chart -->
-        <div class="col-md-8 mb-4">
+        <div class="d-none d-md-block col-md-8 mb-4">
           <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-md-center align-items-start">
               <div>
@@ -227,7 +227,7 @@ $configData = Helper::appClasses();
         <!-- /Line Area Chart -->
 
         <!-- Donut Chart -->
-        <div class="col-md-4 col-12 mb-4">
+        <div class="d-none d-md-block col-md-4 col-12 mb-4">
           <div class="card h-100">
             <div class="card-header d-flex align-items-center justify-content-between">
               <div>
@@ -343,7 +343,7 @@ $configData = Helper::appClasses();
                     <div class="card h-100">
                       <div class="card-body text-body d-flex flex-column justify-content-between h-100">
                         <div class="mb-3">
-                          <h6 class="mb-0">{{ ucwords(substr($item->name, 0, 25)) }}</h6>
+                          <h6 class="mb-0">{{ ucwords(strtolower($item->name)) }}</h6>
                           <p class="small text-muted mb-0">{{ $item->project_name }}</p>
                         </div>
                         <p>
@@ -1162,7 +1162,7 @@ $configData = Helper::appClasses();
           <a href="{{config('variables.instagramUrl')}}" target="_blank" class="btn btn-lg btn-primary">Our Gallery</a>
         </div>
         <div class="col-lg-6 pt-lg-5 text-center text-lg-end">
-          <img src="{{asset('assets/img/front-pages/landing-page/cta-dashboard.png')}}" alt="cta dashboard" class="img-fluid" />
+          <img src="{{asset('assets/img/front-pages/landing-page/cta-jazacademy.jpg')}}" alt="cta jazacademy" class="img-fluid w-75 rounded-top" />
         </div>
       </div>
     </div>
