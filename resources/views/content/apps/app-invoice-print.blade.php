@@ -1,4 +1,4 @@
-{{-- @extends('layouts/layoutMaster') --}}
+@extends('layouts/layoutMaster')
 
 @section('title', 'Invoice (Print version) - Pages')
 

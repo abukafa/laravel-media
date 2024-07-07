@@ -14,6 +14,7 @@ class InvoicePreview extends Controller
 
   public function print()
   {
-    return view('content.apps.app-invoice-print');
+    $pageConfigs = ['myLayout' => 'blank'];
+    return view('content.apps.app-invoice-print', ['pageConfigs' => $pageConfigs]);
   }
 }

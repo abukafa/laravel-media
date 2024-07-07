@@ -55,7 +55,7 @@
           }
         }
       },
-      colors: ['#a5f8cd', '#29dac7'],
+      colors: ['rgba(165, 248, 205, .7)', 'rgba(41, 218, 199, .7)'],
       series: [
         {
           name: 'Academic',
@@ -668,10 +668,7 @@
   // Earning Reports Tabs Orders
   // --------------------------------------------------------------------
   const earningReportsTabsAdabsEl = document.querySelector('#earningReportsTabsAdabs'),
-    earningReportsTabsAdabsConfig = EarningReportsBarChart(
-      adabData,
-      5
-    );
+    earningReportsTabsAdabsConfig = EarningReportsBarChart(adabData, 5);
   if (typeof earningReportsTabsAdabsEl !== undefined && earningReportsTabsAdabsEl !== null) {
     const earningReportsTabsAdabs = new ApexCharts(earningReportsTabsAdabsEl, earningReportsTabsAdabsConfig);
     earningReportsTabsAdabs.render();
@@ -679,10 +676,7 @@
   // Earning Reports Tabs Sales
   // --------------------------------------------------------------------
   const earningReportsTabsTahfidzhEl = document.querySelector('#earningReportsTabsTahfidzh'),
-    earningReportsTabsTahfidzhConfig = EarningReportsBarChart(
-      tahfidzhData,
-      5
-    );
+    earningReportsTabsTahfidzhConfig = EarningReportsBarChart(tahfidzhData, 5);
   if (typeof earningReportsTabsTahfidzhEl !== undefined && earningReportsTabsTahfidzhEl !== null) {
     const earningReportsTabsTahfidzh = new ApexCharts(earningReportsTabsTahfidzhEl, earningReportsTabsTahfidzhConfig);
     earningReportsTabsTahfidzh.render();
@@ -690,10 +684,7 @@
   // Earning Reports Tabs Profit
   // --------------------------------------------------------------------
   const earningReportsTabsTajwidEl = document.querySelector('#earningReportsTabsTajwid'),
-    earningReportsTabsTajwidConfig = EarningReportsBarChart(
-      tajwidData,
-      5
-    );
+    earningReportsTabsTajwidConfig = EarningReportsBarChart(tajwidData, 5);
   if (typeof earningReportsTabsTajwidEl !== undefined && earningReportsTabsTajwidEl !== null) {
     const earningReportsTabsTajwid = new ApexCharts(earningReportsTabsTajwidEl, earningReportsTabsTajwidConfig);
     earningReportsTabsTajwid.render();
@@ -701,10 +692,7 @@
   // Earning Reports Tabs Income
   // --------------------------------------------------------------------
   const earningReportsTabsTahsinEl = document.querySelector('#earningReportsTabsTahsin'),
-    earningReportsTabsTahsinConfig = EarningReportsBarChart(
-      tahsinData,
-      5
-    );
+    earningReportsTabsTahsinConfig = EarningReportsBarChart(tahsinData, 5);
   if (typeof earningReportsTabsTahsinEl !== undefined && earningReportsTabsTahsinEl !== null) {
     const earningReportsTabsTahsin = new ApexCharts(earningReportsTabsTahsinEl, earningReportsTabsTahsinConfig);
     earningReportsTabsTahsin.render();

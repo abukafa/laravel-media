@@ -41,7 +41,7 @@
           <div id="salesLastYear"></div>
           <div class="card-body pt-1">
             <div class="d-flex justify-content-between align-items-center mt-3 gap-3">
-              <h4 class="mb-0">{{ round(($data['average']['adab'] + $data['average']['tahfidzh'] + $data['average']['tajwid'] + $data['average']['tahsin']) / 4, 1) }}</h4>
+              <h4 class="mb-0">{{ !$data['average']['adab'] ? 0 : round(($data['average']['adab'] + $data['average']['tahfidzh'] + $data['average']['tajwid'] + $data['average']['tahsin']) / 4, 1) }}</h4>
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@
           <div class="card-body pt-1">
             <div id="sessionsLastMonth"></div>
             <div class="d-flex justify-content-between align-items-center mt-3 gap-3">
-              <h4 class="mb-0">{{ round(($data['average']['sikap'] + $data['average']['paham']) / 2, 1) }}</h4>
+              <h4 class="mb-0">{{ !$data['average']['sikap'] ? 0 : round(($data['average']['sikap'] + $data['average']['paham']) / 2, 1) }}</h4>
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@
             <h5 class="card-title mb-1 pt-2">Dirosah</h5>
             <small class="text-muted">Average</small>
             <div class="pt-4">
-              <h4 class="mb-2 mt-1">{{ round(array_sum($data['dirosah']['value']) / count($data['dirosah']['value']), 1) }}</h4>
+              <h4 class="mb-2 mt-1">{{ !$data['dirosah']['value'] ? 0 : round(array_sum($data['dirosah']['value']) / count($data['dirosah']['value']), 1) }}</h4>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@
             <h5 class="card-title mb-1 pt-2">Multimedia</h5>
             <small class="text-muted">Average</small>
             <div class="pt-4">
-              <h4 class="mb-2 mt-1">{{ round(array_sum($data['ict']['value']) / count($data['ict']['value']), 1) }}</h4>
+              <h4 class="mb-2 mt-1">{{ !$data['ict']['value'] ? 0 : round(array_sum($data['ict']['value']) / count($data['ict']['value']), 1) }}</h4>
             </div>
           </div>
         </div>
@@ -275,7 +275,10 @@
             </div>
             <div class="d-flex flex-grow-1 align-items-center">
               <div class="progress w-100 me-3" style="height:8px;">
-                <div class="progress-bar bg-{{ $colors[$i] }}" role="progressbar" style="width: {{ $data['dirosah']['value'][$i] }}%" aria-valuemin="0" aria-valuemax="100">
+                @php
+                    $c = $i > 4 ? $i % 4 : $i;
+                @endphp
+                <div class="progress-bar bg-{{ $colors[$c] }}" role="progressbar" style="width: {{ $data['dirosah']['value'][$i] }}%" aria-valuemin="0" aria-valuemax="100">
                 </div>
               </div>
               <span class="text-muted">{{ $data['dirosah']['value'][$i] }}</span>
@@ -310,7 +313,6 @@
             <tr>
               <th>NO</th>
               <th>SUBJECT</th>
-              <th>THEME</th>
               <th>DEADLINE</th>
             </tr>
           </thead>
@@ -322,9 +324,8 @@
                         <p class="mb-0 fw-medium">{{ $loop->iteration }}</p>
                     </td>
                     <td>
+                      <div class="align-self-center">
                         <p class="mb-0 fw-medium">{{ $project->subject }}</p>
-                    </td>
-                    <td>
                         @php $taskFound = false; @endphp
                         @foreach ($tasks as $task)
                             @if ($project->id == $task->project_id)
@@ -336,6 +337,7 @@
                         @if (!$taskFound)
                             <span class="badge bg-label-secondary">{{ $project->theme }}</span>
                         @endif
+                      </div>
                     </td>
                     <td>
                         <div class="d-flex flex-column">

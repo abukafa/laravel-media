@@ -56,12 +56,22 @@
     {
       "name": "Academy",
       "icon": "menu-icon tf-icons ti ti-book",
-      "slug": "dashboard",
+      "slug": "academy",
       "submenu": [
         {
-          "url": "dashboard/crm",
+          "url": "academy/dashboard",
           "name": "Dashboard",
-          "slug": "dashboard-crm"
+          "slug": "academy-dashboard"
+        },
+        {
+          "url": "academy/rapor",
+          "name": "Rapor",
+          "slug": "academy-rapor"
+        },
+        {
+          "url": "academy/awards",
+          "name": "Awards",
+          "slug": "academy-awards"
         }
       ]
     },

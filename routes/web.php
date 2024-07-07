@@ -1,7 +1,8 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\apps\Calendar;
-use App\Http\Controllers\dashboard\Crm;
+use App\Http\Controllers\academy\Dashboard;
+use App\Http\Controllers\academy\Rapor;
 use App\Http\Controllers\apps\InvoiceList;
 use App\Http\Controllers\pages\UserProfile;
 use App\Http\Controllers\pages\UserProjects;
@@ -20,6 +21,7 @@ Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
 Route::get('/login', [LoginBasic::class, 'index'])->name('auth-login-basic');
 Route::post('/login', [LoginBasic::class, 'login'])->name('auth-login');
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+Route::get('/academy/awards/{subject}/{id}', [Rapor::class, 'certificate'])->name('academy-certificate');
 
 Route::middleware('auth')->group(function () {
   Route::post('/logout', [LoginBasic::class, 'logout'])->name('auth-logout');
@@ -36,7 +38,10 @@ Route::middleware('auth')->group(function () {
   Route::post('/pages/account-settings-tasks/{id}', [AccountSettingsTasks::class, 'update'])->name('pages-account-settings-tasks-update');
 
   Route::get('/app/calendar', [Calendar::class, 'index'])->name('app-calendar');
-  Route::get('/dashboard/crm', [Crm::class, 'index'])->name('dashboard-crm');
+  Route::get('/academy/dashboard', [Dashboard::class, 'index'])->name('academy-dashboard');
+  Route::get('/academy/rapor', [Rapor::class, 'index'])->name('academy-rapor');
+  Route::get('/academy/rapor/print', [Rapor::class, 'print'])->name('academy-rapor-print');
+  Route::get('/academy/awards', [Rapor::class, 'awards'])->name('academy-awards');
 
   Route::get('/app/finance/saving', [InvoiceList::class, 'saving'])->name('app-finance-saving');
   Route::get('/app/finance/payment', [InvoiceList::class, 'index'])->name('app-finance-payment');
