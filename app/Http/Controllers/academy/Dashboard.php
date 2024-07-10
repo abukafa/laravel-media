@@ -78,7 +78,7 @@ class Dashboard extends Controller
             ];
             $data['average']['paham'] = array_sum($data['paham']) / count($data['paham']);
         }
-        if (strpos($score->subject, 'Multimedia') === 0) {
+        if (strpos($score->subject, 'Multimedia') === 0 || strpos($score->subject, 'Informatika') === 0) {
             $data['ict']['subject'][] = substr($score->subject, strpos($score->subject, ' - ') + strlen(' - '));
             $data['ict']['value'][] = $score->month_6 === null ? 0 : $score->month_6;
         }
