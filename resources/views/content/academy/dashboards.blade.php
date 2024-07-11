@@ -292,7 +292,7 @@
   </div>
 
   <!-- Last Project -->
-  <div class="col-lg-6 mb-4 mb-lg-0">
+  <div class="col-lg-6 mb-4 mb-lg-0 overflow-auto" style="max-height: 1024px">
     <div class="card h-100">
       <div class="card-header d-flex justify-content-between">
         <h5 class="card-title m-0 me-2">Projects Planned</h5>
@@ -355,21 +355,62 @@
     </div>
   </div>
   <!-- Task Timeline -->
-  <div class="col-lg-6 col-md-12">
-    <div class="card h-100">
-      <div class="card-header d-flex justify-content-between">
-        <h5 class="card-title m-0 me-2 pt-1 mb-2 d-flex align-items-center"><i class="ti ti-list-details ms-n1 me-2"></i> Tasks Timeline</h5>
-        <div class="dropdown">
-          <button class="btn p-0" type="button" id="timelineWapper" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="ti ti-dots-vertical ti-sm text-muted"></i>
-          </button>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="timelineWapper">
-            <a class="dropdown-item" href="javascript:void(0);">Download</a>
-            <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-            <a class="dropdown-item" href="javascript:void(0);">Share</a>
+  <div class="col-lg-6 col-md-12" style="max-height: 1024px">
+
+    <!-- Student -->
+    <div class="card card-action mb-4 h-100 overflow-auto">
+      <div class="card-body text-center">
+        <div class="dropdown btn-pinned">
+          <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="javascript:void(0);">Share connection</a></li>
+            <li><a class="dropdown-item" href="javascript:void(0);">Block connection</a></li>
+          </ul>
+        </div>
+        <div class="mx-auto my-3">
+          <img src="{{ Auth::user()->image && file_exists(public_path('storage/member/' . Auth::user()->image)) ? asset('storage/member/' . Auth::user()->image) : asset('assets/img/avatars/no.png') }}" alt="Avatar Image" class="rounded-circle w-px-100" />
+        </div>
+        <h4 class="mb-1 card-title">{{ implode(' ', array_slice(explode(' ', Auth::user()->name), 0, 2)) }}</h4>
+        <span class="pb-1">{{ Auth::user()->role ?: 'Content Creator' }}</span>
+        @php
+          $total_tasks = 0;
+          $total_done = 0;
+          $total_rate = 0;
+          foreach ($tasks as $key => $value) {
+            if ($value->student_id == Auth::user()->id) {
+              $total_tasks++;
+              if ($value->status == 'Completed') {
+                $total_done++;
+              }
+              $total_rate += $value->rate;
+            }
+          }
+          @endphp
+        <div class="my-3">
+          @for ($i = 1; $i <= 5 ; $i++)
+            @if ($i <= $total_rate/($total_done ?: 1))
+                <i class="ti ti-star-filled ti-sm"></i>
+            @else
+                <i class="ti ti-star ti-sm"></i>
+            @endif
+          @endfor
+        </div>
+        <div class="d-flex align-items-center justify-content-around my-3 py-1">
+          <div>
+            <h4 class="mb-0">{{ $total_tasks }}</h4>
+            <span>Tasks</span>
+          </div>
+          <div>
+            <h4 class="mb-0">{{ $total_done }}</h4>
+            <span>Completed</span>
+          </div>
+          <div>
+            <h4 class="mb-0">{{ $total_rate }}</h4>
+            <span>Rates</span>
           </div>
         </div>
       </div>
+      <hr class="mt-0 mb-4">
       <div class="card-body pb-0">
         <ul class="timeline ms-1 mb-0">
 
@@ -388,10 +429,11 @@
                   <img src="{{ file_exists(public_path('storage/guru/' . $item->teacher_id)) ? asset('storage/guru/' . $item->teacher_id) : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                 </div>
                 <div class="ms-1">
-                  <h6 class="mb-0">Accepted by: {{ $item->teacher_name }}</h6>
-                  <span>{{ $item->review }}</span>
+                  <span class="mb-0">Accepted by:</span>
+                  <h6>{{ $item->teacher_name }}</h6>
                 </div>
               </div>
+              <p>{{ $item->review }}</p>
               @else
               <div class="d-flex flex-wrap gap-2 pt-1">
                 <a href="javascript:void(0)" class="me-3">

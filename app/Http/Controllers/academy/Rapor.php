@@ -20,10 +20,10 @@ class Rapor extends Controller
       $data = new \stdClass();
       $data->semester = $semester;
       $data->school = School::first();
-      $data->scores = Score::where('student_id', Auth::user()->id)
+      $data->scores = Score::where('student_id', Auth::user()->id)->where('scores.semester', $semester)
+        ->select('scores.*', 'competences.subject_id', 'subjects.number')
         ->join('competences', 'competences.id', '=', 'scores.competence_id')
         ->join('subjects', 'subjects.id', '=', 'competences.subject_id')
-        ->where('scores.semester', $semester)
         ->orderBy('subjects.number')
         ->get();
       return $data;

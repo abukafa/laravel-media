@@ -40,7 +40,7 @@
   }
   .mentor {
     margin-top: 10.5em;
-    margin-left: 42.7em;
+    margin-left: 42.9em;
   }
 </style>
 
@@ -52,9 +52,9 @@
   @endphp
   <img src="{{ file_exists(public_path('storage/sertifikat/' . $fileName . '.png')) ? asset('storage/sertifikat/' . $fileName . '.png') : asset('assets/img/avatars/no.png') }}" class="background-image" />
   <div class="container content">
-    <h1 class="text-center nama">{{ $data->student }}</h1>
+    <h1 class="text-center nama">{{ implode(' ', array_slice(explode(' ', $data->student), 0, 2)) }}</h1>
     <p class="text-center pt-2 nomor">{{ 'NO : ' . $number  }}</p>
-    <h5 class="text-center hasil">Predicate: <strong>{{ $data->result }}</strong></h5>
+    <h5 class="text-center hasil"><strong>{{ $data->result }}</strong></h5>
     <h5 class="mentor">{{ $data->mentor }}</h5>
   </div>
 </div>
