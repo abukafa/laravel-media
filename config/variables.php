@@ -2,7 +2,7 @@
 // Variables
 return [
   "creatorName" => "Semangkamedia",
-  "creatorUrl" => "http://abukafa.github.io",
+  "creatorUrl" => "https://abukafa.github.io",
   "ourWebsite" => "https://info.jazacademy.id",
   "templateName" => "Jaz Media",
   "templateSuffix" => "Project Management System",
@@ -13,7 +13,7 @@ return [
   "licenseUrl" => "",
   "livePreview" => "",
   "productPage" => "",
-  "support" => "http://Semangkamedia.epizy.com/",
+  "support" => "http://semangkamedia.epizy.com/",
   "moreThemes" => "",
   "documentation" => "https://demos.pixinvent.com/vuexy-vuejs-admin-template/documentation/",
   "generator" => "",
