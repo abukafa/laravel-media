@@ -1342,7 +1342,7 @@ if (window.location.href.indexOf('tasks') !== -1) {
   document.getElementById('asking').classList.add('d-none');
 }else{
   document.getElementById('tombol').text = "Our Profile";
-  document.getElementById('tombol').href = "http://web.jazmedia.site";
+  document.getElementById('tombol').href = "https://info.jazacademy.id";
   document.getElementById('tombol').target = "_black";
   document.getElementById('tombol').classList.remove('hero-button');
   document.getElementById('asking').classList.remove('d-none');

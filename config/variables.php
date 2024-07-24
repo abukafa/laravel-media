@@ -3,7 +3,7 @@
 return [
   "creatorName" => "Semangkamedia",
   "creatorUrl" => "http://abukafa.github.io",
-  "ourWebsite" => "http://web.jazmedia.site",
+  "ourWebsite" => "https://info.jazacademy.id",
   "templateName" => "Jaz Media",
   "templateSuffix" => "Project Management System",
   "templateVersion" => "1.0.0",
