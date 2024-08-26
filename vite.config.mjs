@@ -56,12 +56,14 @@ export default defineConfig({
     laravel({
       input: [
         'resources/css/app.css',
-        'resources/assets/css/demo.css',
+        'resources/css/jazmedia.css',
         'resources/js/app.js',
+        'resources/assets/css/demo.css',
         ...pageJsFiles,
         ...vendorJsFiles,
         ...LibsJsFiles,
         'resources/js/laravel-user-management.js', // Processing Laravel User Management CRUD JS File
+        'resources/js/jazmedia-home.js',
         ...CoreScssFiles,
         ...LibsScssFiles,
         ...LibsCssFiles,

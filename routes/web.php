@@ -1,14 +1,15 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\apps\Calendar;
-use App\Http\Controllers\academy\Dashboard;
 use App\Http\Controllers\academy\Rapor;
+use App\Http\Controllers\apps\Calendar;
 use App\Http\Controllers\apps\InvoiceList;
+use App\Http\Controllers\academy\Dashboard;
 use App\Http\Controllers\pages\UserProfile;
 use App\Http\Controllers\pages\UserProjects;
 use App\Http\Controllers\apps\InvoicePreview;
 use App\Http\Controllers\front_pages\Landing;
 use App\Http\Controllers\data\TableController;
+use App\Http\Controllers\front_pages\Jazmedia;
 use App\Http\Controllers\pages\UserConnections;
 use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\pages\AccountSettingsTasks;
@@ -17,7 +18,8 @@ use App\Http\Controllers\pages\AccountSettingsAccount;
 use App\Http\Controllers\pages\AccountSettingsSecurity;
 
 
-Route::get('/', [Landing::class, 'index'])->name('front-pages-landing');
+Route::get('/', [Jazmedia::class, 'index'])->name('jazmedia');
+Route::get('/landing', [Landing::class, 'index'])->name('front-pages-landing');
 Route::get('/login', [LoginBasic::class, 'index'])->name('auth-login-basic');
 Route::post('/login', [LoginBasic::class, 'login'])->name('auth-login');
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);

@@ -4,7 +4,7 @@ return [
   "creatorName" => "Semangkamedia",
   "creatorUrl" => "https://abukafa.github.io",
   "ourWebsite" => "https://info.jazacademy.id",
-  "templateName" => "Jaz Media",
+  "templateName" => "Jazmedia",
   "templateSuffix" => "Project Management System",
   "templateVersion" => "1.0.0",
   "templateFree" => false,
