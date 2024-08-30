@@ -63,7 +63,7 @@ export default defineConfig({
         ...vendorJsFiles,
         ...LibsJsFiles,
         'resources/js/laravel-user-management.js', // Processing Laravel User Management CRUD JS File
-        'resources/js/jazmedia-home.js',
+        'resources/js/jazmedia-main.js',
         ...CoreScssFiles,
         ...LibsScssFiles,
         ...LibsCssFiles,

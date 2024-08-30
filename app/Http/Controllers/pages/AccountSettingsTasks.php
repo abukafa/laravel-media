@@ -37,6 +37,8 @@ class AccountSettingsTasks extends Controller
         'date' => $request->date,
         'deadline' => $request->deadline,
         'status' => $request->status,
+        'media' => $request->media,
+        'embed' => $request->embed,
         'link' => $request->link
     ]);
 
@@ -61,6 +63,8 @@ class AccountSettingsTasks extends Controller
         'date' => $request->date,
         'deadline' => $request->deadline,
         'status' => $request->status,
+        'media' => $request->media,
+        'embed' => $request->embed,
         'link' => $request->link
     ]);
 

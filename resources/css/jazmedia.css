@@ -482,24 +482,13 @@ aside .menu-item:nth-last-child(2) {
   border-radius: var(--border-radius);
   padding: var(--search-padding);
   gap: 0.5rem;
+  margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.message-categories {
+.messages .message {
   display: flex;
+  gap: 1rem;
   margin-bottom: 1rem;
-  justify-content: space-between;
-  align-items: center;
-}
-.message-categories h6 {
-  font-weight: bold;
-  width: 100%;
-  font-size: 0.85rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 4px solid var(--color-light);
-  text-align: center;
-}
-.message-categories .active {
-  border-color: var(--color-primary);
 }
 .message:last-child {
   margin-bottom: 0;

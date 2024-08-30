@@ -1,4 +1,5 @@
 //.............. ...Start Swiper Story ................
+import Swiper from 'swiper';
 let swiper = new Swiper('.mySwiper', {
   slidesPerView: 5,
   spaceBetween: 5
@@ -62,16 +63,11 @@ let notifyPopup = document.querySelector('.notify-popup');
 let themeCustomizePopup = document.querySelector('.theme-customize');
 let myProfilePictureImg = document.querySelectorAll('#my-profile-picture img');
 let ProfileUploader = document.querySelector('#profile-upload');
-let addNewPost = document.querySelector('#add-new-post');
 
 AllMyProfilePicture.forEach(AllProfile => {
   AllProfile.addEventListener('click', () => {
     profilePopup.style.display = 'flex';
   });
-});
-
-addNewPost.addEventListener('click', () => {
-  addPostPopup.style.display = 'flex';
 });
 
 document.querySelectorAll('.close').forEach(AllCloser => {
@@ -98,14 +94,6 @@ let notifyBox = document.querySelector('#Notify-box');
 
 notifyBox.addEventListener('click', () => {
   notifyPopup.style.display = 'flex';
-});
-
-//.................Start Add story................
-let addStory = document.querySelector('#add-story');
-
-addStory.addEventListener('change', () => {
-  document.querySelector('.story img').src = URL.createObjectURL(document.querySelector('#add-story').files[0]);
-  document.querySelector('.add-story').style.display = 'none';
 });
 
 // ..............Liked button.............

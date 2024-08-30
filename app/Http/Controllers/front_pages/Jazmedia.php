@@ -12,7 +12,12 @@ class Jazmedia extends Controller
 {
   public function index()
   {
-    return view('content.front-pages.jazmedia');
+    $student = Student::orderBy('gender')->get();
+    $task = Task::orderBy('date', 'DESC')->get();
+    return view('content.front-pages.jazmedia', [
+      'student' => $student,
+      'task' => $task
+     ]);
   }
 
 }

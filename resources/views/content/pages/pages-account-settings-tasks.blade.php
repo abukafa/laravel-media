@@ -38,10 +38,7 @@
 <!-- Page Scripts -->
 @section('page-script')
 @vite([
-  // 'resources/assets/js/pages-pricing.js',
   'resources/assets/js/pages-account-settings-billing.js',
-  // 'resources/assets/js/app-invoice-list.js',
-  // 'resources/assets/js/modal-edit-cc.js'
 ])
 @endsection
 
@@ -114,17 +111,31 @@
                 <option>Canceled</option>
               </select>
             </div>
-            <div class="mb-3 col-sm-6 col-lg-6">
+            <div class="mb-3 col-sm-6 col-lg-3">
               <label for="name" class="form-label">Task Name</label>
               <input type="text" id="name" name="name" class="form-control" value="{{ $task ? $task->name : '' }}" required/>
             </div>
-            <div class="mb-3 col-sm-6 col-lg-8">
+            <div class="mb-3 col-sm-6 col-lg-3">
+              <label for="media" class="form-label">Media</label>
+              <select id="media" class="form-select" name="media">
+                <option selected {{ $task ? '' : 'disabled' }} value="{{ $task ? $task->media : '' }}">{{ $task ? $task->media : 'Select' }}</option>
+                <option>Google Drive</option>
+                <option>Youtube</option>
+                <option>Instagram</option>
+                <option>Tiktok</option>
+              </select>
+            </div>
+            <div class="mb-3 col-sm-6 col-lg-4">
               <label for="description" class="form-label">Description</label>
-              <textarea class="form-control" type="text" id="description" name="description" >{{ $task ? $task->description : '' }}</textarea>
+              <textarea class="form-control" type="text" id="description" name="description" cols="30" rows="4">{{ $task ? $task->description : '' }}</textarea>
+            </div>
+            <div class="mb-3 col-sm-6 col-lg-4">
+              <label for="embed" class="form-label">Embed</label>
+              <textarea class="form-control" type="text" id="embed" name="embed" cols="30" rows="4">{{ $task ? $task->embed : '' }}</textarea>
             </div>
             <div class="mb-3 col-sm-6 col-lg-4">
               <label for="link" class="form-label">Link</label>
-              <textarea class="form-control" type="text" id="link" name="link" >{{ $task ? $task->link : '' }}</textarea>
+              <textarea class="form-control" type="text" id="link" name="link" cols="30" rows="4">{{ $task ? $task->link : '' }}</textarea>
             </div>
           </div>
           <div class="mt-2">
@@ -192,6 +203,5 @@
 <!-- Modal -->
 @include('_partials/_modals/modal-pricing')
 <!-- /Modal -->
-
 
 @endsection
