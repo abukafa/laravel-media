@@ -106,7 +106,7 @@ $configData = Helper::appClasses();
 
 
                   <!-- ...........Add Post Btn......... -->
-                  <a href="/login" class="btn btn-primary btn-lg">Member Area</a>
+                  <a href="/pages/profile-user" class="btn btn-primary btn-lg">Member Area</a>
 
 
               </aside>
