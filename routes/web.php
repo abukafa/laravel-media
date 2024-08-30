@@ -19,7 +19,7 @@ use App\Http\Controllers\pages\AccountSettingsSecurity;
 
 
 Route::get('/', [Jazmedia::class, 'index'])->name('jazmedia');
-Route::get('/landing', [Landing::class, 'index'])->name('front-pages-landing');
+Route::get('/dashboard', [Landing::class, 'index'])->name('front-pages-landing');
 Route::get('/login', [LoginBasic::class, 'index'])->name('auth-login-basic');
 Route::post('/login', [LoginBasic::class, 'login'])->name('auth-login');
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);

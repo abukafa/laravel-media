@@ -8,6 +8,7 @@
       {{ config('variables.templateName') ? config('variables.templateName') : 'TemplateName' }} -
       {{ config('variables.templateSuffix') ? config('variables.templateSuffix') : 'TemplateSuffix' }}
     </title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
     <!-- Vendor Styles -->
     @yield('vendor-style')
     <!-- Page Styles -->
