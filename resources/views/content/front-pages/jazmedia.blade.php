@@ -39,10 +39,10 @@ $configData = Helper::appClasses();
           <div class="logo">
               <h3>JAZ <span>ACADEMY</span></h3>
           </div>
-          <div class="serch-bar">
+          <form action="" method="GET" class="serch-bar">
               <i class="fa fa-search"></i>
-              <input type="search" placeholder="Search For Creators">
-          </div>
+              <input type="search" id="searchInput" placeholder="Search For Creators">
+          </form>
           <div class="add-post">
             <a class="btn btn-primary btn-sm" id="signIn">Sign In</a>
             <div class="profile-picture" id="my-profile-picture" style="display: none">
@@ -346,7 +346,7 @@ $configData = Helper::appClasses();
                   <div class="messge-serch-bar"></div>
                   <!-- ......Message..... -->
                   @php
-                      $first_ten = $task->take(5);
+                      $first_ten = $task->take(15);
                   @endphp
                   @foreach ($first_ten as $item)
                     <div class="message">
@@ -365,7 +365,7 @@ $configData = Helper::appClasses();
 
 
               <!-- ..............Start Firend Request............ -->
-              <div class="firend-rquest">
+              <div class="firend-rquest" style="display: none">
                   <h4>Request</h4>
                   <div class="request">
                       <div class="info">
@@ -673,5 +673,26 @@ $configData = Helper::appClasses();
   <!-- ................End   Theme Customize Popup............ -->
 
   <!-- ...................End PopUps Aria................... -->
+  <script>
+    // Mendapatkan URL saat ini
+    const currentUrl = new URL(window.location.href);
+
+    // Mendapatkan semua parameter query dari URL
+    const params = currentUrl.searchParams;
+
+    // Mengambil elemen input
+    const searchInput = document.getElementById('searchInput');
+
+    // Jika ada parameter query pada URL
+    if (params.toString()) {
+      // Mengambil nama query pertama yang ada
+      const queryName = params.keys().next().value;
+      // Menetapkan nama input sesuai dengan query pertama yang ditemukan
+      searchInput.name = (queryName == 'instagram' ? 'instagram' : 'creator');
+    } else {
+      // Jika tidak ada query, set name menjadi 'creator'
+      searchInput.name = 'creator';
+    }
+  </script>
 
 @endsection
