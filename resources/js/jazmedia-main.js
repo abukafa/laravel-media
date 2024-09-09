@@ -1,3 +1,33 @@
+//................. Star Rating ................
+var star1 = document.getElementById('star1');
+var star2 = document.getElementById('star2');
+var star3 = document.getElementById('star3');
+var star4 = document.getElementById('star4');
+var star5 = document.getElementById('star5');
+
+var stars = [star1, star2, star3, star4, star5];
+var btnRate = document.getElementById('btn-rate');
+
+let s = 1;
+function addStyle(n) {
+  for (let i = 0; i < n; i++) {
+    stars[i].classList.add('star-color');
+  }
+}
+function removeStyle(n) {
+  for (let i = n; i < 5; i++) {
+    stars[i].classList.remove('star-color');
+  }
+}
+
+stars.forEach((star, index) => {
+  star.addEventListener('click', function () {
+    addStyle(index + 1);
+    removeStyle(index + 1);
+    btnRate.textContent = index + 1 + ' Rates';
+  });
+});
+
 //.............. ...Start Swiper Story ................
 import Swiper from 'swiper';
 let swiper = new Swiper('.mySwiper', {
@@ -10,6 +40,9 @@ window.addEventListener('scroll', () => {
   document.querySelector('.profile-popup').style.display = 'none';
   document.querySelector('.add-post-popup').style.display = 'none';
   document.querySelector('.notify-popup').style.display = 'none';
+  document.querySelector('.rating-popup').style.display = 'none';
+  document.querySelector('.signin-popup').style.display = 'none';
+  document.querySelector('.signup-popup').style.display = 'none';
   document.querySelector('.theme-customize').style.display = 'none';
 });
 
@@ -60,6 +93,9 @@ let AllMyProfilePicture = document.querySelectorAll('#my-profile-picture');
 let profilePopup = document.querySelector('.profile-popup');
 let addPostPopup = document.querySelector('.add-post-popup');
 let notifyPopup = document.querySelector('.notify-popup');
+let ratingPopup = document.querySelector('.rating-popup');
+let signinPopup = document.querySelector('.signin-popup');
+let signupPopup = document.querySelector('.signup-popup');
 let themeCustomizePopup = document.querySelector('.theme-customize');
 let myProfilePictureImg = document.querySelectorAll('#my-profile-picture img');
 let ProfileUploader = document.querySelector('#profile-upload');
@@ -75,6 +111,9 @@ document.querySelectorAll('.close').forEach(AllCloser => {
     profilePopup.style.display = 'none';
     addPostPopup.style.display = 'none';
     notifyPopup.style.display = 'none';
+    ratingPopup.style.display = 'none';
+    signinPopup.style.display = 'none';
+    signupPopup.style.display = 'none';
     themeCustomizePopup.style.display = 'none';
   });
 });
@@ -87,6 +126,66 @@ ProfileUploader.addEventListener('change', () => {
 
 document.querySelector('#feed-pic-upload').addEventListener('change', () => {
   document.querySelector('#postIMg').src = URL.createObjectURL(document.querySelector('#feed-pic-upload').files[0]);
+});
+
+//.................Start Rating Popup................
+document.querySelectorAll('.star-rating').forEach(element => {
+  element.addEventListener('click', function () {
+    const rate = this.getAttribute('data-id');
+    if (rate == 0) {
+      ratingPopup.style.display = 'flex';
+    }
+  });
+});
+
+//.................Sign Up Popup................
+let registering = document.querySelector('#registering');
+let registered = document.querySelector('#registered');
+
+registering.addEventListener('click', () => {
+  signupPopup.style.display = 'flex';
+  signinPopup.style.display = 'none';
+});
+
+registered.addEventListener('click', () => {
+  signupPopup.style.display = 'none';
+  signinPopup.style.display = 'flex';
+});
+
+//.................Input Register Typing................
+let password = document.querySelector('#password');
+let retype = document.querySelector('#retype');
+let username = document.querySelector('#username');
+
+password.addEventListener('keyup', () => {
+  if (password.value.length < 4) {
+    password.parentNode.classList.add('input-warning');
+  } else {
+    password.parentNode.classList.remove('input-warning');
+  }
+});
+
+retype.addEventListener('keyup', () => {
+  if (password.value !== retype.value) {
+    retype.parentNode.classList.add('input-warning');
+  } else {
+    retype.parentNode.classList.remove('input-warning');
+  }
+});
+
+username.addEventListener('keyup', () => {
+  if (username.value.length < 4) {
+    username.parentNode.classList.add('input-warning');
+  } else {
+    username.parentNode.classList.remove('input-warning');
+  }
+});
+
+//.................Sign In Popup................
+let signIn = document.querySelector('#signIn');
+
+signIn.addEventListener('click', () => {
+  signinPopup.style.display = 'flex';
 });
 
 //.................Start Notify Popup................
@@ -162,6 +261,7 @@ const removeActiveColor = () => {
 colorpallete.forEach(color => {
   color.addEventListener('click', () => {
     let primaryHue;
+    let Hue;
     removeActiveColor();
     color.classList.add('active');
 

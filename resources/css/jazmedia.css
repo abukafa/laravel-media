@@ -53,6 +53,23 @@ body {
   font-size: 16px;
 }
 
+/* ..............Star Rating............. */
+.stars {
+  color: var(--color-secondary);
+  cursor: pointer;
+  font-size: 2rem;
+  margin: 10px;
+}
+
+.star-color {
+  color: var(--color-primary);
+  size: 5rem;
+}
+
+.star-uncolor {
+  color: var(--color-secondary);
+}
+
 /* ..............Custom Style............. */
 .container {
   width: 90%;
@@ -112,20 +129,34 @@ nav {
   justify-content: space-between;
   align-items: center;
 }
-nav .serch-bar {
+.serch-bar {
   padding: var(--search-padding);
   background: var(--color-light);
   border-radius: var(--border-radius);
+  margin: 10px;
 }
-nav .serch-bar input[type='search'] {
+.serch-bar input {
   background: transparent;
   width: 30vw;
   margin-left: 1rem;
   font-size: 0.9rem;
   color: var(--color-dark);
 }
-nav .serch-bar input[type='search']::placeholder {
+.serch-bar input[type='search']::placeholder {
   color: var(--color-gray);
+}
+.serch-bar textarea[type='search']::placeholder {
+  color: var(--color-gray);
+}
+.serch-bar textarea[type='search'] {
+  background: transparent;
+  width: 30vw;
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-dark);
+}
+.input-warning {
+  border: 1px solid red;
 }
 .add-post {
   display: flex;
@@ -286,7 +317,7 @@ aside .menu-item:nth-last-child(2) {
   top: 0.6rem;
   left: 0.2rem;
   width: 2.4rem;
-  border: 2px dashed var(--color-primary);
+  border: 2px solid var(--color-primary);
   z-index: 8;
 }
 .story p {
@@ -814,6 +845,9 @@ aside .menu-item:nth-last-child(2) {
   padding: 0.2rem;
   border-radius: 0.2rem;
 }
+#star-rating-sm {
+  display: none;
+}
 
 /* ====================Start Media Queryes======================= */
 /* .........MAX WIDTH(1200PX)..... */
@@ -895,6 +929,12 @@ aside .menu-item:nth-last-child(2) {
       }
       .story p {
         display: none;
+      }
+      #star-rating-md {
+        display: none;
+      }
+      #star-rating-sm {
+        display: block;
       }
     }
   }

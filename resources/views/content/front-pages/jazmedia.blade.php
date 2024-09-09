@@ -41,12 +41,13 @@ $configData = Helper::appClasses();
           </div>
           <div class="serch-bar">
               <i class="fa fa-search"></i>
-              <input type="search" placeholder="Serch For Creators">
+              <input type="search" placeholder="Search For Creators">
           </div>
           <div class="add-post">
-              <div class="profile-picture" id="my-profile-picture">
-                  <img src="{{ asset('assets/img/avatars/no.png') }}" alt="">
-              </div>
+            <a class="btn btn-primary btn-sm" id="signIn">Sign In</a>
+            <div class="profile-picture" id="my-profile-picture" style="display: none">
+                <img src="{{ asset('assets/img/avatars/no.png') }}" alt="">
+            </div>
           </div>
       </div>
   </nav>
@@ -127,7 +128,22 @@ $configData = Helper::appClasses();
             <div class="instagram-container">
                 @foreach ($task as $item)
                   @if ($item->media == "Instagram" || $item->media == "Tiktok")
-                    {!! $item->embed !!}
+                    <div id="{{ $item->id }}">
+                      @if ( $item->embed <> '' )
+                        <div style="display: flex; justify-content: center; padding-bottom: 10px;">
+                          <span class="star-rating" data-id="{{ $item->rate }}">
+                            @for ($i = 1; $i <= 5; $i++)
+                              @if ($i <= $item->rate)
+                                <span><i class="fa-solid fa-star star-color"></i></span>
+                              @else
+                                <span><i class="fa-solid fa-star star-uncolor"></i></span>
+                              @endif
+                            @endfor
+                          </span>
+                        </div>
+                      @endif
+                      {!! $item->embed !!}
+                    </div>
                   @endif
                 @endforeach
             </div>
@@ -163,7 +179,7 @@ $configData = Helper::appClasses();
                           </div>
                           @foreach ($student as $item)
                             <div class="story swiper-slide">
-                                <img src="{{ file_exists(public_path('storage/member/' . $item->id . '.png')) ? asset('storage/member/' . $item->id . '.png') : asset('assets/img/avatars/no.png') }}" alt="">
+                                <img src="{{ file_exists(public_path('storage/stories/' . $item->id . '-0.png')) ? asset('storage/stories/' . $item->id . '-0.png') : asset('assets/img/avatars/no.png') }}" alt="" loading="lazy">
                             </div>
                           @endforeach
                       </div>
@@ -200,9 +216,9 @@ $configData = Helper::appClasses();
 
                           @foreach ($student as $item)
                             <div class="story swiper-slide">
-                                <img src="{{ file_exists(public_path('storage/member/' . $item->id . '.png')) ? asset('storage/member/' . $item->id . '.png') : asset('assets/img/avatars/no.png') }}" alt="">
+                                <img src="{{ file_exists(public_path('storage/stories/' . $item->id . '-0.png')) ? asset('storage/stories/' . $item->id . '-0.png') : asset('assets/img/avatars/no.png') }}" alt="" loading="lazy">
                                 <div class="profile-picture " >
-                                    <img src="{{ asset('assets/img/avatars/no.png') }}" alt="">
+                                    <img src="{{ file_exists(public_path('storage/member/' . $item->id . '.png')) ? asset('storage/member/' . $item->id . '.png') : asset('assets/img/avatars/no.png') }}" alt="" loading="lazy">
                                 </div>
                                 @php
                                     $parts = explode(' ', $item->name);
@@ -230,72 +246,83 @@ $configData = Helper::appClasses();
               <!--.............. Feed Aria Start............... -->
               <div class="feeds">
                 @foreach ($task as $item)
-                    @if ($item->media <> "Instagram")
-                      <div class="feed">
-                          <!-- ....Feed Top.... -->
-                          <div class="feed-top">
-                              <div class="user">
-                                  <div class="profile-picture">
-                                      <img src="{{ file_exists(public_path('storage/member/' . $item->student_id . '.png')) ? asset('storage/member/' . $item->student_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="">
-                                  </div>
-                                  <div class="info">
-                                      <h3>{{ $item->student_name }}</h3>
-                                      <div class="time text-gry">
-                                          @php
-                                              $date_post = new DateTime($item->date);
-                                          @endphp
-                                          <small>{{ $date_post->format('l, j F Y') }}</small>
-                                      </div>
-                                  </div>
-                              </div>
-                              <span class="edit">
-                                @for ($i = 1; $i <= 5; $i++)
-                                  @if ($i <= $item->rate)
-                                    <span><i class="fa-solid fa-star"></i></span>
-                                  @else
-                                    <span><i class="fa-regular fa-star"></i></span>
-                                  @endif
-                                @endfor
-                              </span>
-                          </div>
-                          <!-- ...Feed Img.... -->
-                          <div class="feed-img">
-                            {!! $item->embed !!}
-                          </div>
-                          <!-- ...Feed Action Aria... -->
-                          <div class="action-button">
-                              <div class="interaction-button">
-                                  <span><i class="fa fa-heart"></i></span>
-                                  <span><i class="fa fa-comment-dots"></i></span>
-                                  <span><a href="{{ $item->link }}" target="_blank"><i class="fa fa-link"></i></a></span>
-                              </div>
-                              <div class="bookmark">
-                                  <i class="fa fa-bookmark"></i>
-                              </div>
-                          </div>
+                  @if ($item->media <> "Instagram" && $item->media <> "Tiktok")
+                      <div class="feed" id="{{ $item->id }}">
+                        <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+                          <span class="star-rating" data-id="{{ $item->rate }}" id="star-rating-sm">
+                            @for ($i = 1; $i <= 5; $i++)
+                              @if ($i <= $item->rate)
+                                <span><i class="fa-solid fa-star star-color"></i></span>
+                              @else
+                                <span><i class="fa-solid fa-star star-uncolor"></i></span>
+                              @endif
+                            @endfor
+                          </span>
+                        </div>
+                        <!-- ....Feed Top.... -->
+                        <div class="feed-top">
+                            <div class="user">
+                                <div class="profile-picture">
+                                    <img src="{{ file_exists(public_path('storage/member/' . $item->student_id . '.png')) ? asset('storage/member/' . $item->student_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="" loading="lazy">
+                                </div>
+                                <div class="info">
+                                    <h3>{{ $item->student_name }}</h3>
+                                    <div class="time text-gry">
+                                        @php
+                                            $date_post = new DateTime($item->date);
+                                        @endphp
+                                        <small>{{ $date_post->format('l, j F Y') }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="edit star-rating" data-id="{{ $item->rate }}" id="star-rating-md">
+                              @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $item->rate)
+                                  <span><i class="fa-solid fa-star star-color"></i></span>
+                                @else
+                                  <span><i class="fa-solid fa-star star-uncolor"></i></span>
+                                @endif
+                              @endfor
+                            </span>
+                        </div>
+                        <!-- ...Feed Img.... -->
+                        <div class="feed-img">
+                          {!! $item->embed !!}
+                        </div>
+                        <!-- ...Feed Action Aria... -->
+                        <div class="action-button">
+                            <div class="interaction-button">
+                                <span><i class="fa fa-heart"></i></span>
+                                <span><i class="fa fa-comment-dots"></i></span>
+                                <span><a href="{{ $item->link }}" target="_blank"><i class="fa fa-link"></i></a></span>
+                            </div>
+                            <div class="bookmark">
+                                <i class="fa fa-bookmark"></i>
+                            </div>
+                        </div>
 
-                          <!--.... Liked by.... -->
-                          <div class="liked-by">
-                              <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
-                              <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
-                              <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
-                              <p>Liked by <b>Jhon Wiliams</b> and <b>77 comments other</b></p>
-                          </div>
+                        <!--.... Liked by.... -->
+                        <div class="liked-by">
+                            <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
+                            <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
+                            <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
+                            <p>Liked by <b>Jhon Wiliams</b> and <b>77 comments other</b></p>
+                        </div>
 
 
-                          <!-- ......Caption...... -->
-                          <div class="caption">
-                              <div class="title">{{ $item->project_name .' - '. $item->description }}<span class="hars-tag"> {{ $item->name }}</span></div>
-                              <p><b>{{ $item->teacher_name }} </b>{{ $item->review }}</p>
-                          </div>
+                        <!-- ......Caption...... -->
+                        <div class="caption">
+                            <div class="title">{{ $item->project_name .' - '. $item->description }}<span class="hars-tag"> {{ $item->name }}</span></div>
+                            <p><b>{{ $item->teacher_name }} </b>{{ $item->review }}</p>
+                        </div>
 
-                          <!-- ........Comments...... -->
-                          <div class="comments text-gry">
-                              View all comments
-                          </div>
+                        <!-- ........Comments...... -->
+                        <div class="comments text-gry">
+                            View all comments
+                        </div>
 
-                      </div>
-                    @endif
+                    </div>
+                  @endif
                 @endforeach
               </div>
               <!--.............. Feed Aria End............... -->
@@ -305,8 +332,6 @@ $configData = Helper::appClasses();
 
           </div>
           <!--================== Main Middle End==================  -->
-
-
 
           <!--==================  Main Right Start==================  -->
           <div class="main-right">
@@ -423,6 +448,86 @@ $configData = Helper::appClasses();
 
 
   <!-- ...................Start PopUps Aria................... -->
+
+  <!-- ................SignIn-Popup............ -->
+  <div class="popup signin-popup">
+    <div>
+      <div class="popup-box signin-popup-box">
+        <form action="" method="">
+          <div class="serch-bar">
+            <input type="search" placeholder="Username" name="username" required>
+          </div>
+          <div class="serch-bar">
+            <input type="password" placeholder="Password" name="password" required>
+          </div>
+          <button class="btn btn-primary btn-lg">Sign In for Participant</button>
+        </form>
+        <div style="margin-top: 20px">
+          <p>Not Registered yet? <b><a href="#" id="registering">Sign Up</a></b></p>
+        </div>
+      </div>
+      <span class="close"><i class="fa fa-close"></i></span>
+    </div>
+  </div>
+  <!-- ................End SignIn-Popup............ -->
+
+  <!-- ................SignUp-Popup............ -->
+  <div class="popup signup-popup">
+    <div>
+      <div class="popup-box signup-popup-box">
+        <form action="" method="">
+          <div class="serch-bar">
+            <input type="search" placeholder="Name" name="name" id="name" required>
+          </div>
+          <div class="serch-bar username">
+            <input type="search" placeholder="Username" name="username" id="username" required>
+          </div>
+          <div class="serch-bar password">
+            <input type="password" placeholder="Password" name="password" id="password" required>
+          </div>
+          <div class="serch-bar">
+            <input type="password" placeholder="Retype Password" name="retype" id="retype" required>
+          </div>
+          <button class="btn btn-primary btn-lg">Sign Up for Participant</button>
+        </form>
+        <div style="margin-top: 20px">
+          <p>Already Registered? <b><a href="#" id="registered">Sign In</a></b></p>
+        </div>
+      </div>
+      <span class="close"><i class="fa fa-close"></i></span>
+    </div>
+  </div>
+  <!-- ................End SignUp-Popup............ -->
+
+  <!-- ................Start Rating-Popup............ -->
+  <div class="popup rating-popup">
+    <div>
+      <div class="popup-box rating-popup-box">
+        <div class="serch-bar">
+          <input type="search" placeholder="Mentor" list="options">
+          <datalist id="options">
+            <option value="Abukafa">
+            <option value="Adam Rabbani">
+            <option value="Ms. Tia">
+          </datalist>
+        </div>
+        <div class="serch-bar">
+          <textarea type="search" placeholder="Review"></textarea>
+        </div>
+        <div class="stars">
+          <span id="star1"><i class="fa-solid fa-star"></i></span>
+          <span id="star2"><i class="fa-solid fa-star"></i></span>
+          <span id="star3"><i class="fa-solid fa-star"></i></span>
+          <span id="star4"><i class="fa-solid fa-star"></i></span>
+          <span id="star5"><i class="fa-solid fa-star"></i></span>
+        </div>
+        <button class="btn btn-primary btn-lg" id="btn-rate">Rate!</button>
+      </div>
+      <span class="close"><i class="fa fa-close"></i></span>
+    </div>
+  </div>
+  <!-- ................End Rating-Popup............ -->
+
   <!-- ................Start Profile-Popup............ -->
   <div class="popup profile-popup">
       <div>
