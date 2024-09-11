@@ -10,6 +10,7 @@ use App\Http\Controllers\apps\InvoicePreview;
 use App\Http\Controllers\front_pages\Landing;
 use App\Http\Controllers\data\TableController;
 use App\Http\Controllers\front_pages\Jazmedia;
+use App\Http\Controllers\jazmedia\Participants;
 use App\Http\Controllers\pages\UserConnections;
 use App\Http\Controllers\authentications\LoginBasic;
 use App\Http\Controllers\pages\AccountSettingsTasks;
@@ -20,6 +21,10 @@ use App\Http\Controllers\pages\AccountSettingsSecurity;
 
 Route::get('/', [Jazmedia::class, 'index'])->name('jazmedia');
 Route::get('/dashboard', [Landing::class, 'index'])->name('front-pages-landing');
+Route::post('/signup', [Participants::class, 'signup']);
+Route::post('/signin', [Participants::class, 'signin']);
+Route::get('/signout', [Participants::class, 'signout']);
+Route::post('/task/{id}/like', [AccountSettingsTasks::class, 'likeTask'])->name('task.like');
 Route::get('/login', [LoginBasic::class, 'index'])->name('auth-login-basic');
 Route::post('/login', [LoginBasic::class, 'login'])->name('auth-login');
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);

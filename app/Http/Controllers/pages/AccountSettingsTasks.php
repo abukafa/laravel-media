@@ -4,6 +4,7 @@ namespace App\Http\Controllers\pages;
 
 use App\Models\Task;
 use App\Models\Project;
+use App\Models\Participant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -74,4 +75,41 @@ class AccountSettingsTasks extends Controller
         return back()->with('danger', 'Data gagal diperbarui');
     }
   }
+
+  public function likeTask(Request $request, $id)
+  {
+      $task = Task::findOrFail($id);
+      $participant = session('participant');
+
+      if (!$participant) {
+          return response()->json(['message' => 'Participant not found.'], 404);
+      }
+
+      $user = Participant::find($participant['id']);
+
+      if (!$user) {
+          return response()->json(['message' => 'Invalid participant.'], 404);
+      }
+
+      if ($user->likes()->where('task_id', $id)->exists()) {
+          $user->likes()->where('task_id', $id)->delete();
+          $message = 'Task unliked successfully!';
+      } else {
+          $user->likes()->create([
+              'task_id' => $id
+          ]);
+          $message = 'Task liked successfully!';
+      }
+
+      // Ambil data like pertama dan hitung jumlah total likes
+      $firstLike = $task->likes()->with('participant')->first();
+      $likesCount = $task->likes()->count();
+
+      return response()->json([
+        'message' => $message,
+        'likes_count' => $likesCount > 1 ? 'and ' . ($likesCount-1) . ' others' : '',
+        'first_like' => $firstLike ? $firstLike->participant->name : 'No one yet'
+      ]);
+  }
+
 }

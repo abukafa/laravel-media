@@ -44,16 +44,17 @@ $configData = Helper::appClasses();
               <input type="search" id="searchInput" placeholder="Search For Creators">
           </form>
           <div class="add-post">
-            <a class="btn btn-primary btn-sm" id="signIn">Sign In</a>
-            <div class="profile-picture" id="my-profile-picture" style="display: none">
+            @if (session('participant'))
+              <div class="profile-picture" id="my-profile-picture">
                 <img src="{{ asset('assets/img/avatars/no.png') }}" alt="">
-            </div>
+              </div>
+            @else
+              <a class="btn btn-primary btn-sm signIn">Sign In</a>
+            @endif
           </div>
       </div>
   </nav>
   <!-- ...................Start Navbar................... -->
-
-
 
   <!-- ...................Start Main Section................... -->
   <main>
@@ -65,18 +66,20 @@ $configData = Helper::appClasses();
 
 
               <!-- .......Profile.Start........ -->
-              <a  class="profile">
+              @if (session('participant'))
+                <a  class="profile">
                   <div class="profile-picture" id="my-profile-picture">
                       <img src="{{ asset('assets/img/avatars/no.png') }}" alt="" />
                   </div>
                   <div class="profile-handle">
-                      <h4>Annonimous</h4>
+                      <h4>{{ session('participant')->name }}</h4>
                       <p class="text-gry">
-                          @jazmedia
+                        {{ '@' . session('participant')->username }}
                       </p>
                   </div>
-              </a>
-               <!-- .......Profile.End........ -->
+                </a>
+              @endif
+              <!-- .......Profile.End........ -->
 
 
 
@@ -128,22 +131,20 @@ $configData = Helper::appClasses();
             <div class="instagram-container">
                 @foreach ($task as $item)
                   @if ($item->media == "Instagram" || $item->media == "Tiktok")
-                    <div id="{{ $item->id }}">
-                      @if ( $item->embed <> '' )
-                        <div style="display: flex; justify-content: center; padding-bottom: 10px;">
-                          <span class="star-rating" data-id="{{ $item->rate }}">
-                            @for ($i = 1; $i <= 5; $i++)
-                              @if ($i <= $item->rate)
-                                <span><i class="fa-solid fa-star star-color"></i></span>
-                              @else
-                                <span><i class="fa-solid fa-star star-uncolor"></i></span>
-                              @endif
-                            @endfor
-                          </span>
-                        </div>
-                      @endif
+                    @if ( $item->embed <> '' )
+                      <div style="display: flex; justify-content: center; padding-bottom: 10px;">
+                        <span class="{{ session('participant') && session('participant')->role > 1 ? 'star-rating' : '' }}" data-id="{{ $item->rate }}">
+                          @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $item->rate)
+                              <span><i class="fa-solid fa-star star-color"></i></span>
+                            @else
+                              <span><i class="fa-solid fa-star star-uncolor"></i></span>
+                            @endif
+                          @endfor
+                        </span>
+                      </div>
                       {!! $item->embed !!}
-                    </div>
+                    @endif
                   @endif
                 @endforeach
             </div>
@@ -157,11 +158,11 @@ $configData = Helper::appClasses();
 
               <div class="profile-info">
                 <div>
-                    <h1>Annonimous</h1>
-                    <p>@jazmedia</p>
-                    <div>
-                        <img src="{{ asset('assets/img/avatars/no.png') }}" >
-                    </div>
+                  <h1>{{ session('participant') ? session('participant')->name : 'Annonimous' }}</h1>
+                  <p>{{ session('participant') ? '@' . session('participant')->username : '@jazmedia' }}</p>
+                  <div style="display: flex; justify-content: center;" id="my-profile-picture">
+                    <img src="{{ asset('assets/img/avatars/no.png') }}" >
+                  </div>
                 </div>
               </div>
 
@@ -249,7 +250,7 @@ $configData = Helper::appClasses();
                   @if ($item->media <> "Instagram" && $item->media <> "Tiktok")
                       <div class="feed" id="{{ $item->id }}">
                         <div style="display: flex; justify-content: center; margin-bottom: 10px;">
-                          <span class="star-rating" data-id="{{ $item->rate }}" id="star-rating-sm">
+                          <span class="{{ session('participant') && session('participant')->role > 1 ? 'star-rating' : '' }}" data-id="{{ $item->rate }}" id="star-rating-sm">
                             @for ($i = 1; $i <= 5; $i++)
                               @if ($i <= $item->rate)
                                 <span><i class="fa-solid fa-star star-color"></i></span>
@@ -275,7 +276,7 @@ $configData = Helper::appClasses();
                                     </div>
                                 </div>
                             </div>
-                            <span class="edit star-rating" data-id="{{ $item->rate }}" id="star-rating-md">
+                            <span class="edit {{ session('participant') && session('participant')->role > 1 ? 'star-rating' : '' }}" data-id="{{ $item->rate }}" id="star-rating-md" style="cursor: pointer">
                               @for ($i = 1; $i <= 5; $i++)
                                 @if ($i <= $item->rate)
                                   <span><i class="fa-solid fa-star star-color"></i></span>
@@ -290,23 +291,28 @@ $configData = Helper::appClasses();
                           {!! $item->embed !!}
                         </div>
                         <!-- ...Feed Action Aria... -->
-                        <div class="action-button">
+                        @if (session('participant'))
+                          <div class="action-button">
                             <div class="interaction-button">
-                                <span><i class="fa fa-heart"></i></span>
-                                <span><i class="fa fa-comment-dots"></i></span>
-                                <span><a href="{{ $item->link }}" target="_blank"><i class="fa fa-link"></i></a></span>
+                              <span class="like-button" data-task-id="{{ $item->id }}"><i class="fa fa-heart likes-icon {{ $item->likes()->where('participant_id', session('participant')->id)->exists() ? 'liked' : '' }}"></i></span>
+                              <span><i class="fa fa-comment-dots"></i></span>
+                              <span><a href="{{ $item->link }}" target="_blank"><i class="fa fa-link"></i></a></span>
                             </div>
                             <div class="bookmark">
-                                <i class="fa fa-bookmark"></i>
+                              <i class="fa fa-bookmark {{ $item->bookmarks()->where('participant_id', session('participant')->id)->exists() ? 'booked' : '' }}"></i>
                             </div>
-                        </div>
+                          </div>
+                        @endif
 
                         <!--.... Liked by.... -->
                         <div class="liked-by">
                             <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
                             <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
                             <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
-                            <p>Liked by <b>Jhon Wiliams</b> and <b>77 comments other</b></p>
+                            @php
+                                $firstLike = $item->likes()->with('participant')->first();
+                            @endphp
+                            <p>Liked by <strong class="text-bold likes-first">{{ $firstLike ? $firstLike->participant->name : 'No one yet' }}</strong><p class="likes-count">{{ $item->likes()->count() > 1 ? 'and ' . $item->likes()->count() -1 . ' others' : '' }}</p></p>
                         </div>
 
 
@@ -449,21 +455,37 @@ $configData = Helper::appClasses();
 
   <!-- ...................Start PopUps Aria................... -->
 
+  <!-- ................Alert-Popup............ -->
+  @if (session('success') || session('danger'))
+    <div class="popup alert-popup" style="display: flex">
+      <div>
+        <div class="popup-box alert-popup-box">
+          <h3 class="text-bold">{{ session('success') ? session('success') : session('danger') }}</h3>
+          <div style="margin-top: 30px">
+            <span class="close btn btn-{{ session('success') ? 'primary' : 'danger' }} btn-sm">OK</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  @endif
+  <!-- ................End Alert-Popup............ -->
+
   <!-- ................SignIn-Popup............ -->
   <div class="popup signin-popup">
     <div>
       <div class="popup-box signin-popup-box">
-        <form action="" method="">
+        <form action="/signin" method="post">
+          @csrf
           <div class="serch-bar">
             <input type="search" placeholder="Username" name="username" required>
           </div>
           <div class="serch-bar">
             <input type="password" placeholder="Password" name="password" required>
           </div>
-          <button class="btn btn-primary btn-lg">Sign In for Participant</button>
+          <button type="submit" class="btn btn-primary btn-lg">Sign In for Participant</button>
         </form>
         <div style="margin-top: 20px">
-          <p>Not Registered yet? <b><a href="#" id="registering">Sign Up</a></b></p>
+          <p>Not Registered yet? <b><a href="#" class="signUp">Sign Up</a></b></p>
         </div>
       </div>
       <span class="close"><i class="fa fa-close"></i></span>
@@ -475,7 +497,8 @@ $configData = Helper::appClasses();
   <div class="popup signup-popup">
     <div>
       <div class="popup-box signup-popup-box">
-        <form action="" method="">
+        <form action="/signup" method="post">
+          @csrf
           <div class="serch-bar">
             <input type="search" placeholder="Name" name="name" id="name" required>
           </div>
@@ -486,12 +509,12 @@ $configData = Helper::appClasses();
             <input type="password" placeholder="Password" name="password" id="password" required>
           </div>
           <div class="serch-bar">
-            <input type="password" placeholder="Retype Password" name="retype" id="retype" required>
+            <input type="password" placeholder="Retype Password" id="retype" required>
           </div>
-          <button class="btn btn-primary btn-lg">Sign Up for Participant</button>
+          <button type="submit" class="btn btn-primary btn-lg">Sign Up for Participant</button>
         </form>
         <div style="margin-top: 20px">
-          <p>Already Registered? <b><a href="#" id="registered">Sign In</a></b></p>
+          <p>Already Registered? <b><a href="#" class="signIn">Sign In</a></b></p>
         </div>
       </div>
       <span class="close"><i class="fa fa-close"></i></span>
@@ -531,17 +554,17 @@ $configData = Helper::appClasses();
   <!-- ................Start Profile-Popup............ -->
   <div class="popup profile-popup">
       <div>
-          <div class="popup-box profile-popup-box">
-              <h1>Annonimous</h1>
-              <p>@jazmedia</p>
-              <div id="my-profile-picture">
-                  <img src="{{ asset('assets/img/avatars/no.png') }}" >
-              </div>
-              <label for="profile-upload" class="btn btn-primary btn-lg">Update Profile Picture</label>
-              <input type="file" accept="image/jpg, image/png, image/jpeg" id="profile-upload">
-              <button class="btn btn-primary btn-lg">Log Out</button>
+        <div class="popup-box profile-popup-box">
+          <h1>{{ session('participant') ? session('participant')->name : 'Annonimous' }}</h1>
+          <p>{{ session('participant') ? '@' . session('participant')->username : '@jazmedia' }}</p>
+          <div id="my-profile-picture">
+              <img src="{{ asset('assets/img/avatars/no.png') }}" >
           </div>
-          <span class="close"><i class="fa fa-close"></i></span>
+          <label for="profile-upload" class="btn btn-primary btn-lg">Update Profile Picture</label>
+          <input type="file" accept="image/jpg, image/png, image/jpeg" id="profile-upload">
+          <a href="/signout" class="btn btn-primary btn-lg">Log Out</a>
+        </div>
+        <span class="close"><i class="fa fa-close"></i></span>
       </div>
   </div>
   <!-- ................End Profile-Popup............ -->
@@ -673,26 +696,57 @@ $configData = Helper::appClasses();
   <!-- ................End   Theme Customize Popup............ -->
 
   <!-- ...................End PopUps Aria................... -->
+
   <script>
-    // Mendapatkan URL saat ini
     const currentUrl = new URL(window.location.href);
-
-    // Mendapatkan semua parameter query dari URL
     const params = currentUrl.searchParams;
-
-    // Mengambil elemen input
     const searchInput = document.getElementById('searchInput');
-
-    // Jika ada parameter query pada URL
     if (params.toString()) {
-      // Mengambil nama query pertama yang ada
       const queryName = params.keys().next().value;
-      // Menetapkan nama input sesuai dengan query pertama yang ditemukan
       searchInput.name = (queryName == 'instagram' ? 'instagram' : 'creator');
     } else {
-      // Jika tidak ada query, set name menjadi 'creator'
       searchInput.name = 'creator';
     }
+
+    document.querySelectorAll('.like-button').forEach(element => {
+      element.addEventListener('click', function() {
+        var taskId = this.getAttribute('data-task-id'); // Ambil task ID dari atribut data
+        var csrfToken = '{{ csrf_token() }}'; // Token CSRF untuk keamanan
+
+        var xhr = new XMLHttpRequest();
+
+        var url = '{{ route('task.like', ['id' => ':id']) }}'.replace(':id', taskId);
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken); // Menetapkan header CSRF
+
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              var response = JSON.parse(xhr.responseText);
+
+              var actionButton = element.closest('.action-button');
+              var likesCountElement = actionButton.nextElementSibling.querySelector('.likes-count');
+              var likesFirstElement = actionButton.nextElementSibling.querySelector('.likes-first');
+              var likesIcon = element.querySelector('.likes-icon');
+
+              if (likesCountElement && likesIcon) {
+                likesFirstElement.innerText = response.first_like;
+                likesCountElement.innerText = response.likes_count;
+                likesIcon.classList.toggle('liked');
+              }
+            } else {
+              console.error('Error:', xhr.responseText);
+            }
+          }
+        };
+
+        xhr.send(JSON.stringify({ task_id: taskId }));
+      });
+    });
+
+
   </script>
 
 @endsection

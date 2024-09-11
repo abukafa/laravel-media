@@ -421,6 +421,7 @@ aside .menu-item:nth-last-child(2) {
   align-items: center;
   font-size: 1.4rem;
   margin: 0.6rem;
+  cursor: pointer;
 }
 
 .action-button span:first-child i {
@@ -584,7 +585,7 @@ aside .menu-item:nth-last-child(2) {
   display: flex;
   gap: 1rem;
 }
-.request .action .btn-danger {
+.btn-danger {
   background: var(--color-danger);
   color: var(--color-white);
 }

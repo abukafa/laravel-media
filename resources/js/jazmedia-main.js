@@ -96,6 +96,7 @@ let notifyPopup = document.querySelector('.notify-popup');
 let ratingPopup = document.querySelector('.rating-popup');
 let signinPopup = document.querySelector('.signin-popup');
 let signupPopup = document.querySelector('.signup-popup');
+let alertPopup = document.querySelector('.alert-popup');
 let themeCustomizePopup = document.querySelector('.theme-customize');
 let myProfilePictureImg = document.querySelectorAll('#my-profile-picture img');
 let ProfileUploader = document.querySelector('#profile-upload');
@@ -114,6 +115,7 @@ document.querySelectorAll('.close').forEach(AllCloser => {
     ratingPopup.style.display = 'none';
     signinPopup.style.display = 'none';
     signupPopup.style.display = 'none';
+    alertPopup.style.display = 'none';
     themeCustomizePopup.style.display = 'none';
   });
 });
@@ -139,17 +141,17 @@ document.querySelectorAll('.star-rating').forEach(element => {
 });
 
 //.................Sign Up Popup................
-let registering = document.querySelector('#registering');
-let registered = document.querySelector('#registered');
-
+let registering = document.querySelector('.signUp');
 registering.addEventListener('click', () => {
-  signupPopup.style.display = 'flex';
   signinPopup.style.display = 'none';
+  signupPopup.style.display = 'flex';
 });
 
-registered.addEventListener('click', () => {
-  signupPopup.style.display = 'none';
-  signinPopup.style.display = 'flex';
+document.querySelectorAll('.signIn').forEach(element => {
+  element.addEventListener('click', () => {
+    signupPopup.style.display = 'none';
+    signinPopup.style.display = 'flex';
+  });
 });
 
 //.................Input Register Typing................
@@ -181,26 +183,11 @@ username.addEventListener('keyup', () => {
   }
 });
 
-//.................Sign In Popup................
-let signIn = document.querySelector('#signIn');
-
-signIn.addEventListener('click', () => {
-  signinPopup.style.display = 'flex';
-});
-
 //.................Start Notify Popup................
 let notifyBox = document.querySelector('#Notify-box');
 
 notifyBox.addEventListener('click', () => {
   notifyPopup.style.display = 'flex';
-});
-
-// ..............Liked button.............
-
-document.querySelectorAll('.action-button span:first-child i').forEach(liked => {
-  liked.addEventListener('click', () => {
-    liked.classList.toggle('liked');
-  });
 });
 
 document.querySelectorAll('.bookmark i').forEach(booked => {
