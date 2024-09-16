@@ -34,26 +34,7 @@ $configData = Helper::appClasses();
 <!-- Page Content -->
 @section('content')
   <!-- ...................Start Navbar................... -->
-  <nav>
-      <div class="container nav-container">
-          <div class="logo">
-              <h3>JAZ <span>ACADEMY</span></h3>
-          </div>
-          <form action="" method="GET" class="serch-bar">
-              <i class="fa fa-search"></i>
-              <input type="search" id="searchInput" placeholder="Search For Creators">
-          </form>
-          <div class="add-post">
-            @if (session('participant'))
-              <div class="profile-picture" id="my-profile-picture">
-                <img src="{{ asset('assets/img/avatars/no.png') }}" alt="">
-              </div>
-            @else
-              <a class="btn btn-primary btn-sm signIn">Sign In</a>
-            @endif
-          </div>
-      </div>
-  </nav>
+  @include('content.front-pages.jazmedia-navbar')
   <!-- ...................Start Navbar................... -->
 
   <!-- ...................Start Main Section................... -->
@@ -62,387 +43,114 @@ $configData = Helper::appClasses();
 
 
           <!--================== Main Left Start ==================  -->
-          <div class="main-left">
-
-
-              <!-- .......Profile.Start........ -->
-              @if (session('participant'))
-                <a  class="profile">
-                  <div class="profile-picture" id="my-profile-picture">
-                      <img src="{{ asset('assets/img/avatars/no.png') }}" alt="" />
-                  </div>
-                  <div class="profile-handle">
-                      <h4>{{ session('participant')->name }}</h4>
-                      <p class="text-gry">
-                        {{ '@' . session('participant')->username }}
-                      </p>
-                  </div>
-                </a>
-              @endif
-              <!-- .......Profile.End........ -->
-
-
-
-              <!-- .........Start Aside Bar.......... -->
-              <aside>
-
-                  <a href="/" class="menu-item {{ request()->getRequestUri() === '/' ? 'active' : '' }}" id="homeMenu">
-                      <span><img src="{{asset('assets/image/svg/house-door.svg')}}" alt=""></span> <h3>Home</h3>
-                  </a>
-
-                  <a href="?instagram=true" class="menu-item @if(request()->query('instagram') == 'true') active @endif" id="instagramMenu">
-                      <span><img src="{{asset('assets/image/svg/instagram.svg')}}" alt=""></span> <h3>Instagram</h3>
-                  </a>
-
-                  <a href="?bookmarks=true" class="menu-item @if(request()->query('bookmarks') == 'true') active @endif" id="bookmarksMenu">
-                      <span><img src="{{asset('assets/image/svg/bookmarks.svg')}}" alt=""></span> <h3>Book Marks</h3>
-                  </a>
-
-                  <a  class="menu-item" id="Notify-box">
-                      <span><img src="{{asset('assets/image/svg/bell.svg')}}" alt=""></span>
-                      <small class="notfy-counter nt" id="ntCounter1">7+</small>
-                       <h3>Notifications</h3>
-                  </a>
-
-                  <a  class="menu-item" id="theme">
-                      <span><img src="{{asset('assets/image/svg/palette.svg')}}" alt=""></span> <h3>Theme</h3>
-                  </a>
-
-
-                  <!-- ...........Add Post Btn......... -->
-                  <a href="/pages/profile-user" class="btn btn-primary btn-lg">Member Area</a>
-
-
-              </aside>
-              <!-- ..........End Aside Bar........... -->
-
-
-
-          </div>
+          @include('content.front-pages.jazmedia-mainLeft')
           <!--==================  Main Left End =================== -->
 
 
           <!--================== Main Middle Start================== -->
           <div class="main-middle">
 
-            @if (request()->query('instagram'))
+              <div class="middle-container">
 
-            <!--================== Main Middle instagram ================== -->
-            <div class="instagram-container">
-                @foreach ($task as $item)
-                  @if ($item->media == "Instagram" || $item->media == "Tiktok")
-                    @if ( $item->embed <> '' )
-                      <div style="display: flex; justify-content: center; padding-bottom: 10px;">
-                        <span class="{{ session('participant') && session('participant')->role > 1 ? 'star-rating' : '' }}" data-id="{{ $item->rate }}">
-                          @for ($i = 1; $i <= 5; $i++)
-                            @if ($i <= $item->rate)
-                              <span><i class="fa-solid fa-star star-color"></i></span>
-                            @else
-                              <span><i class="fa-solid fa-star star-uncolor"></i></span>
-                            @endif
-                          @endfor
-                        </span>
-                      </div>
-                      {!! $item->embed !!}
-                    @endif
-                  @endif
-                @endforeach
-            </div>
-            <!--================== Main Middle instagram ==================  -->
+                @if (request()->query('bookmarks'))
 
-            @else
-
-            <div class="middle-container">
-
-              @if (request()->query('bookmarks'))
-
-              <div class="profile-info">
-                <div>
-                  <h1>{{ session('participant') ? session('participant')->name : 'Annonimous' }}</h1>
-                  <p>{{ session('participant') ? '@' . session('participant')->username : '@jazmedia' }}</p>
-                  <div style="display: flex; justify-content: center;" id="my-profile-picture">
-                    <img src="{{ asset('assets/img/avatars/no.png') }}" >
+                <div class="profile-info">
+                  <div>
+                    <h1>{{ session('participant') ? session('participant')->name : 'Annonimous' }}</h1>
+                    <p>{{ session('participant') ? '@' . session('participant')->username : '@jazmedia' }}</p>
+                    <div style="display: flex; justify-content: center;" id="my-profile-picture">
+                      <img src="{{ file_exists(public_path('storage/' . session('participant')->image)) ? asset('storage/' . session('participant')->image) : asset('assets/img/avatars/no.png') }}" >
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <!--...........Start Stories............. -->
-              <div class="stories">
-                  <div class="stories-wrappper swiper mySwiper">
-                      <div class="swiper-wrapper">
-                          <div class="story swiper-slide">
-                              <img src="" alt="">
-                              <label for="add-story" class="add-story">
-                                  <i class="fa fa-add" id="upload"></i>
-                                  <p>Add Your <br> Story</p>
-                              </label>
-                              <input type="file" accept="image/jpg,image/png,image/jpeg" id="add-story">
-                          </div>
-                          @foreach ($student as $item)
-                            <div class="story swiper-slide">
-                                <img src="{{ file_exists(public_path('storage/stories/' . $item->id . '-0.png')) ? asset('storage/stories/' . $item->id . '-0.png') : asset('assets/img/avatars/no.png') }}" alt="" loading="lazy">
+                <!--...........Start Stories............. -->
+                <div class="stories">
+                    <div class="stories-wrappper swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div class="story swiper-slide" style="display: none">
+                                <img src="" alt="">
+                                <label for="add-story" class="add-story">
+                                    <i class="fa fa-add" id="upload"></i>
+                                    <p>Add Your <br> Story</p>
+                                </label>
+                                <input type="file" accept="image/jpg,image/png,image/jpeg" id="add-story">
                             </div>
-                          @endforeach
-                      </div>
-                  </div>
-              </div>
-              <script>
-                //.................Start Add story................
-                let addStory = document.querySelector('#add-story');
-
-                addStory.addEventListener('change', () => {
-                  document.querySelector('.story img').src = URL.createObjectURL(document.querySelector('#add-story').files[0]);
-                  document.querySelector('.add-story').style.display = 'none';
-                });
-              </script>
-              <!--...........Start Stories............. -->
-
-              @else
-
-              <!--...........Start Stories............. -->
-              <div class="stories">
-                  <div class="stories-wrappper swiper mySwiper">
-                      <div class="swiper-wrapper">
-                          <div class="story swiper-slide">
-                              <img src="" alt="">
-                              <div class="profile-picture " id="my-profile-picture">
-                                  <img src="{{ asset('assets/img/avatars/no.png') }}" alt="">
+                            @foreach ($student as $item)
+                              <div class="story swiper-slide">
+                                  <img src="{{ file_exists(public_path('storage/stories/' . $item->id . '-0.png')) ? asset('storage/stories/' . $item->id . '-0.png') : asset('assets/img/avatars/no.png') }}" alt="" loading="lazy">
                               </div>
-                              <label for="add-story" class="add-story">
-                                  <i class="fa fa-add" id="upload"></i>
-                                  <p>Add Your <br> Story</p>
-                              </label>
-                              <input type="file" accept="image/jpg,image/png,image/jpeg" id="add-story">
-                          </div>
-
-                          @foreach ($student as $item)
-                            <div class="story swiper-slide">
-                                <img src="{{ file_exists(public_path('storage/stories/' . $item->id . '-0.png')) ? asset('storage/stories/' . $item->id . '-0.png') : asset('assets/img/avatars/no.png') }}" alt="" loading="lazy">
-                                <div class="profile-picture " >
-                                    <img src="{{ file_exists(public_path('storage/member/' . $item->id . '.png')) ? asset('storage/member/' . $item->id . '.png') : asset('assets/img/avatars/no.png') }}" alt="" loading="lazy">
-                                </div>
-                                @php
-                                    $parts = explode(' ', $item->name);
-                                @endphp
-                                <p>{{ (strlen($item->name) > 20) ? $parts[0] . ' ' . $parts[1] : $item->name }}</p>
-                            </div>
-                          @endforeach
-
-                      </div>
-                  </div>
-              </div>
-              <script>
-                //.................Start Add story................
-                let addStory = document.querySelector('#add-story');
-
-                addStory.addEventListener('change', () => {
-                  document.querySelector('.story img').src = URL.createObjectURL(document.querySelector('#add-story').files[0]);
-                  document.querySelector('.add-story').style.display = 'none';
-                });
-              </script>
-              <!--...........Start Stories............. -->
-
-              @endif
-
-              <!--.............. Feed Aria Start............... -->
-              <div class="feeds">
-                @foreach ($task as $item)
-                  @if ($item->media <> "Instagram" && $item->media <> "Tiktok")
-                      <div class="feed" id="{{ $item->id }}">
-                        <div style="display: flex; justify-content: center; margin-bottom: 10px;">
-                          <span class="{{ session('participant') && session('participant')->role > 1 ? 'star-rating' : '' }}" data-id="{{ $item->rate }}" id="star-rating-sm">
-                            @for ($i = 1; $i <= 5; $i++)
-                              @if ($i <= $item->rate)
-                                <span><i class="fa-solid fa-star star-color"></i></span>
-                              @else
-                                <span><i class="fa-solid fa-star star-uncolor"></i></span>
-                              @endif
-                            @endfor
-                          </span>
+                            @endforeach
                         </div>
-                        <!-- ....Feed Top.... -->
-                        <div class="feed-top">
-                            <div class="user">
-                                <div class="profile-picture">
-                                    <img src="{{ file_exists(public_path('storage/member/' . $item->student_id . '.png')) ? asset('storage/member/' . $item->student_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="" loading="lazy">
-                                </div>
-                                <div class="info">
-                                    <h3>{{ $item->student_name }}</h3>
-                                    <div class="time text-gry">
-                                        @php
-                                            $date_post = new DateTime($item->date);
-                                        @endphp
-                                        <small>{{ $date_post->format('l, j F Y') }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="edit {{ session('participant') && session('participant')->role > 1 ? 'star-rating' : '' }}" data-id="{{ $item->rate }}" id="star-rating-md" style="cursor: pointer">
-                              @for ($i = 1; $i <= 5; $i++)
-                                @if ($i <= $item->rate)
-                                  <span><i class="fa-solid fa-star star-color"></i></span>
-                                @else
-                                  <span><i class="fa-solid fa-star star-uncolor"></i></span>
-                                @endif
-                              @endfor
-                            </span>
-                        </div>
-                        <!-- ...Feed Img.... -->
-                        <div class="feed-img">
-                          {!! $item->embed !!}
-                        </div>
-                        <!-- ...Feed Action Aria... -->
-                        @if (session('participant'))
-                          <div class="action-button">
-                            <div class="interaction-button">
-                              <span class="like-button" data-task-id="{{ $item->id }}"><i class="fa fa-heart likes-icon {{ $item->likes()->where('participant_id', session('participant')->id)->exists() ? 'liked' : '' }}"></i></span>
-                              <span><i class="fa fa-comment-dots"></i></span>
-                              <span><a href="{{ $item->link }}" target="_blank"><i class="fa fa-link"></i></a></span>
-                            </div>
-                            <div class="bookmark">
-                              <i class="fa fa-bookmark {{ $item->bookmarks()->where('participant_id', session('participant')->id)->exists() ? 'booked' : '' }}"></i>
-                            </div>
-                          </div>
-                        @endif
-
-                        <!--.... Liked by.... -->
-                        <div class="liked-by">
-                            <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
-                            <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
-                            <span><img src="{{ asset('assets/img/avatars/no.png') }}" alt=""></span>
-                            @php
-                                $firstLike = $item->likes()->with('participant')->first();
-                            @endphp
-                            <p>Liked by <strong class="text-bold likes-first">{{ $firstLike ? $firstLike->participant->name : 'No one yet' }}</strong><p class="likes-count">{{ $item->likes()->count() > 1 ? 'and ' . $item->likes()->count() -1 . ' others' : '' }}</p></p>
-                        </div>
-
-
-                        <!-- ......Caption...... -->
-                        <div class="caption">
-                            <div class="title">{{ $item->project_name .' - '. $item->description }}<span class="hars-tag"> {{ $item->name }}</span></div>
-                            <p><b>{{ $item->teacher_name }} </b>{{ $item->review }}</p>
-                        </div>
-
-                        <!-- ........Comments...... -->
-                        <div class="comments text-gry">
-                            View all comments
-                        </div>
-
                     </div>
-                  @endif
-                @endforeach
-              </div>
-              <!--.............. Feed Aria End............... -->
-            </div>
+                </div>
+                <script>
+                  //.................Start Add story................
+                  let addStory = document.querySelector('#add-story');
 
-            @endif
+                  addStory.addEventListener('change', () => {
+                    document.querySelector('.story img').src = URL.createObjectURL(document.querySelector('#add-story').files[0]);
+                    document.querySelector('.add-story').style.display = 'none';
+                  });
+                </script>
+                <!--...........Start Stories............. -->
+
+                @else
+
+                <!--...........Start Stories............. -->
+                <div class="stories">
+                    <div class="stories-wrappper swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div class="story swiper-slide" style="display: none">
+                                <img src="" alt="">
+                                <div class="profile-picture " id="my-profile-picture">
+                                    <img src="{{ (session('participant') && file_exists(public_path('storage/' . session('participant')->image))) ? asset('storage/' . session('participant')->image) : asset('assets/img/avatars/no.png') }}" alt="">
+                                </div>
+                                <label for="add-story" class="add-story">
+                                    <i class="fa fa-add" id="upload"></i>
+                                    <p>Add Your <br> Story</p>
+                                </label>
+                                <input type="file" accept="image/jpg,image/png,image/jpeg" id="add-story">
+                            </div>
+
+                            @foreach ($student as $item)
+                              <div class="story swiper-slide">
+                                  <img src="{{ file_exists(public_path('storage/stories/' . $item->id . '-0.png')) ? asset('storage/stories/' . $item->id . '-0.png') : asset('assets/img/avatars/no.png') }}" alt="" loading="lazy">
+                                  <div class="profile-picture " >
+                                      <img src="{{ file_exists(public_path('storage/member/' . $item->id . '.png')) ? asset('storage/member/' . $item->id . '.png') : asset('assets/img/avatars/no.png') }}" alt="" loading="lazy">
+                                  </div>
+                                  <p>{{ $item->nickname }}</p>
+                              </div>
+                            @endforeach
+
+                        </div>
+                    </div>
+                </div>
+                <script>
+                  //.................Start Add story................
+                  let addStory = document.querySelector('#add-story');
+
+                  addStory.addEventListener('change', () => {
+                    document.querySelector('.story img').src = URL.createObjectURL(document.querySelector('#add-story').files[0]);
+                    document.querySelector('.add-story').style.display = 'none';
+                  });
+                </script>
+                <!--...........Start Stories............. -->
+
+                @endif
+
+                <!--.............. Feed Aria Start............... -->
+                <div class="feeds" id="feeds-load">
+                  @include('content.front-pages.jazmedia-load')
+                </div>
+                <!--.............. Feed Aria End............... -->
+              </div>
 
           </div>
           <!--================== Main Middle End==================  -->
 
           <!--==================  Main Right Start==================  -->
-          <div class="main-right">
-              <!-- ..............Start Message............ -->
-
-              <div class="messages">
-                  <!-- ....Message top..... -->
-                  <div class="message-top">
-                      <h4>Activities</h4>
-                  </div>
-                  <!-- ....Searchbar... -->
-                  <div class="messge-serch-bar"></div>
-                  <!-- ......Message..... -->
-                  @php
-                      $first_ten = $task->take(15);
-                  @endphp
-                  @foreach ($first_ten as $item)
-                    <div class="message">
-                        <div class="profile-picture">
-                            <img src="{{ file_exists(public_path('storage/member/' . $item->student_id . '.png')) ? asset('storage/member/' . $item->student_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="">
-                        </div>
-                        <div class="message-body">
-                            <h5>{{ $item->student_name }}</h5>
-                            <p>{{ ucwords($item->name) }} <span class="text-gry"> {{ ucwords($item->date) }}</span></p>
-                        </div>
-                    </div>
-                  @endforeach
-              </div>
-
-              <!-- ..............End Message............ -->
-
-
-              <!-- ..............Start Firend Request............ -->
-              <div class="firend-rquest" style="display: none">
-                  <h4>Request</h4>
-                  <div class="request">
-                      <div class="info">
-                          <div class="profile-picture">
-                              <img src="{{ asset('assets/img/avatars/no.png') }}" alt="">
-                          </div>
-                          <div>
-                              <h5>Dnne Danele</h5>
-                              <p class="text-gry">
-                                  4 mutual firend
-                              </p>
-                              <small class="text-gry alert" >You have accepted request</small>
-                          </div>
-                      </div>
-                      <div class="action">
-                          <div class="btn btn-primary" id="Accept">
-                              Accept
-                          </div>
-                          <div class="btn btn-danger" id="Delete">
-                              Delete
-                          </div>
-                      </div>
-                  </div>
-                  <div class="request">
-                      <div class="info">
-                          <div class="profile-picture">
-                              <img src="{{ asset('assets/img/avatars/no.png') }}" alt="">
-                          </div>
-                          <div>
-                              <h5>Hija Binte</h5>
-                              <p class="text-gry">
-                                  2 mutual firend
-                              </p>
-                              <small class="text-gry alert" >You have accepted request</small>
-                          </div>
-                      </div>
-                      <div class="action">
-                          <div class="btn btn-primary" id="Accept">
-                              Accept
-                          </div>
-                          <div class="btn btn-danger" id="Delete">
-                              Delete
-                          </div>
-                      </div>
-                  </div>
-                  <div class="request">
-                      <div class="info">
-                          <div class="profile-picture">
-                              <img src="{{ asset('assets/img/avatars/no.png') }}" alt="">
-                          </div>
-                          <div>
-                              <h5>Even loise</h5>
-                              <p class="text-gry">
-                                  4 mutual firend
-                              </p>
-                              <small class="text-gry alert" >You have accepted request</small>
-                          </div>
-                      </div>
-                      <div class="action">
-                          <div class="btn btn-primary" id="Accept">
-                              Accept
-                          </div>
-                          <div class="btn btn-danger" id="Delete">
-                              Delete
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <!-- ..............End Firend Request............ -->
-
-          </div>
+            @include('content.front-pages.jazmedia-mainRight')
           <!--==================  Main Right End================== -->
 
 
@@ -450,124 +158,67 @@ $configData = Helper::appClasses();
   </main>
   <!-- ...................Start Main Section................... -->
 
-
-
-
   <!-- ...................Start PopUps Aria................... -->
 
   <!-- ................Alert-Popup............ -->
-  @if (session('success') || session('danger'))
+  @if (session('success') || session('danger') || $errors->any())
     <div class="popup alert-popup" style="display: flex">
-      <div>
-        <div class="popup-box alert-popup-box">
-          <h3 class="text-bold">{{ session('success') ? session('success') : session('danger') }}</h3>
-          <div style="margin-top: 30px">
-            <span class="close btn btn-{{ session('success') ? 'primary' : 'danger' }} btn-sm">OK</span>
-          </div>
+        <div>
+            <div class="popup-box alert-popup-box">
+                <h3 class="text-bold">
+                    {{ session('success') ?: (session('danger') ?: $errors->first()) }}
+                </h3>
+                <div style="margin-top: 30px">
+                    <span class="close btn btn-{{ session('success') ? 'primary' : 'danger' }} btn-sm">OK</span>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
   @endif
   <!-- ................End Alert-Popup............ -->
 
-  <!-- ................SignIn-Popup............ -->
-  <div class="popup signin-popup">
-    <div>
-      <div class="popup-box signin-popup-box">
-        <form action="/signin" method="post">
-          @csrf
-          <div class="serch-bar">
-            <input type="search" placeholder="Username" name="username" required>
-          </div>
-          <div class="serch-bar">
-            <input type="password" placeholder="Password" name="password" required>
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg">Sign In for Participant</button>
-        </form>
-        <div style="margin-top: 20px">
-          <p>Not Registered yet? <b><a href="#" class="signUp">Sign Up</a></b></p>
-        </div>
-      </div>
-      <span class="close"><i class="fa fa-close"></i></span>
-    </div>
-  </div>
-  <!-- ................End SignIn-Popup............ -->
-
-  <!-- ................SignUp-Popup............ -->
-  <div class="popup signup-popup">
-    <div>
-      <div class="popup-box signup-popup-box">
-        <form action="/signup" method="post">
-          @csrf
-          <div class="serch-bar">
-            <input type="search" placeholder="Name" name="name" id="name" required>
-          </div>
-          <div class="serch-bar username">
-            <input type="search" placeholder="Username" name="username" id="username" required>
-          </div>
-          <div class="serch-bar password">
-            <input type="password" placeholder="Password" name="password" id="password" required>
-          </div>
-          <div class="serch-bar">
-            <input type="password" placeholder="Retype Password" id="retype" required>
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg">Sign Up for Participant</button>
-        </form>
-        <div style="margin-top: 20px">
-          <p>Already Registered? <b><a href="#" class="signIn">Sign In</a></b></p>
-        </div>
-      </div>
-      <span class="close"><i class="fa fa-close"></i></span>
-    </div>
-  </div>
-  <!-- ................End SignUp-Popup............ -->
-
   <!-- ................Start Rating-Popup............ -->
-  <div class="popup rating-popup">
+  <div class="popup rating-popup" id="rating-popup">
     <div>
       <div class="popup-box rating-popup-box">
-        <div class="serch-bar">
-          <input type="search" placeholder="Mentor" list="options">
-          <datalist id="options">
-            <option value="Abukafa">
-            <option value="Adam Rabbani">
-            <option value="Ms. Tia">
-          </datalist>
-        </div>
-        <div class="serch-bar">
-          <textarea type="search" placeholder="Review"></textarea>
-        </div>
-        <div class="stars">
-          <span id="star1"><i class="fa-solid fa-star"></i></span>
-          <span id="star2"><i class="fa-solid fa-star"></i></span>
-          <span id="star3"><i class="fa-solid fa-star"></i></span>
-          <span id="star4"><i class="fa-solid fa-star"></i></span>
-          <span id="star5"><i class="fa-solid fa-star"></i></span>
-        </div>
-        <button class="btn btn-primary btn-lg" id="btn-rate">Rate!</button>
+        <form method="POST" id="rating-form">
+          @csrf
+          <div class="serch-bar">
+            <select type="text" class="form-select" name="teacher_id" id="teacher_id" onchange="accepter(this.value)" required>
+              <option selected disabled value="">Mentor...</option>
+                @foreach ($teachers as $teacher)
+                    <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                @endforeach
+            </select>
+            <input type="hidden" class="form-control" name="teacher_name" id="teacher_name">
+          </div>
+          <div class="serch-bar">
+            <select type="text" class="form-select" name="accepted" id="accepted" onchange="statusAccepted(this.value)" required>
+                <option selected disabled value="">Accepted...</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+            <input type="hidden" class="form-control" name="status" id="status_acceptation" value="In Progress">
+          </div>
+          <div class="stars" id="starRate">
+            <span id="star1"><i class="fa-solid fa-star"></i></span>
+            <span id="star2"><i class="fa-solid fa-star"></i></span>
+            <span id="star3"><i class="fa-solid fa-star"></i></span>
+            <span id="star4"><i class="fa-solid fa-star"></i></span>
+            <span id="star5"><i class="fa-solid fa-star"></i></span>
+          </div>
+          <input type="hidden" class="form-control" name="rate" id="rate">
+
+          <div class="serch-bar">
+            <textarea type="search" class="form-control" name="review" id="review" placeholder="Review"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" id="btn-rate">Rate and Review</button>
+        </form>
       </div>
       <span class="close"><i class="fa fa-close"></i></span>
     </div>
   </div>
   <!-- ................End Rating-Popup............ -->
-
-  <!-- ................Start Profile-Popup............ -->
-  <div class="popup profile-popup">
-      <div>
-        <div class="popup-box profile-popup-box">
-          <h1>{{ session('participant') ? session('participant')->name : 'Annonimous' }}</h1>
-          <p>{{ session('participant') ? '@' . session('participant')->username : '@jazmedia' }}</p>
-          <div id="my-profile-picture">
-              <img src="{{ asset('assets/img/avatars/no.png') }}" >
-          </div>
-          <label for="profile-upload" class="btn btn-primary btn-lg">Update Profile Picture</label>
-          <input type="file" accept="image/jpg, image/png, image/jpeg" id="profile-upload">
-          <a href="/signout" class="btn btn-primary btn-lg">Log Out</a>
-        </div>
-        <span class="close"><i class="fa fa-close"></i></span>
-      </div>
-  </div>
-  <!-- ................End Profile-Popup............ -->
 
   <!-- ................Start Notify-Popup............ -->
   <div class="popup notify-popup">
@@ -582,11 +233,11 @@ $configData = Helper::appClasses();
                   <!-- ....Searchbar... -->
                   <div class="messge-serch-bar"></div>
                   @php
-                      $first_ten = $task->take(10);
+                      $first_ten = $activities->take(7);
                   @endphp
                   @foreach ($first_ten as $item)
                     @php
-                      $posted = new DateTime($item->updated_at);
+                      $posted = new DateTime($item->created_at);
                       $now = new DateTime(date('Y-m-d'));
                       $diff = $now->diff($posted);
                       $days = $diff->days;
@@ -594,14 +245,17 @@ $configData = Helper::appClasses();
                     @endphp
                     <div class="message">
                         <div class="profile-picture">
-                            <img src="{{ file_exists(public_path('storage/member/' . $item->student_id . '.png')) ? asset('storage/member/' . $item->student_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="">
+                            <img src="{{ file_exists(public_path('storage/member/' . $item->image)) ? asset('storage/member/' . $item->image) : asset('assets/img/avatars/no.png') }}" alt="">
                             @if ($days == 0)
                               <div class="green-active"></div>
                             @endif
                         </div>
                         <div class="notification-body">
-                            <b>{{ $item->student_name }}</b> <small class="text-gry">{{ $posted->format('F, j') }}</small>
-                            <p>{{ ucwords($item->name) }} <span class="text-gry">{{ $item->date }}</span></p>
+                            @php
+                                $parts = explode(' ', $item->name);
+                            @endphp
+                            <b>{{ (strlen($item->name) > 20) ? $parts[0] . ' ' . $parts[1] : $item->name }}</b> <small class="text-gry">{{ $posted->format('F, j') }}</small>
+                            <p><a href="{{ ($item->media == "Instagram" || $item->media == "Tiktok") ? '/instagram?creator=' . $item->task_id : '/?creator=' . $item->task_id }}">{{ ucwords($item->task) }}</a> {{ $item->project_name }}</p>
                         </div>
                     </div>
                   @endforeach
@@ -697,18 +351,82 @@ $configData = Helper::appClasses();
 
   <!-- ...................End PopUps Aria................... -->
 
+  @if ($task instanceof Illuminate\Pagination\LengthAwarePaginator && $task->hasPages())
+    <script>
+      // LOAD CODE
+      document.addEventListener('DOMContentLoaded', function () {
+          let nextPageUrl = '{{ $task->nextPageUrl() }}';
+          let isLoading = false; // Flag untuk mencegah permintaan berulang
+
+          window.addEventListener('scroll', function () {
+              if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 100 && !isLoading) {
+                  if (nextPageUrl) {
+                      console.log('Pagination triggered. Next page URL:', nextPageUrl); // Debug: pagination triggered
+                      loadMorePosts();
+                  } else {
+                      console.log('No more pages to load.'); // Debug: no more pages
+                  }
+              }
+          });
+
+          function loadMorePosts() {
+              isLoading = true; // Set flag untuk mencegah permintaan berulang
+              fetch(nextPageUrl, {
+                  method: 'GET',
+                  headers: {
+                      'X-Requested-With': 'XMLHttpRequest' // Deteksi AJAX di server
+                  }
+              })
+              .then(response => response.json())
+              .then(data => {
+                  console.log('Response received:', data); // Debug: AJAX response
+                  if (data.view) {
+                      nextPageUrl = data.nextPageUrl;
+                      console.log('Posts loaded successfully. Next page URL:', nextPageUrl); // Debug: next page URL
+                      document.getElementById('feeds-load').insertAdjacentHTML('beforeend', data.view);
+                  } else {
+                      console.log('No content received for the next page'); // Debug: no content
+                      nextPageUrl = null; // Hentikan jika tidak ada konten lagi
+                  }
+                  isLoading = false; // Reset flag setelah data dimuat
+              })
+              .catch(error => {
+                  console.error('Error loading more posts:', error); // Debug: error
+                  isLoading = false; // Reset flag jika terjadi error
+              });
+          }
+      });
+    </script>
+  @endif
+
   <script>
-    const currentUrl = new URL(window.location.href);
-    const params = currentUrl.searchParams;
-    const searchInput = document.getElementById('searchInput');
-    if (params.toString()) {
-      const queryName = params.keys().next().value;
-      searchInput.name = (queryName == 'instagram' ? 'instagram' : 'creator');
-    } else {
-      searchInput.name = 'creator';
+    document.getElementById('starRate').style.display = 'none';
+
+    function accepter(id) {
+      const selectedOption = event.target.options[id];
+      const teacher_name = selectedOption.text;
+      document.getElementById('teacher_name').value = teacher_name;
     }
 
-    document.querySelectorAll('.like-button').forEach(element => {
+    function statusAccepted(accept) {
+      if (accept == 1) {
+        document.getElementById('starRate').style.display = 'block';
+        document.getElementById('status_acceptation').value = 'Completed';
+      } else {
+        document.getElementById('starRate').style.display = 'none';
+        document.getElementById('status_acceptation').value = 'In Progress';
+      }
+    }
+
+  </script>
+
+@endsection
+
+
+
+{{-- <script>
+  // LIKE
+  document.querySelectorAll('.like-button').forEach(element => {
       element.addEventListener('click', function() {
         var taskId = this.getAttribute('data-task-id'); // Ambil task ID dari atribut data
         var csrfToken = '{{ csrf_token() }}'; // Token CSRF untuk keamanan
@@ -716,6 +434,7 @@ $configData = Helper::appClasses();
         var xhr = new XMLHttpRequest();
 
         var url = '{{ route('task.like', ['id' => ':id']) }}'.replace(':id', taskId);
+        console.log(url);
 
         xhr.open('POST', url, true);
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -746,7 +465,38 @@ $configData = Helper::appClasses();
       });
     });
 
+    // BOOKMARR
+    document.querySelectorAll('.mark-button').forEach(element => {
+      element.addEventListener('click', function () {
+        var taskId = this.getAttribute('data-task-id'); // Ambil task ID dari atribut data
+        var csrfToken = '{{ csrf_token() }}'; // Token CSRF untuk keamanan
 
-  </script>
+        var xhr = new XMLHttpRequest();
 
-@endsection
+        var url = `/task/${taskId}/bookmark`;
+
+        console.log(url);
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken); // Menetapkan header CSRF
+
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              var response = JSON.parse(xhr.responseText);
+
+              var marksIcon = element.querySelector('.marks-icon');
+              if (marksIcon) {
+                marksIcon.classList.toggle('booked');
+              }
+            } else {
+              console.error('Error:', xhr.responseText);
+            }
+          }
+        };
+
+        xhr.send(JSON.stringify({ task_id: taskId }));
+      });
+    });
+</script> --}}

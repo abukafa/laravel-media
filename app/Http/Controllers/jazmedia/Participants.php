@@ -11,6 +11,10 @@ class Participants extends Controller
 {
     public function signup(Request $request)
     {
+      $request->validate([
+        'username' => 'unique:participants,username',
+      ]);
+
       $saved = Participant::create([
         'name' => $request->name,
         'username' => $request->username,

@@ -20,11 +20,15 @@ use App\Http\Controllers\pages\AccountSettingsSecurity;
 
 
 Route::get('/', [Jazmedia::class, 'index'])->name('jazmedia');
+Route::get('/instagram', [Jazmedia::class, 'indexInstagram'])->name('jazmedia-instagram');
 Route::get('/dashboard', [Landing::class, 'index'])->name('front-pages-landing');
 Route::post('/signup', [Participants::class, 'signup']);
 Route::post('/signin', [Participants::class, 'signin']);
 Route::get('/signout', [Participants::class, 'signout']);
 Route::post('/task/{id}/like', [AccountSettingsTasks::class, 'likeTask'])->name('task.like');
+Route::post('/task/{id}/bookmark', [AccountSettingsTasks::class, 'bookmarkTask'])->name('task.bookmark');
+Route::post('/profile/upload', [Jazmedia::class, 'uploadProfilePicture'])->name('profile.upload');
+Route::post('/task/rating/{id}', [Jazmedia::class, 'taskRating'])->name('task.rating');
 Route::get('/login', [LoginBasic::class, 'index'])->name('auth-login-basic');
 Route::post('/login', [LoginBasic::class, 'login'])->name('auth-login');
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);

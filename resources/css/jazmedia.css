@@ -89,6 +89,7 @@ img {
 }
 .profile-picture:hover {
   opacity: 0.75;
+  cursor: pointer;
 }
 
 .btn {
@@ -172,6 +173,14 @@ nav {
 }
 .logo span {
   color: var(--color-primary);
+}
+
+.form-select {
+  background: transparent;
+  width: 30vw;
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  color: var(--color-dark);
 }
 /* .................End NavBar.................. */
 
@@ -322,12 +331,12 @@ aside .menu-item:nth-last-child(2) {
 }
 .story p {
   text-align: center;
-  margin-top: -3rem;
+  margin-top: -2rem;
   color: white;
   z-index: 8;
   position: absolute;
   width: 100%;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   letter-spacing: 0.4px;
 }
 .story > img {

@@ -25,6 +25,7 @@ stars.forEach((star, index) => {
     addStyle(index + 1);
     removeStyle(index + 1);
     btnRate.textContent = index + 1 + ' Rates';
+    document.getElementById('rate').value = index + 1;
   });
 });
 
@@ -98,8 +99,6 @@ let signinPopup = document.querySelector('.signin-popup');
 let signupPopup = document.querySelector('.signup-popup');
 let alertPopup = document.querySelector('.alert-popup');
 let themeCustomizePopup = document.querySelector('.theme-customize');
-let myProfilePictureImg = document.querySelectorAll('#my-profile-picture img');
-let ProfileUploader = document.querySelector('#profile-upload');
 
 AllMyProfilePicture.forEach(AllProfile => {
   AllProfile.addEventListener('click', () => {
@@ -120,25 +119,31 @@ document.querySelectorAll('.close').forEach(AllCloser => {
   });
 });
 
-ProfileUploader.addEventListener('change', () => {
-  myProfilePictureImg.forEach(AllMyProfileImg => {
-    AllMyProfileImg.src = URL.createObjectURL(document.querySelector('#profile-upload').files[0]);
-  });
-});
-
 document.querySelector('#feed-pic-upload').addEventListener('change', () => {
   document.querySelector('#postIMg').src = URL.createObjectURL(document.querySelector('#feed-pic-upload').files[0]);
 });
 
-//.................Start Rating Popup................
-document.querySelectorAll('.star-rating').forEach(element => {
-  element.addEventListener('click', function () {
-    const rate = this.getAttribute('data-id');
-    if (rate == 0) {
-      ratingPopup.style.display = 'flex';
+// Assuming #feeds-load is the container where .star-rating elements are added
+let form = document.getElementById('rating-form');
+let feedsLoadContainer = document.getElementById('feeds-load');
+
+if (feedsLoadContainer) {
+  feedsLoadContainer.addEventListener('click', function (event) {
+    let element = event.target.closest('.star-rating');
+    if (element) {
+      const rate = element.getAttribute('data-rate');
+      const id = element.getAttribute('data-id');
+      if (!form) {
+        console.error('Form not found!');
+        return;
+      }
+      if (rate == 0) {
+        ratingPopup.style.display = 'flex';
+        form.setAttribute('action', '/task/rating/' + id);
+      }
     }
   });
-});
+}
 
 //.................Sign Up Popup................
 let registering = document.querySelector('.signUp');
@@ -188,12 +193,6 @@ let notifyBox = document.querySelector('#Notify-box');
 
 notifyBox.addEventListener('click', () => {
   notifyPopup.style.display = 'flex';
-});
-
-document.querySelectorAll('.bookmark i').forEach(booked => {
-  booked.addEventListener('click', () => {
-    booked.classList.toggle('booked');
-  });
 });
 
 // ......................Theme CustoMize........................
@@ -311,3 +310,86 @@ const bgicon = () => {
     icon.classList.add('icon-bg');
   });
 };
+
+// document.addEventListener('DOMContentLoaded', function () {
+//   // LIKE
+//   document.getElementById('feeds-load').addEventListener('click', function (event) {
+//     if (event.target && event.target.classList.contains('like-button')) {
+//       var taskId = event.target.getAttribute('data-task-id');
+//       likeTask(taskId, event.target.closest('.feed'));
+//     }
+
+//     if (event.target && event.target.classList.contains('mark-button')) {
+//       var taskId = event.target.getAttribute('data-task-id');
+//       markTask(taskId, event.target.closest('.feed'));
+//     }
+//   });
+
+//   function likeTask(taskId, feedElement) {
+//     var csrfToken = '{{ csrf_token() }}';
+
+//     var xhr = new XMLHttpRequest();
+//     var url = `/task/${taskId}/like`;
+
+//     console.log('Like URL:', url);
+
+//     xhr.open('POST', url, true);
+//     xhr.setRequestHeader('Content-Type', 'application/json');
+//     xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+
+//     xhr.onreadystatechange = function () {
+//       if (xhr.readyState === 4) {
+//         if (xhr.status === 200) {
+//           var response = JSON.parse(xhr.responseText);
+//           console.log('Like Response:', response);
+
+//           var actionButton = feedElement.querySelector('.action-button');
+//           var likesCountElement = actionButton.nextElementSibling.querySelector('.likes-count');
+//           var likesFirstElement = actionButton.nextElementSibling.querySelector('.likes-first');
+//           var likesIcon = actionButton.querySelector('.likes-icon');
+
+//           if (likesCountElement && likesIcon) {
+//             likesFirstElement.innerText = response.first_like;
+//             likesCountElement.innerText = response.likes_count;
+//             likesIcon.classList.toggle('liked');
+//           }
+//         } else {
+//           console.error('Error liking:', xhr.responseText);
+//         }
+//       }
+//     };
+
+//     xhr.send(JSON.stringify({ task_id: taskId }));
+//   }
+
+//   function markTask(taskId, feedElement) {
+//     var csrfToken = '{{ csrf_token() }}';
+
+//     var xhr = new XMLHttpRequest();
+//     var url = `/task/${taskId}/bookmark`;
+
+//     console.log('Bookmark URL:', url);
+
+//     xhr.open('POST', url, true);
+//     xhr.setRequestHeader('Content-Type', 'application/json');
+//     xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+
+//     xhr.onreadystatechange = function () {
+//       if (xhr.readyState === 4) {
+//         if (xhr.status === 200) {
+//           var response = JSON.parse(xhr.responseText);
+//           console.log('Bookmark Response:', response);
+
+//           var marksIcon = feedElement.querySelector('.marks-icon');
+//           if (marksIcon) {
+//             marksIcon.classList.toggle('booked');
+//           }
+//         } else {
+//           console.error('Error bookmarking:', xhr.responseText);
+//         }
+//       }
+//     };
+
+//     xhr.send(JSON.stringify({ task_id: taskId }));
+//   }
+// });

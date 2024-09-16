@@ -112,4 +112,40 @@ class AccountSettingsTasks extends Controller
       ]);
   }
 
+  public function bookmarkTask(Request $request, $id)
+  {
+      $task = Task::findOrFail($id);
+      $participant = session('participant');
+
+      if (!$participant) {
+          return response()->json(['message' => 'Participant not found.'], 404);
+      }
+
+      $user = Participant::find($participant['id']);
+
+      if (!$user) {
+          return response()->json(['message' => 'Invalid participant.'], 404);
+      }
+
+      if ($user->bookmarks()->where('task_id', $id)->exists()) {
+          $user->bookmarks()->where('task_id', $id)->delete();
+          $message = 'Task unmarked successfully!';
+      } else {
+          $user->bookmarks()->create([
+              'task_id' => $id
+          ]);
+          $message = 'Task marked successfully!';
+      }
+
+      // Ambil data bookmarked pertama dan hitung jumlah total bookmarks
+      $firstLike = $task->bookmarks()->with('participant')->first();
+      $bookmarksCount = $task->bookmarks()->count();
+
+      return response()->json([
+        'message' => $message,
+        'bookmarks_count' => $bookmarksCount > 1 ? 'and ' . ($bookmarksCount-1) . ' others' : '',
+        'first_like' => $firstLike ? $firstLike->participant->name : 'No one yet'
+      ]);
+  }
+
 }

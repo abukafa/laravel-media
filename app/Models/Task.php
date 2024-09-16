@@ -20,4 +20,9 @@ class Task extends Model
     {
         return $this->hasMany(Bookmark::class);
     }
+
+    public function bookmarkedBy($participantId)
+    {
+        return $this->bookmarks()->where('participant_id', $participantId);
+    }
 }
