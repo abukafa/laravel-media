@@ -233,7 +233,7 @@ $configData = Helper::appClasses();
                   <!-- ....Searchbar... -->
                   <div class="messge-serch-bar"></div>
                   @php
-                      $first_ten = $activities->take(7);
+                      $first_ten = $activities->take(5);
                   @endphp
                   @foreach ($first_ten as $item)
                     @php
@@ -244,7 +244,7 @@ $configData = Helper::appClasses();
                       $formattedDiff = $diff->format('%y years, %m months, %d days');
                     @endphp
                     <div class="message">
-                        <div class="profile-picture">
+                        <div class="profile-picture" style="margin-top:.5rem">
                             <img src="{{ file_exists(public_path('storage/member/' . $item->image)) ? asset('storage/member/' . $item->image) : asset('assets/img/avatars/no.png') }}" alt="">
                             @if ($days == 0)
                               <div class="green-active"></div>
@@ -254,8 +254,9 @@ $configData = Helper::appClasses();
                             @php
                                 $parts = explode(' ', $item->name);
                             @endphp
-                            <b>{{ (strlen($item->name) > 20) ? $parts[0] . ' ' . $parts[1] : $item->name }}</b> <small class="text-gry">{{ $posted->format('F, j') }}</small>
-                            <p><a href="{{ ($item->media == "Instagram" || $item->media == "Tiktok") ? '/instagram?creator=' . $item->task_id : '/?creator=' . $item->task_id }}">{{ ucwords($item->task) }}</a> {{ $item->project_name }}</p>
+                            <b>{{ (strlen($item->name) > 20) ? $parts[0] . ' ' . $parts[1] : $item->name }}</b> <small class="text-gry">{{ $posted->format('M, j') }}</small>
+                            <p>{{ ucwords($item->project_name) }}</p>
+                            <p><a href="{{ ($item->media == "Instagram" || $item->media == "Tiktok") ? '/instagram?creator=' . $item->task_id : '/?creator=' . $item->task_id }}">{{ ucwords($item->task) }}</a></p>
                         </div>
                     </div>
                   @endforeach
@@ -421,82 +422,3 @@ $configData = Helper::appClasses();
   </script>
 
 @endsection
-
-
-
-{{-- <script>
-  // LIKE
-  document.querySelectorAll('.like-button').forEach(element => {
-      element.addEventListener('click', function() {
-        var taskId = this.getAttribute('data-task-id'); // Ambil task ID dari atribut data
-        var csrfToken = '{{ csrf_token() }}'; // Token CSRF untuk keamanan
-
-        var xhr = new XMLHttpRequest();
-
-        var url = '{{ route('task.like', ['id' => ':id']) }}'.replace(':id', taskId);
-        console.log(url);
-
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken); // Menetapkan header CSRF
-
-        xhr.onreadystatechange = function() {
-          if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-              var response = JSON.parse(xhr.responseText);
-
-              var actionButton = element.closest('.action-button');
-              var likesCountElement = actionButton.nextElementSibling.querySelector('.likes-count');
-              var likesFirstElement = actionButton.nextElementSibling.querySelector('.likes-first');
-              var likesIcon = element.querySelector('.likes-icon');
-
-              if (likesCountElement && likesIcon) {
-                likesFirstElement.innerText = response.first_like;
-                likesCountElement.innerText = response.likes_count;
-                likesIcon.classList.toggle('liked');
-              }
-            } else {
-              console.error('Error:', xhr.responseText);
-            }
-          }
-        };
-
-        xhr.send(JSON.stringify({ task_id: taskId }));
-      });
-    });
-
-    // BOOKMARR
-    document.querySelectorAll('.mark-button').forEach(element => {
-      element.addEventListener('click', function () {
-        var taskId = this.getAttribute('data-task-id'); // Ambil task ID dari atribut data
-        var csrfToken = '{{ csrf_token() }}'; // Token CSRF untuk keamanan
-
-        var xhr = new XMLHttpRequest();
-
-        var url = `/task/${taskId}/bookmark`;
-
-        console.log(url);
-
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken); // Menetapkan header CSRF
-
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-              var response = JSON.parse(xhr.responseText);
-
-              var marksIcon = element.querySelector('.marks-icon');
-              if (marksIcon) {
-                marksIcon.classList.toggle('booked');
-              }
-            } else {
-              console.error('Error:', xhr.responseText);
-            }
-          }
-        };
-
-        xhr.send(JSON.stringify({ task_id: taskId }));
-      });
-    });
-</script> --}}

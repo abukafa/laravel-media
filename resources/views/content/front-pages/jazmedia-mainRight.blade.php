@@ -11,7 +11,7 @@
         <!-- ......Message..... -->
         @foreach ($activities as $item)
         <div class="message">
-            <div class="profile-picture">
+            <div class="profile-picture" style="margin-top:.5rem">
                 <img src="{{ file_exists(public_path('storage/member/' . $item->image)) ? asset('storage/member/' . $item->image) : asset('assets/img/avatars/no.png') }}" alt="">
             </div>
             <div class="message-body">

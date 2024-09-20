@@ -33,7 +33,7 @@
 
         <a  class="menu-item" id="Notify-box">
             <span><img src="{{asset('assets/image/svg/bell.svg')}}" alt=""></span>
-            <small class="notfy-counter nt" id="ntCounter1">7+</small>
+            <small class="notfy-counter nt" id="ntCounter1">5</small>
             <h3>Notifications</h3>
         </a>
 

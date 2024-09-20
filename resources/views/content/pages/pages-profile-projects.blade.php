@@ -81,7 +81,7 @@
         <div class="d-flex align-items-start">
           <div class="d-flex align-items-start">
             <div class="avatar me-2">
-              <img src="{{ asset('assets/img/icons/brands/social-label.png') }}" alt="Avatar" class="rounded-circle" />
+              <img src="{{ asset('assets/img/icons/brands/web.png') }}" alt="Avatar" class="rounded-circle" />
             </div>
             <div class="me-2 ms-1">
               <h5 class="mb-0"><a href="javascript:;" class="stretched-link text-body">{{ $item->theme }}</a></h5>
@@ -113,20 +113,36 @@
         <div class="d-flex align-items-center pt-1">
           <div class="d-flex align-items-center">
             <ul class="list-unstyled d-flex align-items-center avatar-group mb-0 z-2 mt-1">
-              @php
-                $processedUserIDs = []; // Initialize an empty array to store processed user IDs
-              @endphp
+                @php
+                $filteredTasks = [];
+                $processedUserIDs = [];
+                $weeksAgo = now()->subWeek(2);
+                $monthsAgo = now()->subMonth();
+                @endphp
 
-              @foreach ($tasks as $task)
-                @if ($task->project_id == $item->id && !in_array($task->student_id, $processedUserIDs))
+                @foreach ($tasks->reverse() as $task)
                   @php
-                    $processedUserIDs[] = $task->student_id; // Add the user ID to the processed list
+                    $taskDate = $task->date ? \Illuminate\Support\Carbon::parse($task->date) : null;
                   @endphp
+                  @if ($task->project_id == $item->id &&
+                      !in_array($task->student_id, $processedUserIDs) &&
+                      $taskDate && $taskDate->greaterThanOrEqualTo($weeksAgo))
+                    @php
+                      $processedUserIDs[] = $task->student_id;
+                      $filteredTasks[] = $task;
+                    @endphp
+
+                    @if (count($filteredTasks) == 10)
+                      @break
+                    @endif
+                  @endif
+                @endforeach
+
+                @foreach ($filteredTasks as $task)
                   <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="{{ $task->student_name }}" class="avatar avatar-sm pull-up">
                     <img class="rounded-circle" src="{{ file_exists(public_path('storage/member/' . $task->student_id . '.png')) ? asset('storage/member/' . $task->student_id . '.png') : asset('assets/img/avatars/no.png') }}" alt="Avatar">
                   </li>
-                @endif
-              @endforeach
+                @endforeach
 
             </ul>
           </div>

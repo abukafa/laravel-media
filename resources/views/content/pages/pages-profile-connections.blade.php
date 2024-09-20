@@ -61,75 +61,54 @@
 
 <!-- Connection Cards -->
 <div class="row g-4">
-  @foreach ($students as $item)
-  <div class="col-xl-4 col-lg-6 col-md-6">
-    <div class="card">
-      <div class="card-body text-center">
-        <div class="dropdown btn-pinned">
-          <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="javascript:void(0);">Share connection</a></li>
-            <li><a class="dropdown-item" href="javascript:void(0);">Block connection</a></li>
-          </ul>
-        </div>
-        <div class="mx-auto my-3">
-          <img src="{{ $item->image && file_exists(public_path('storage/member/' . $item->image)) ? asset('storage/member/' . $item->image) : asset('assets/img/avatars/no.png') }}" alt="Avatar Image" class="rounded-circle w-px-100" />
-        </div>
-        <h4 class="mb-1 card-title">{{ implode(' ', array_slice(explode(' ', $item->name), 0, 2)) }}</h4>
-        <span class="pb-1">{{ $item->role ?: 'Content Creator' }}</span>
-        {{-- <div class="d-flex align-items-center justify-content-center my-3 gap-2">
-          @php
-              $arraySkills = $item->skills ? explode(", ", $item->skills) : [];
-          @endphp
-          @for ($i = 0; $i < count($arraySkills); $i++)
-            <a href="javascript:;"><span class="badge bg-label-primary">{{ $arraySkills[$i] }}</span></a>
-          @endfor
-        </div> --}}
-        @php
-          $total_tasks = 0;
-          $total_done = 0;
-          $total_rate = 0;
-          foreach ($tasks as $key => $value) {
-            if ($value->student_id == $item->id) {
-              $total_tasks++;
-              if ($value->status == 'Completed') {
-                $total_done++;
-              }
-              $total_rate += $value->rate;
-            }
-          }
-          @endphp
-        <div class="text-warning my-3">
-          @for ($i = 1; $i <= 5 ; $i++)
-            @if ($i <= $total_rate/($total_done ?: 1))
-                <i class="ti ti-star-filled ti-sm"></i>
-            @else
-                <i class="ti ti-star ti-sm"></i>
-            @endif
-          @endfor
-        </div>
-        <div class="d-flex align-items-center justify-content-around my-3 py-1">
-          <div>
-            <h4 class="mb-0">{{ $total_tasks }}</h4>
-            <span>Tasks</span>
+    @foreach ($studentRates as $item)
+    <div class="col-xl-4 col-lg-6 col-md-6">
+      <div class="card">
+        <div class="card-body text-center">
+          <div class="dropdown btn-pinned">
+            <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="ti ti-dots-vertical text-muted"></i></button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="javascript:void(0);">Share connection</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0);">Block connection</a></li>
+            </ul>
           </div>
-          <div>
-            <h4 class="mb-0">{{ $total_done }}</h4>
-            <span>Completed</span>
+          <div class="mx-auto my-3">
+            <img src="{{ $item['student']->image && file_exists(public_path('storage/member/' . $item['student']->image)) ? asset('storage/member/' . $item['student']->image) : asset('assets/img/avatars/no.png') }}" alt="Avatar Image" class="rounded-circle w-px-100" />
           </div>
-          <div>
-            <h4 class="mb-0">{{ $total_rate }}</h4>
-            <span>Rates</span>
+          <h4 class="mb-1 card-title">{{ implode(' ', array_slice(explode(' ', $item['student']->name), 0, 2)) }}</h4>
+          <span class="pb-1">{{ $item['student']->role ?: 'Content Creator' }}</span>
+
+          <div class="text-warning my-3">
+            @for ($i = 1; $i <= 5 ; $i++)
+              @if ($i <= $item['average_rate'])
+                  <i class="ti ti-star-filled ti-sm"></i>
+              @else
+                  <i class="ti ti-star ti-sm"></i>
+              @endif
+            @endfor
           </div>
-        </div>
-        <div class="d-flex align-items-center justify-content-center">
-          <a href="javascript:;" class="btn btn-primary d-flex align-items-center me-3"><i class="ti-xs me-1 ti ti-user-check me-1"></i>Connected</a>
-          <a href="javascript:;" class="btn btn-label-secondary btn-icon"><i class="ti ti-mail ti-sm"></i></a>
+          <div class="d-flex align-items-center justify-content-around my-3 py-1">
+            <div>
+              <h4 class="mb-0">{{ $item['total_done'] }}</h4>
+              <span>Tasks</span>
+            </div>
+            <div>
+              <h4 class="mb-0">{{ $item['total_rate'] }}</h4>
+              <span>Rates</span>
+            </div>
+            <div>
+              <h4 class="mb-0">{{ number_format($item['average_rate'], 1) }}</h4>
+              <span>Result</span>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-center">
+            <a href="javascript:;" class="btn btn-primary d-flex align-items-center me-3"><i class="ti-xs me-1 ti ti-user-check me-1"></i>Connected</a>
+            <a href="javascript:;" class="btn btn-label-secondary btn-icon"><i class="ti ti-mail ti-sm"></i></a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  @endforeach
+    @endforeach
 </div>
 <!--/ Connection Cards -->
 @endsection

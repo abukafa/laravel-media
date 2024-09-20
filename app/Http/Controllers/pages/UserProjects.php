@@ -11,9 +11,8 @@ class UserProjects extends Controller
 {
   public function index()
   {
-    $logo = ['social', 'react', 'vue', 'html', 'figma', 'xd'];
     return view('content.pages.pages-profile-projects', [
-      'projects' => Project::all(),
+      'projects' => Project::where('status', 'In Progress')->get(),
       'tasks' => Task::all(),
     ]);
   }
