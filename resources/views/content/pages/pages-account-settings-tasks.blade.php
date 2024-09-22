@@ -192,6 +192,7 @@
             document.getElementById('project_name').value = data.project.subject + ' - ' + data.project.theme;
             document.getElementById('deadline').value = data.project.end_date;
             document.getElementById('status').value = data.project.status;
+            document.getElementById('description').value = data.project.description;
     console.log(data.project.status);
         }
     };
