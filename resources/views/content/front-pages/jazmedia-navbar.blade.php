@@ -1,7 +1,7 @@
 <nav>
   <div class="container nav-container">
       <div class="logo">
-          <h3>JAZ <span>ACADEMY</span></h3>
+          <a href="{{ !config('variables.ourWebsite') ?: config('variables.ourWebsite') }}" target="_blank"><h3>JAZ <span>ACADEMY</span></h3></a>
       </div>
       <form action="" method="GET" class="serch-bar">
           <i class="fa fa-search"></i>

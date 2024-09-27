@@ -3,6 +3,7 @@
     @if (isset($item->media) && ($item->media !== "Instagram" && $item->media !== "Tiktok"))
 
       <div class="feed" id="{{ $item->id }}">
+        <!-- Rating Display SM -->
         <div style="display: flex; justify-content: center; margin-bottom: 10px;">
           <span class="{{ session('participant') && session('participant')->role > 1 ? 'star-rating' : '' }}" data-id="{{ $item->id }}" data-rate="{{ $item->rate }}" id="star-rating-sm">
             @for ($i = 1; $i <= 5; $i++)
@@ -42,7 +43,7 @@
         </div>
         <!-- ...Feed Img.... -->
         <div class="feed-img">
-          {!! $item->embed !!}
+            {!! $item->embed !!}
         </div>
         <!-- ...Feed Action Aria... -->
         @if (session('participant'))
@@ -87,6 +88,21 @@
     @endif
 
   <script>
+    function handleIframes() {
+      var iframes = document.querySelectorAll('.feed-img iframe');
+
+      iframes.forEach(function(iframe) {
+        if (iframe.hasAttribute('width')) {
+          iframe.setAttribute('width', '100%');
+        } else {
+          iframe.setAttribute('width', '100%');
+          iframe.setAttribute('height', '480');
+          iframe.setAttribute('allow', 'autoplay');
+        }
+        iframe.classList.add('responsive-iframe');
+      });
+    }
+    handleIframes();
     // LIKE
         function likeTask(event, taskId) {
           var csrfToken = '{{ csrf_token() }}'; // Token CSRF untuk keamanan

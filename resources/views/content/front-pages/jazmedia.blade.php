@@ -364,6 +364,7 @@ $configData = Helper::appClasses();
                   if (nextPageUrl) {
                       console.log('Pagination triggered. Next page URL:', nextPageUrl); // Debug: pagination triggered
                       loadMorePosts();
+                      handleIframes();
                   } else {
                       console.log('No more pages to load.'); // Debug: no more pages
                   }
@@ -380,7 +381,7 @@ $configData = Helper::appClasses();
               })
               .then(response => response.json())
               .then(data => {
-                  console.log('Response received:', data); // Debug: AJAX response
+                  // console.log('Response received:', data); // Debug: AJAX response
                   if (data.view) {
                       nextPageUrl = data.nextPageUrl;
                       console.log('Posts loaded successfully. Next page URL:', nextPageUrl); // Debug: next page URL
