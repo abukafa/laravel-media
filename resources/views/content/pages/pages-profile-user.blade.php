@@ -150,10 +150,10 @@
           <li class="timeline-item timeline-item-transparent">
             <span class="timeline-point timeline-point-{{ $item->accepted ? 'primary' : (!$item->accepted && $days < 3 ? 'success' : (!$item->accepted && $days < 5 ? 'warning' : 'danger')) }}"></span>
             <div class="timeline-event">
-              <div class="timeline-header mb-4 mt-1">
+              <div class="timeline-header mb-2 mt-1">
                 <div>
                   <h6 class="mb-0">{{ ucwords(substr($item->name, 0, 35)) }}...</h6>
-                  <p class="mb-2">{{ $item->student_name }}</p>
+                  <p class="mb-2">Task ID : {{ $item->id }}</p>
                 </div>
                 <a href="{{ $item->link }}" target="_blank">
                   <div class="text-warning" style="font-size: 8px;">

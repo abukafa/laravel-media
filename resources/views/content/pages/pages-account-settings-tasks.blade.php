@@ -153,22 +153,32 @@
         <table class="invoice-list-table table border-top">
           <thead>
             <tr>
-              <th>No</th>
+              <th>ID</th>
               <th>Date</th>
               <th>Project</th>
               <th>Task</th>
-              <th>Status</th>
+              <th>Rating</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($tasks as $item)
             <tr class="{{ $task && $task->id == $item->id ? 'table-active' : '' }}">
-              <td>{{ $loop->iteration }}</td>
+              <td>{{ $item->id }}</td>
               <td>{{ $item->date }}</td>
               <td>{{ $item->project_name }}</td>
               <td>{{ $item->name }}</td>
-              <td>{{ $item->status }}</td>
+              <td>
+                  <div class="text-warning" style="font-size: 8px;">
+                    @for ($i = 1; $i <= 5; $i++)
+                      @if ($i <= $item->rate)
+                          <i class="ti ti-star-filled ti-sm"></i>
+                      @else
+                          <i class="ti ti-star ti-sm"></i>
+                      @endif
+                    @endfor
+                  </div>
+              </td>
               <td>
                 <a class="btn btn-sm btn-success" href="{{ $item->link }}" target="_blank"><i class="ti-xs ti ti-link me-1"></i></a>
                 <a class="btn btn-sm btn-primary" href="{{ route('pages-account-settings-tasks', ['id' => $item->id]) }}"><i class="ti-xs ti ti-pencil me-1"></i></a>
