@@ -21,7 +21,7 @@
       <div class="d-flex justify-content-between align-items-center flex-wrap mb-2 gap-1">
         <div class="me-1">
           <h5 class="mb-1">{{ $item->name }}</h5>
-          <p class="mb-1"><span class="fw-medium">Jaz Academy</span></p>
+          <p class="mb-1"><span class="fw-medium">{{ $item->author }}</span></p>
         </div>
         <div class="d-flex align-items-center">
           <span class="badge bg-label-danger">{{ $item->subject }}</span>
