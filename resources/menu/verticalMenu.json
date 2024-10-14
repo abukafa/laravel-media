@@ -72,6 +72,11 @@
           "url": "academy/awards",
           "name": "Awards",
           "slug": "academy-awards"
+        },
+        {
+          "url": "academy/course",
+          "name": "Courses",
+          "slug": "academy-course"
         }
       ]
     },

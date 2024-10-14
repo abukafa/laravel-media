@@ -4,6 +4,7 @@ use App\Http\Controllers\academy\Rapor;
 use App\Http\Controllers\apps\Calendar;
 use App\Http\Controllers\apps\InvoiceList;
 use App\Http\Controllers\academy\Dashboard;
+use App\Http\Controllers\academy\Course;
 use App\Http\Controllers\pages\UserProfile;
 use App\Http\Controllers\pages\UserProjects;
 use App\Http\Controllers\apps\InvoicePreview;
@@ -17,7 +18,6 @@ use App\Http\Controllers\pages\AccountSettingsTasks;
 use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\pages\AccountSettingsAccount;
 use App\Http\Controllers\pages\AccountSettingsSecurity;
-
 
 Route::get('/', [Jazmedia::class, 'index'])->name('jazmedia');
 Route::get('/instagram', [Jazmedia::class, 'indexInstagram'])->name('jazmedia-instagram');
@@ -39,20 +39,38 @@ Route::middleware('auth')->group(function () {
   Route::get('/pages/profile-user', [UserProfile::class, 'index'])->name('pages-profile-user');
   Route::get('/pages/profile-projects', [UserProjects::class, 'index'])->name('pages-profile-projects');
   Route::get('/pages/profile-connections', [UserConnections::class, 'index'])->name('pages-profile-connections');
-  Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name('pages-account-settings-account');
-  Route::post('/pages/account-settings-account', [AccountSettingsAccount::class, 'update'])->name('pages-account-settings-account-update');
-  Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name('pages-account-settings-security');
-  Route::post('/pages/account-settings-security/password', [AccountSettingsSecurity::class, 'update_password'])->name('pages-account-settings-security-password');
-  Route::post('/pages/account-settings-security/username', [AccountSettingsSecurity::class, 'update_username'])->name('pages-account-settings-security-username');
-  Route::get('/pages/account-settings-tasks', [AccountSettingsTasks::class, 'index'])->name('pages-account-settings-tasks');
-  Route::post('/pages/account-settings-tasks', [AccountSettingsTasks::class, 'store'])->name('pages-account-settings-tasks-store');
-  Route::post('/pages/account-settings-tasks/{id}', [AccountSettingsTasks::class, 'update'])->name('pages-account-settings-tasks-update');
+  Route::get('/pages/account-settings-account', [AccountSettingsAccount::class, 'index'])->name(
+    'pages-account-settings-account'
+  );
+  Route::post('/pages/account-settings-account', [AccountSettingsAccount::class, 'update'])->name(
+    'pages-account-settings-account-update'
+  );
+  Route::get('/pages/account-settings-security', [AccountSettingsSecurity::class, 'index'])->name(
+    'pages-account-settings-security'
+  );
+  Route::post('/pages/account-settings-security/password', [AccountSettingsSecurity::class, 'update_password'])->name(
+    'pages-account-settings-security-password'
+  );
+  Route::post('/pages/account-settings-security/username', [AccountSettingsSecurity::class, 'update_username'])->name(
+    'pages-account-settings-security-username'
+  );
+  Route::get('/pages/account-settings-tasks', [AccountSettingsTasks::class, 'index'])->name(
+    'pages-account-settings-tasks'
+  );
+  Route::post('/pages/account-settings-tasks', [AccountSettingsTasks::class, 'store'])->name(
+    'pages-account-settings-tasks-store'
+  );
+  Route::post('/pages/account-settings-tasks/{id}', [AccountSettingsTasks::class, 'update'])->name(
+    'pages-account-settings-tasks-update'
+  );
 
   Route::get('/app/calendar', [Calendar::class, 'index'])->name('app-calendar');
   Route::get('/academy/dashboard', [Dashboard::class, 'index'])->name('academy-dashboard');
   Route::get('/academy/rapor', [Rapor::class, 'index'])->name('academy-rapor');
   Route::get('/academy/rapor/print', [Rapor::class, 'print'])->name('academy-rapor-print');
   Route::get('/academy/awards', [Rapor::class, 'awards'])->name('academy-awards');
+  Route::get('/academy/course', [Course::class, 'index'])->name('academy-course');
+  Route::get('/academy/course/{id}', [Course::class, 'detail'])->name('academy-course-detail');
 
   Route::get('/app/finance/saving', [InvoiceList::class, 'saving'])->name('app-finance-saving');
   Route::get('/app/finance/payment', [InvoiceList::class, 'index'])->name('app-finance-payment');
@@ -61,16 +79,6 @@ Route::middleware('auth')->group(function () {
 
   Route::get('/data/project/{id}', [TableController::class, 'project']);
 });
-
-
-
-
-
-
-
-
-
-
 
 // use App\Http\Controllers\laravel_example\UserManagement;
 // use App\Http\Controllers\dashboard\Analytics;
@@ -114,7 +122,6 @@ Route::middleware('auth')->group(function () {
 // use App\Http\Controllers\apps\EcommerceSettingsLocations;
 // use App\Http\Controllers\apps\EcommerceSettingsNotifications;
 // use App\Http\Controllers\apps\AcademyDashboard;
-// use App\Http\Controllers\apps\AcademyCourse;
 // use App\Http\Controllers\apps\AcademyCourseDetails;
 // use App\Http\Controllers\apps\LogisticsDashboard;
 // use App\Http\Controllers\apps\LogisticsFleet;
