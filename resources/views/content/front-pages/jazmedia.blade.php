@@ -479,19 +479,17 @@ $configData = Helper::appClasses();
           xhrUpdate.onload = function() {
               if (xhrUpdate.status === 200) {
                   var data = JSON.parse(xhrUpdate.responseText);
-                  var rate1 = document.querySelector('.star-' + id + '-1');
-                  var rate2 = document.querySelector('.star-' + id + '-2');
-                  var rate3 = document.querySelector('.star-' + id + '-3');
-                  var rate4 = document.querySelector('.star-' + id + '-4');
-                  var rate5 = document.querySelector('.star-' + id + '-5');
+                  var rate1 = document.querySelector('#feeds-load .star-rating-' +id+ ' .star-1');
+                  var rate2 = document.querySelector('#feeds-load .star-rating-' +id+ ' .star-2');
+                  var rate3 = document.querySelector('#feeds-load .star-rating-' +id+ ' .star-3');
+                  var rate4 = document.querySelector('#feeds-load .star-rating-' +id+ ' .star-4');
+                  var rate5 = document.querySelector('#feeds-load .star-rating-' +id+ ' .star-5');
                   var rates = [rate1, rate2, rate3, rate4, rate5];
                   for (let i = 0; i < 5; i++) {
                       if (i < data.task.rate) {
-                        rates[i].classList.remove('star-uncolor');
                         rates[i].classList.add('star-color');
                       } else {
                         rates[i].classList.remove('star-color');
-                        rates[i].classList.add('star-uncolor');
                       }
                   }
               } else {
