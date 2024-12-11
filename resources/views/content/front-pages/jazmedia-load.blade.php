@@ -5,12 +5,12 @@
       <div class="feed" id="{{ $item->id }}">
         <!-- Rating Display SM -->
         <div style="display: flex; justify-content: center; margin-bottom: 10px;">
-          <span class="{{ session('participant') && session('participant')->role > 1 ? 'star-rating' : '' }}" data-id="{{ $item->id }}" data-rate="{{ $item->rate }}" id="star-rating-sm">
+          <span class="{{ session('participant') && session('participant')->role > 1 ? 'star-rating-'.$item->id : '' }}" onclick="rateTask({{ $item->id }})" data-id="{{ $item->id }}" data-rate="{{ $item->rate }}" id="star-rating-sm">
             @for ($i = 1; $i <= 5; $i++)
               @if ($i <= $item->rate)
-                <span><i class="fa-solid fa-star star-color"></i></span>
+                <span><i class="fa-solid fa-star star-{{$item->id .'-'. $i}} star-color"></i></span>
               @else
-                <span><i class="fa-solid fa-star star-uncolor"></i></span>
+                <span><i class="fa-solid fa-star star-{{$item->id .'-'. $i}} star-uncolor"></i></span>
               @endif
             @endfor
           </span>
@@ -31,12 +31,12 @@
                     </div>
                 </div>
             </div>
-            <span class="edit {{ session('participant') && session('participant')->role > 1 ? 'star-rating' : '' }}" data-id="{{ $item->id }}" data-rate="{{ $item->rate }}" id="star-rating-md" style="cursor: pointer">
+            <span class="edit {{ session('participant') && session('participant')->role > 1 ? 'star-rating-'.$item->id : '' }}" onclick="rateTask({{ $item->id }})" data-id="{{ $item->id }}" data-rate="{{ $item->rate }}" id="star-rating-md" style="cursor: pointer">
               @for ($i = 1; $i <= 5; $i++)
                 @if ($i <= $item->rate)
-                  <span><i class="fa-solid fa-star star-color"></i></span>
+                  <span><i class="fa-solid fa-star star-{{$item->id .'-'. $i}} star-color"></i></span>
                 @else
-                  <span><i class="fa-solid fa-star star-uncolor"></i></span>
+                  <span><i class="fa-solid fa-star star-{{$item->id .'-'. $i}} star-uncolor"></i></span>
                 @endif
               @endfor
             </span>

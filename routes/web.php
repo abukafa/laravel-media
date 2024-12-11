@@ -24,6 +24,7 @@ Route::get('/instagram', [Jazmedia::class, 'indexInstagram'])->name('jazmedia-in
 Route::post('/profile/upload', [Jazmedia::class, 'uploadProfilePicture'])->name('profile.upload');
 Route::post('/task/{id}/like', [AccountSettingsTasks::class, 'likeTask'])->name('task.like');
 Route::post('/task/{id}/bookmark', [AccountSettingsTasks::class, 'bookmarkTask'])->name('task.bookmark');
+Route::get('/task/rating/{id}', [Jazmedia::class, 'showRates'])->name('show.rating');
 Route::post('/task/rating/{id}', [Jazmedia::class, 'taskRating'])->name('task.rating');
 
 // Route::fallback(function () {

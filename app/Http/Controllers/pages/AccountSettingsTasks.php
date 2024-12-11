@@ -23,7 +23,7 @@ class AccountSettingsTasks extends Controller
       'projects' => Project::where('status', 'In Progress')->get(),
       'task' => $task,
     ]);
-  }
+  } 
 
   public function store(Request $request)
   {

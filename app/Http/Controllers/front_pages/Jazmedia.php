@@ -142,14 +142,26 @@ class Jazmedia extends Controller
       return response()->json(['error' => 'File upload failed.'], 500);
   }
 
+  public function showRates($id)
+  {
+      $task = Task::find($id);
+      if (!$task) {
+          return response()->json(['error' => 'Task not found'], 404);
+      }
+      return response()->json($task);
+  } 
+
   public function taskRating(Request $request, $id)
   {
     $task = Task::find($id);
     $updated = $task->update($request->all());
     if($updated){
-        return back()->with('success', 'Data berhasil disimpan');
+        return response()->json([
+            'task' => $task,
+            'success' => 'Data berhasil disimpan'
+        ]);
     }else{
-        return back()->with('danger', 'Data gagal disimpan');
+        return response()->json(['error' => 'Data gagal disimpan']);
     }
   }
 

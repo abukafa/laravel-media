@@ -420,6 +420,93 @@ $configData = Helper::appClasses();
       }
     }
 
+    // RATING AJAX
+    function rateTask(id) {
+      document.getElementById('rating-popup').style.display = 'flex';
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/task/rating/' + id);
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+            try {
+                var data = JSON.parse(xhr.responseText);
+                var star1 = document.getElementById('star1');
+                var star2 = document.getElementById('star2');
+                var star3 = document.getElementById('star3');
+                var star4 = document.getElementById('star4');
+                var star5 = document.getElementById('star5');
+                var stars = [star1, star2, star3, star4, star5];
+                if (data.accepted){
+                  document.getElementById('review').value = data.review;
+                  document.getElementById('teacher_id').value = data.teacher_id;
+                  document.getElementById('teacher_name').value = data.teacher_name;
+                  document.getElementById('status_acceptation').value = 'Completed';
+                  document.getElementById('starRate').style.display = 'block';
+                  document.getElementById('accepted').value = 1;
+                  for (let i=0; i<5; i++) {
+                    if (i < data.rate) {
+                      stars[i].classList.add('star-color');
+                    }else{
+                      stars[i].classList.remove('star-color');
+                    }
+                  }
+                }else{
+                  document.getElementById('review').value = '';
+                  document.getElementById('teacher_id').value = '';
+                  document.getElementById('teacher_name').value = '';
+                  document.getElementById('starRate').style.display = 'none';
+                  document.getElementById('accepted').value = 0;
+                  for (let i=0; i<5; i++) {
+                    stars[i].classList.remove('star-color');
+                  }
+                }
+            } catch (e) {
+                console.error('Error parsing JSON:', e);
+            }
+        }
+      };
+      xhr.send();
+
+      let form = document.getElementById('rating-form');
+      form.onsubmit = function(event) {
+          event.preventDefault();
+          var formData = new FormData(form);
+          var csrfToken = form.querySelector('input[name="_token"]').value;
+          formData.append('_token', csrfToken);
+          var actionUrl = '/task/rating/' + id;
+          var xhrUpdate = new XMLHttpRequest();
+          xhrUpdate.open('POST', actionUrl);
+          xhrUpdate.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+          xhrUpdate.onload = function() {
+              if (xhrUpdate.status === 200) {
+                  var data = JSON.parse(xhrUpdate.responseText);
+                  var rate1 = document.querySelector('.star-' + id + '-1');
+                  var rate2 = document.querySelector('.star-' + id + '-2');
+                  var rate3 = document.querySelector('.star-' + id + '-3');
+                  var rate4 = document.querySelector('.star-' + id + '-4');
+                  var rate5 = document.querySelector('.star-' + id + '-5');
+                  var rates = [rate1, rate2, rate3, rate4, rate5];
+                  for (let i = 0; i < 5; i++) {
+                      if (i < data.task.rate) {
+                        rates[i].classList.remove('star-uncolor');
+                        rates[i].classList.add('star-color');
+                      } else {
+                        rates[i].classList.remove('star-color');
+                        rates[i].classList.add('star-uncolor');
+                      }
+                  }
+              } else {
+                  alert('Failed to update data: ' + xhrUpdate.statusText);
+              }
+              document.getElementById('rating-popup').style.display = 'none';
+          };
+          xhrUpdate.onerror = function() {
+              console.error('Request error');
+              alert('Request error');
+          };
+          xhrUpdate.send(formData);
+      };
+    }
+
   </script>
 
 @endsection
