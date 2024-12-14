@@ -3,19 +3,6 @@
     @if (isset($item->media) && ($item->media !== "Instagram" && $item->media !== "Tiktok"))
 
       <div class="feed" id="{{ $item->id }}">
-        <!-- Rating Display SM -->
-        {{-- <div style="display: flex; justify-content: center; margin-bottom: 10px;">
-          <span class="star-rating-{{$item->id}}" @if (session('participant') && session('participant')->role > 1)  onclick="rateTask({{ $item->id }})"  @endif  data-id="{{ $item->id }}" data-rate="{{ $item->rate }}" id="star-rating-sm">
-            @for ($i = 1; $i <= 5; $i++)
-              @if ($i <= $item->rate)
-                <span><i class="fa-solid fa-star star-{{$i}} star-color"></i></span>
-              @else
-                <span><i class="fa-solid fa-star star-{{$i}} star-uncolor"></i></span>
-              @endif
-            @endfor
-          </span>
-        </div> --}}
-        <!-- ....Feed Top.... -->
         <div class="feed-top">
             <div class="user">
                 <div class="profile-picture">
@@ -75,14 +62,17 @@
         <!-- ......Caption...... -->
         <div class="caption">
             <div class="title">{{ $item->project_name .' - '. $item->description }}<span class="hars-tag"> {{ $item->name }}</span></div>
-            <p><b>{{ $item->teacher_name }} </b>{{ $item->review }}</p>
+            <span id="star-rating-sm">
+              @for ($i = 1; $i <= 5; $i++)
+                @if ($i <= $item->rate)
+                  <span class="star-uncolor"><i class="fa-solid fa-star star-{{$i}} star-color"></i></span>
+                @else
+                  <span class="star-uncolor"><i class="fa-solid fa-star star-{{$i}}"></i></span>
+                @endif
+              @endfor
+            </span>
+            <p><b>{{ $item->teacher_name }} </b> {{ $item->review }}</p>
         </div>
-
-        <!-- ........Comments...... -->
-        <div class="comments text-gry">
-            View all comments
-        </div>
-
       </div>
 
     @endif

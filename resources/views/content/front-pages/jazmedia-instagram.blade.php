@@ -2,13 +2,13 @@
 
     @if ($item->media == "Instagram" || $item->media == "Tiktok")
 
-      <div style="display: flex; justify-content: center; padding-bottom: 10px;">
-        <span class="{{ session('participant') && session('participant')->role > 1 ? 'star-rating' : '' }}" data-id="{{ $item->id }}" data-rate="{{ $item->rate }}">
+      <div style="display: flex; justify-content: center; padding-bottom: 10px; cursor: pointer">
+        <span class="edit star-rating-{{$item->id}}" @if (session('participant') && session('participant')->role > 1)  onclick="rateTask({{ $item->id }})"  @endif data-id="{{ $item->id }}" data-rate="{{ $item->rate }}">
           @for ($i = 1; $i <= 5; $i++)
             @if ($i <= $item->rate)
-              <span><i class="fa-solid fa-star star-color"></i></span>
+              <span class="star-uncolor"><i class="fa-solid star-color fa-star star-{{$i}}"></i></span>
             @else
-              <span><i class="fa-solid fa-star star-uncolor"></i></span>
+              <span class="star-uncolor"><i class="fa-solid fa-star star-{{$i}}"></i></span>
             @endif
           @endfor
         </span>
