@@ -389,9 +389,9 @@
         <div class="my-3">
           @for ($i = 1; $i <= 5 ; $i++)
             @if ($i <= $total_rate/($total_done ?: 1))
-                <i class="ti ti-star-filled ti-sm"></i>
+              <i class="fa-solid fa-star text-primary"></i>
             @else
-                <i class="ti ti-star ti-sm"></i>
+              <i class="fa-solid fa-star text-secondary"></i>
             @endif
           @endfor
         </div>
@@ -429,8 +429,16 @@
                   <img src="{{ file_exists(public_path('storage/guru/' . $item->teacher_id)) ? asset('storage/guru/' . $item->teacher_id) : asset('assets/img/avatars/no.png') }}" alt="Avatar" class="rounded-circle" />
                 </div>
                 <div class="ms-1">
-                  <span class="mb-0">Accepted by:</span>
-                  <h6>{{ $item->teacher_name }}</h6>
+                  <span class="mb-0">Accepted by: {{ $item->teacher_name }}</span>
+                  <div style="font-size: 8px;">
+                    @for ($i = 1; $i <= 5; $i++)
+                      @if ($i <= $item->rate)
+                        <i class="fa-solid fa-star text-primary"></i>
+                      @else
+                        <i class="fa-solid fa-star text-secondary"></i>
+                      @endif
+                    @endfor
+                  </div>
                 </div>
               </div>
               <p>{{ $item->review }}</p>

@@ -82,7 +82,7 @@ class Dashboard extends Controller
             $data['ict']['subject'][] = substr($score->subject, strpos($score->subject, ' - ') + strlen(' - '));
             $data['ict']['value'][] = $score->month_6 === null ? 0 : $score->month_6;
         }
-        if (strpos($score->subject, 'Bhs. Arab') === 0) {
+        if (strpos($score->subject, 'Bhs. Arab') === 0 || strpos($score->subject, 'Dirosah') === 0) {
             $data['dirosah']['subject'][] = $score->subject;
             $data['dirosah']['value'][] = $score->month_6 === null ? 0 : $score->month_6;
         }
