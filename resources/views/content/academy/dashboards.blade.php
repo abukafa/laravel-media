@@ -41,41 +41,55 @@
           <div id="salesLastYear"></div>
           <div class="card-body pt-1">
             <div class="d-flex justify-content-between align-items-center mt-3 gap-3">
-              <h4 class="mb-0">{{ !$data['average']['adab'] ? 0 : round(($data['average']['adab'] + $data['average']['tahfidzh'] + $data['average']['tajwid'] + $data['average']['tahsin']) / 4, 1) }}</h4>
+              <h4 class="mb-2 mt-1">{{ !$data['average']['adab'] ? 0 : round(($data['average']['adab'] + $data['average']['tahfidzh'] + $data['average']['tajwid'] + $data['average']['tahsin']) / 4, 1) }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Total Bahasa -->
+      <div class="col-xl-6 col-md-3 col-6 mb-4">
+        <div class="card">
+          <div class="card-header pb-0">
+            <h5 class="card-title mb-0">Bahasa</h5>
+            @php
+              $englishIndex = is_array($data['bahasa']['subject']) ? array_search('Bahasa - Inggris', $data['bahasa']['subject']) : false;
+              $arabicIndex = is_array($data['bahasa']['subject']) ? array_search('Bahasa - Arab', $data['bahasa']['subject']) : false;
+              $englishValue = ($englishIndex !== false && isset($data['bahasa']['value'][$englishIndex])) ? $data['bahasa']['value'][$englishIndex] : 0;
+              $arabicValue = ($arabicIndex !== false && isset($data['bahasa']['value'][$arabicIndex])) ? $data['bahasa']['value'][$arabicIndex] : 0;
+              $totalLang = $englishValue + $arabicValue;
+              $englishPercent = $totalLang > 0 ? round(($englishValue / $totalLang) * 100) : 0;
+              $arabicPercent = $totalLang > 0 ? round(($arabicValue / $totalLang) * 100) : 0;
+              $biggerLang = $englishValue >= $arabicValue ? 'English' : 'Arobiyah';
+              $biggerPercent = $englishValue >= $arabicValue ? $englishPercent : $arabicPercent;
+            @endphp
+            <small class="text-muted">{{ $biggerLang }} {{ $biggerPercent }}%</small>
+          </div>
+          <div class="card-body pt-1">
+            {{-- <div id="sessionsLastMonth"></div> --}}
+            <div id="generatedLeadsChart"></div>
+            {{-- <div class="chart-progress" data-color="primary" data-series="75"></div> --}}
+            <div class="d-flex justify-content-between align-items-center mt-3 gap-3">
+              <h4 class="mb-2 mt-1">{{ !$data['bahasa']['value'] ? 0 : round(array_sum($data['bahasa']['value']) / count($data['bahasa']['value']), 1) }}</h4>
             </div>
           </div>
         </div>
       </div>
       <!-- Total Tsaqofah -->
-      <div class="col-xl-6 col-md-3 col-6 mb-4">
-        <div class="card">
-          <div class="card-header pb-0">
-            <h5 class="card-title mb-0">Tsaqofah</h5>
-            <small class="text-muted">Average</small>
-          </div>
-          <div class="card-body pt-1">
-            <div id="sessionsLastMonth"></div>
-            <div class="d-flex justify-content-between align-items-center mt-3 gap-3">
-              <h4 class="mb-0">{{ !$data['average']['sikap'] ? 0 : round(($data['average']['sikap'] + $data['average']['paham']) / 2, 1) }}</h4>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Total Dirosah -->
-      <div class="col-xl-6 col-md-3 col-6 mb-4">
+      <div class="col-xl-6 col-md-3 col-6 mb-4 h-100">
         <div class="card">
           <div class="card-body">
             <div class="badge p-2 bg-label-info mb-2 rounded"><i class="ti ti-chart-bar ti-md"></i></div>
-            <h5 class="card-title mb-1 pt-2">Dirosah</h5>
+            <h5 class="card-title mb-1 pt-2">Tsaqofah</h5>
             <small class="text-muted">Average</small>
             <div class="pt-4">
-              <h4 class="mb-2 mt-1">{{ !$data['dirosah']['value'] ? 0 : round(array_sum($data['dirosah']['value']) / count($data['dirosah']['value']), 1) }}</h4>
+              <h4 class="mb-2 mt-1">{{ !$data['average']['sikap'] ? 0 : round(($data['average']['sikap'] + $data['average']['paham']) / 2, 1) }}</h4>
+              {{-- <h4 class="mb-2 mt-1">{{ !$data['dirosah']['value'] ? 0 : round(array_sum($data['dirosah']['value']) / count($data['dirosah']['value']), 1) }}</h4> --}}
             </div>
           </div>
         </div>
       </div>
       <!-- Total Multimedia -->
-      <div class="col-xl-6 col-md-3 col-6 mb-4">
+      <div class="col-xl-6 col-md-3 col-6 mb-4 h-100">
         <div class="card">
           <div class="card-body">
             <div class="badge p-2 bg-label-danger mb-2 rounded"><i class="ti ti-device-gamepad-2 ti-md"></i></div>
@@ -237,6 +251,27 @@
           </li>
           @endfor
 
+          @if (isset($data['bahasa']['subject']) && is_array($data['bahasa']['subject']) && isset($data['bahasa']['value']) && is_array($data['bahasa']['value']))
+            @for ($i = 0; $i < count($data['bahasa']['subject']); $i++)
+              @if ($data['bahasa']['subject'][$i] == "Bahasa - Inggris")
+              <li class="d-flex mb-4 pb-1 align-items-center">
+                <img src="{{ asset('assets/img/icons/brands/' . $data['bahasa']['subject'][$i] . '.png') }}" height="28" class="me-3 rounded">
+                <div class="d-flex w-100 align-items-center gap-2">
+                  <div class="d-flex justify-content-between flex-grow-1 flex-wrap">
+                    <div>
+                      <h6 class="mb-0">English</h6>
+                    </div>
+                    <div class="user-progress d-flex align-items-center gap-2">
+                      <h6 class="mb-0">{{ $data['bahasa']['value'][$i] }}</h6>
+                    </div>
+                  </div>
+                  <div class="chart-progress" data-color="{{ $colors[$i] }}" data-series="{{ $data['bahasa']['value'][$i] }}"></div>
+                </div>
+              </li>
+              @endif
+            @endfor
+          @endif
+
         </ul>
       </div>
     </div>
@@ -269,8 +304,10 @@
             <div class="d-flex align-items-center me-3">
               <img src="{{asset('assets/img/icons/brands/' . $data['dirosah']['subject'][$i] . '.png')}}" class="me-3" width="35" />
               <div>
-                <h6 class="mb-0">{{ $data['dirosah']['subject'][$i] }}</h6>
-                <small class="text-muted">Bhs. Arab</small>
+                <h6 class="mb-0">
+                  {{ Str::contains($data['dirosah']['subject'][$i], ' - ') ? Str::after($data['dirosah']['subject'][$i], ' - ') : $data['dirosah']['subject'][$i] }}
+                </h6>
+                <small class="text-muted">Dirosah</small>
               </div>
             </div>
             <div class="d-flex flex-grow-1 align-items-center">
@@ -285,6 +322,31 @@
             </div>
           </li>
           @endfor
+
+            @php
+              $arabIndex = is_array($data['bahasa']['subject']) ? array_search('Bahasa - Arab', $data['bahasa']['subject']) : false;
+            @endphp
+            @if ($arabIndex !== false)
+            <li class="mb-3 pb-1 d-flex">
+              <div class="d-flex align-items-center me-3">
+                <img src="{{asset('assets/img/icons/brands/Bahasa - Arab.png')}}" class="me-3" width="35" />
+                <div>
+                  <h6 class="mb-0">Arobiyah</h6>
+                  <small class="text-muted">Bahasa</small>
+                </div>
+              </div>
+              <div class="d-flex flex-grow-1 align-items-center">
+                <div class="progress w-100 me-3" style="height:8px;">
+                  @php
+                      $c = $arabIndex > 3 ? $arabIndex % 3 : $arabIndex+1;
+                  @endphp
+                  <div class="progress-bar bg-{{ $colors[$c] }}" role="progressbar" style="width: {{ $data['dirosah']['value'][$arabIndex] ?? 0 }}%" aria-valuemin="0" aria-valuemax="100">
+                  </div>
+                </div>
+                <span class="text-muted">{{ $data['bahasa']['value'][$arabIndex] ?? 0 }}</span>
+              </div>
+            </li>
+            @endif
 
         </ul>
       </div>
@@ -340,9 +402,17 @@
                       </div>
                     </td>
                     <td>
+                      {{-- SEMENTARA --}}
                         <div class="d-flex flex-column">
-                            <p class="mb-0 fw-medium">{{ date_format(date_create($project->end_date), 'd M Y') }}</p>
-                            <small class="text-muted text-nowrap">{{ date_format(date_create($project->start_date), 'd M Y') }}</small>
+                            @php
+                              $endDate = date_create($project->end_date);
+                              $month = (int)date_format($endDate, 'n');
+                              if ($month < 7) {
+                                $endDate->modify('+1 year');
+                              }
+                            @endphp
+                            <p class="mb-0 fw-medium">{{ date_format($endDate, 'd M Y') }}</p>
+                            <small class="text-muted text-nowrap">{{ $project->status }}</small>
                         </div>
                     </td>
                 </tr>
@@ -471,6 +541,8 @@
   var quranMonth6Data = @json($data['quran']['month_6'] ?? []);
   var sikapData = @json($data['sikap'] ?? []);
   var pahamData = @json($data['paham'] ?? []);
+  var bahasaSubjectData = @json($data['bahasa']['subject'] ?? []);
+  var bahasaValueData = @json($data['bahasa']['value'] ?? []);
   function averageWithoutNull(...arrays) {
       // Flatten the arrays and filter out null values
       const filteredNumbers = arrays

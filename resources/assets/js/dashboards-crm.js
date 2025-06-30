@@ -176,6 +176,75 @@
     salesLastYear.render();
   }
 
+  // Generated Leads Chart
+  // --------------------------------------------------------------------
+  const headingColor = '#000';
+
+  const generatedLeadsChartEl = document.querySelector('#generatedLeadsChart');
+  const generatedLeadsChartConfig = {
+    chart: {
+      height: 73.5, // 50% of 147
+      width: 65,    // 50% of 130
+      parentHeightOffset: 0,
+      type: 'donut'
+    },
+    labels: bahasaSubjectData,
+    series: bahasaValueData,
+    colors: ['#28c76fb3', '#28c76f80'],
+    stroke: { width: 0 },
+    dataLabels: {
+      enabled: false,
+      formatter: val => parseInt(val) + '%'
+    },
+    legend: { show: false },
+    tooltip: { theme: false },
+    grid: { padding: { top: 7.5, right: -10, left: -10 } }, // 50% of 15, -20
+    states: {
+      hover: { filter: { type: 'none' } }
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '0%',
+          labels: {
+            show: true,
+            value: {
+              fontSize: '0.6875rem', // 50% of 1.375rem
+              fontFamily: 'Public Sans',
+              color: headingColor,
+              fontWeight: 500,
+              offsetY: -7.5, // 50% of -15
+              formatter: val => parseInt(val) + '%'
+            },
+            name: {
+              offsetY: 10, // 50% of 20
+              fontFamily: 'Public Sans'
+            },
+            total: {
+              show: true,
+              showAlways: true,
+              color: config.colors.success,
+              fontSize: '.40625rem', // 50% of .8125rem
+              label: '',
+              fontFamily: 'Public Sans',
+              formatter: () => ''
+            }
+          }
+        }
+      }
+    },
+    responsive: [
+      { breakpoint: 1025, options: { chart: { height: 86, width: 80 } } }, // 50%
+      { breakpoint: 769, options: { chart: { height: 89 } } }, // 50%
+      { breakpoint: 426, options: { chart: { height: 73.5 } } } // 50%
+    ]
+  };
+
+  if (generatedLeadsChartEl) {
+    const generatedLeadsChart = new ApexCharts(generatedLeadsChartEl, generatedLeadsChartConfig);
+    generatedLeadsChart.render();
+  }
+
   // Sessions Last Month - Staked Bar Chart
   // --------------------------------------------------------------------
   const sessionsLastMonthEl = document.querySelector('#sessionsLastMonth'),

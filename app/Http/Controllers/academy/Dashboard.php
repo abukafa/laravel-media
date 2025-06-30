@@ -25,7 +25,8 @@ class Dashboard extends Controller
       'tahfidzh' => [],
       'sikap' => [],
       'ict' => ['subject' => [], 'value' => []],
-      'arab' => ['subject' => [], 'value' => []],
+      'bahasa' => ['subject' => [], 'value' => []],
+      'dirosah' => ['subject' => [], 'value' => []],
       'quran' => ['subject' => [], 'month_5' => [], 'month_6' => []],
       'average' => ['adab' => 0, 'tahfidzh' => 0, 'tajwid' => 0, 'tahsin' => 0, 'sikap' => 0, 'paham' => 0]
     ];
@@ -82,7 +83,11 @@ class Dashboard extends Controller
             $data['ict']['subject'][] = substr($score->subject, strpos($score->subject, ' - ') + strlen(' - '));
             $data['ict']['value'][] = $score->month_6 === null ? 0 : $score->month_6;
         }
-        if (strpos($score->subject, 'Bhs. Arab') === 0 || strpos($score->subject, 'Dirosah') === 0) {
+        if (strpos($score->subject, 'Bahasa') === 0) {
+            $data['bahasa']['subject'][] = $score->subject;
+            $data['bahasa']['value'][] = $score->month_6 === null ? 0 : $score->month_6;
+        }
+        if (strpos($score->subject, 'Dirosah') === 0) {
             $data['dirosah']['subject'][] = $score->subject;
             $data['dirosah']['value'][] = $score->month_6 === null ? 0 : $score->month_6;
         }
