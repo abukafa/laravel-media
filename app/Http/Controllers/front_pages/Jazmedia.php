@@ -18,7 +18,7 @@ class Jazmedia extends Controller
       if ($request->has('creator') && is_numeric($request->creator)) {
           $task = Task::whereNotNull('embed')->where('id', $request->creator)->get();
       } elseif ($request->has('creator') && !is_numeric($request->creator)) {
-          $task = Task::whereNotNull('embed')->where('student_name', 'LIKE', '%' . $request->creator . '%')->get();
+          $task = Task::whereNotNull('embed')->where('student_name', 'LIKE', '%' . $request->creator . '%')->orderBy('id', 'desc')->get();
       } elseif ($request->has('bookmarks')) {
           $participant = session('participant');
           if (!$participant) {
@@ -66,7 +66,7 @@ class Jazmedia extends Controller
       if ($request->has('creator') && is_numeric($request->creator)) {
           $task = Task::whereNotNull('embed')->where('id', $request->creator)->get();
       } elseif ($request->has('creator') && !is_numeric($request->creator)) {
-          $task = Task::whereNotNull('embed')->where('student_name', 'LIKE', '%' . $request->creator . '%')->get();
+          $task = Task::whereNotNull('embed')->where('student_name', 'LIKE', '%' . $request->creator . '%')->orderBy('id', 'desc')->get();
       } else {
           $task = Task::whereNotNull('embed')->whereIn('media', ['Instagram', 'Tiktok'])->latest()->paginate(3);
       }
@@ -149,7 +149,7 @@ class Jazmedia extends Controller
           return response()->json(['error' => 'Task not found'], 404);
       }
       return response()->json($task);
-  } 
+  }
 
   public function taskRating(Request $request, $id)
   {
